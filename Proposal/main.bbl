@@ -1,0 +1,74 @@
+\begin{thebibliography}{10}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Moritz et~al.(2015)Moritz, Sard{\'a}, Bartz-Beielstein, Zaefferer, and
+  Stork]{moritz2015comparison}
+Steffen Moritz, Alexis Sard{\'a}, Thomas Bartz-Beielstein, Martin Zaefferer,
+  and J{\"o}rg Stork.
+\newblock Comparison of different methods for univariate time series imputation
+  in r.
+\newblock \emph{arXiv preprint arXiv:1510.03924}, 2015.
+
+\bibitem[Abreu et~al.(2012)Abreu, Pereira, and Ferr{\~a}o]{abreu2012using}
+Joana~M Abreu, Francisco~C{\^a}mara Pereira, and Paulo Ferr{\~a}o.
+\newblock Using pattern recognition to identify habitual behavior in
+  residential electricity consumption.
+\newblock \emph{Energy and buildings}, 49:\penalty0 479--487, 2012.
+
+\bibitem[Calabrese et~al.(2010)Calabrese, Reades, and
+  Ratti]{calabrese2010eigenplaces}
+Francesco Calabrese, Jonathan Reades, and Carlo Ratti.
+\newblock Eigenplaces: segmenting space through digital signatures.
+\newblock \emph{IEEE Pervasive Computing}, 9\penalty0 (1):\penalty0 78--84,
+  2010.
+
+\bibitem[Aghabozorgi et~al.(2015)Aghabozorgi, Shirkhorshidi, and
+  Wah]{aghabozorgi2015time}
+Saeed Aghabozorgi, Ali~Seyed Shirkhorshidi, and Teh~Ying Wah.
+\newblock Time-series clustering--a decade review.
+\newblock \emph{Information Systems}, 53:\penalty0 16--38, 2015.
+
+\bibitem[Vincent et~al.(2010)Vincent, Larochelle, Lajoie, Bengio, and
+  Manzagol]{vincent2010stacked}
+Pascal Vincent, Hugo Larochelle, Isabelle Lajoie, Yoshua Bengio, and
+  Pierre-Antoine Manzagol.
+\newblock Stacked denoising autoencoders: Learning useful representations in a
+  deep network with a local denoising criterion.
+\newblock \emph{Journal of Machine Learning Research}, 11\penalty0
+  (Dec):\penalty0 3371--3408, 2010.
+
+\bibitem[Connor et~al.(1994)Connor, Martin, and Atlas]{connor1994recurrent}
+Jerome~T Connor, R~Douglas Martin, and Les~E Atlas.
+\newblock Recurrent neural networks and robust time series prediction.
+\newblock \emph{IEEE transactions on neural networks}, 5\penalty0 (2):\penalty0
+  240--254, 1994.
+
+\bibitem[ElSaid et~al.(2016)ElSaid, Wild, Higgins, and Desell]{elsaid2016using}
+AbdElRahman ElSaid, Brandon Wild, James Higgins, and Travis Desell.
+\newblock Using lstm recurrent neural networks to predict excess vibration
+  events in aircraft engines.
+\newblock In \emph{e-Science (e-Science), 2016 IEEE 12th International
+  Conference on}, pages 260--269. IEEE, 2016.
+
+\bibitem[Zhang(2003)]{zhang2003time}
+G~Peter Zhang.
+\newblock Time series forecasting using a hybrid arima and neural network
+  model.
+\newblock \emph{Neurocomputing}, 50:\penalty0 159--175, 2003.
+
+\bibitem[Tay and Cao(2002)]{tay2002modified}
+Francis~EH Tay and LJ~Cao.
+\newblock Modified support vector machines in financial time series
+  forecasting.
+\newblock \emph{Neurocomputing}, 48\penalty0 (1):\penalty0 847--861, 2002.
+
+\bibitem[Kim(2003)]{kim2003financial}
+Kyoung-jae Kim.
+\newblock Financial time series forecasting using support vector machines.
+\newblock \emph{Neurocomputing}, 55\penalty0 (1):\penalty0 307--319, 2003.
+
+\end{thebibliography}

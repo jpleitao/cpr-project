@@ -1,0 +1,110 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{notoccite}
+\usepackage{indentfirst}
+\usepackage[comma, authoryear]{natbib}
+\usepackage{geometry}
+
+\usepackage[colorlinks = true,
+linkcolor = black,
+urlcolor  = black,
+citecolor = black,
+anchorcolor = black]{hyperref}
+
+\geometry{
+	paper=a4paper,inner=1.5cm,outer=1.5cm,bindingoffset=1.5cm,top=1.5cm,bottom=1.5cm
+}
+
+\title{\textsl{Urban Water Consumption Prediction and Categorisation}\\ \vspace{0.5cm}}
+\author{Joaquim Pedro Bento Gonçalves Pratas Leitão - 2011150072\\ \\University of Coimbra\\Doctoral Program in Information Science and Technology\\Connectivity and Pattern Recognition}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Background}
+
+In most cities and urban areas investment in equipment related to water supply and drainage is substantial, being responsible for a considerable share of the budget of many municipalities.
+
+Substantial attention has been given to the construction and installation of new pipe and sewage infrastructures, as well as to maintenance operations on existing infrastructures; however, relatively small efforts have been made to study water consumption patterns in these environments.
+
+Indeed, understanding and accurately predicting such behaviours is extremely important to water companies, as it allows them to improve the management of their infrastructures, namely water storage facilities (such as water tanks and towers): Many water utilities repeatedly overestimate the volume of water needed to supply the population of a given region. Therefore, water companies tend to operate existing water storage tanks close to their full capacity, resulting in higher energy-related costs (since water has to be pumped into the tanks) and in larger volumes of retained water. 
+
+By being capable of characterising water consumption patterns in a given region water companies could adjust water volumes in existing storage tanks\footnote{For obvious reasons this volume must always be overestimated; however, such overestimation could be controlled.}, improving the management of their finances and reducing excess water volumes retained in storage tanks.
+
+\section{Objective}
+
+The current project proposal comprises the following two major objectives:
+
+\begin{itemize}
+	\item Prediction of urban domestic water consumptions in a given region of a median size city.
+	
+		  That is, the current project aims at developing a system capable of processing input historical water consumption data (for a given region) and predict future water consumptions (in that region) in a given time horizon.
+		  
+	\item Categorisation of urban domestic water consumptions in a given region of a median size city.
+	
+	      That is, taking into account information about an entire civil year (from January 1st to December 31st) the system must be capable of identifying recurrent consumption patterns and determine the moments in time when such patterns were repeated: an intuitive (and somewhat expected) result is that water consumptions during summer months will have a similar shape, which substantially differs from those recorded during winter months. This could be justified by the fact that many people in that region usually spend summer months away, on vacation.
+\end{itemize}
+
+In this sense, the appropriate steps of a pattern recognition system will be considered, namely: (i) data pre-processing; (ii) dimensionality reduction (feature extraction and selection); (iii) pattern recognition techniques - in this case clustering and regression/prediction techniques; (iv) analysis of the experimental results.
+
+\section{Dataset Description}
+
+The dataset to be used in the proposed project contains domestic water consumptions in different regions of a median size city. The available data corresponds to the entire 2016 year and was obtained as a result of a collaboration with \emph{Águas de Coimbra}\footnote{\url{http://www.aguasdecoimbra.pt/}}, the public water company in the city of Coimbra, Portgual.
+
+Water consumption's measurement is carried out in strategic locations of the city, through measurement and control zones - \emph{ZMC}\footnote{Or in portuguese, \emph{Zonas de Medição e Controlo}.}. These infrastructures provide a more efficient management of the water distribution systems, enabling the network's management in logical zones of analysis and allowing the adoption of measures to control water losses.
+
+Collected data corresponds to a time series of total water volume distributed to the region in question - recorded as a floating point number whose units are $m^{3}/h$. Therefore, pairs of values $(time, volume)$ are provided. The collection time is provided in the format \emph{dd/mm/yyyy HH:MM:SS}.
+
+During the data acquisition equipment errors and malfunctions can occur, resulting in the failure to record the total consumptions. In such moments, a value of \emph{"n/a"} is presented for the total distributed water volume, signalling the missing value. The developed pattern recognition system must adopt proper techniques to deal with these missing values.
+
+\section{Methodology}
+\label{methodology}
+
+To accomplish the two mentioned objectives the following steps will be considered in the work to be performed:
+
+\begin{enumerate}
+	\item Missing values imputation
+	
+	\item Dimensionality Reduction
+	
+	\item Prediction of future water consumptions
+	
+	\item Segmentation of water consumptions
+	
+	\item Results analysis and assessment
+\end{enumerate}
+
+Regarding the first task, the goal is to apply missing values imputation techniques suitable for univariate time series. According to \cite{moritz2015comparison}, three main categories of methods can be identified: (i) \emph{univariate algorithms} - comprising simpler methods such as mean and median imputation; (ii) \emph{univariate time series algorithms} - containing methods such as linear interpolation, ARIMA and SARIMA models, or the application of Kalman filters; and (iii) \emph{multivariate algorithms applied on lagged data}. Additional methods can also be considered, such as \emph{K-NN}, \emph{Expectation-Maximisation}, \emph{Artificial Neural Networks}, \emph{ARMA} and \emph{ARMAX} models.
+
+Surveying the literature in the topic of missing data imputation for univariate time series, namely in the works of \cite{abreu2012using} and \cite{moritz2015comparison}, \emph{univariate time series algorithms} produced interesting results, namely linear interpolation and ARIMA techniques. Therefore, such techniques will be subject of attention in this work.
+
+When performing clustering, classification and/or regression tasks the dimensionality of the data used must also be subject of attention. Indeed, distance calculations using raw data can be computationally expensive if a substantial number of dimensions (features) is being considered for each data point. Furthermore, in the case of time series processing (but not only restricted to this problem) when measuring the distance between raw time series highly unintuitive results may be obtained due to the high sensitivity of some distance metrics to distortions and noise in the data.
+
+Among the scientific community, dimensionality reduction is often achieved by the application of feature extraction and selection algorithms. Regarding feature extraction methods, \emph{Principal Component Analysis (PCA)} and \emph{Self-Organising Maps (SOM)} have been applied to univariate time series \cite{calabrese2010eigenplaces, abreu2012using, aghabozorgi2015time}. Other popular methods, namely \emph{Stacked Autoencoders} \cite{vincent2010stacked} can also be considered for this task. With respect to feature selection methods, \emph{filter} and \emph{wrapper} methods have been proposed.
+
+In the topic of time series prediction several regression techniques have been proposed. Based on the studied literature in this topic, the application of \emph{Artificial Neural Networks}, namely \emph{Recurrent Neural Networks (RNN)} \cite{connor1994recurrent, elsaid2016using} have been successfully adopted for several years. Other techniques, such as \emph{ARMA} and \emph{ARIMA}\cite{zhang2003time} models can also be found in the literature, as well as the application of \emph{Support Vector Machines} for regression purposes \cite{tay2002modified, kim2003financial}.
+
+By its turn, surveyed works on segmentation of univariate time series show a clear tendency towards the application of clustering methods, namely \emph{Hierarchical} and \emph{Partitioning} (HC and PC, respectively). Within HC, agglomerative methods appear to be more popular; among PC  methods, K-Means Clustering seems to be the most popular choice. The combination of both HC and PC methods is also popular, namely Hierarchical Clustering and K-Means Clustering \cite{abreu2012using}.
+
+Finally, the last task to be performed has to do with the assessment and analysis of the obtained results. With respect to the third task, cross validation evaluation metrics will be adopted; regarding segmentation of water consumptions, typical metrics to assess the quality and tendency of the identified clusters are intended to be applied, such as the \emph{Silhouette} coefficient, \emph{Calinski-Herabaz} index, \emph{Hopkings Statistic} and the \emph{Elbow} method.
+
+\section{Conclusion}
+
+The proposed project aims at predicting and categorising water consumptions in a given region of a median size city. To accomplish this goal the tasks presented in section \ref{methodology} were defined and are intended to be performed.
+
+In both prediction and categorisation tasks, data pre-processing is an extremely important task since inadequate data can strongly condition both the computed regression (or prediction) model and information categorisation.
+
+Characterisation of water consumptions, by means of both prediction and categorisation, can play a crucial role in the management of a city's water resources: water companies can make use of such knowledge to manage water in storage tanks, minimising excess water volumes retained in such tanks.
+
+\bibliographystyle{unsrtnat}
+\addcontentsline{toc}{chapter}{References}
+\renewcommand\bibname{References}
+\bibliography{bibliography}
+
+
+\end{document}
