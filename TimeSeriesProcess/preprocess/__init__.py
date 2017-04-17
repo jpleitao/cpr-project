@@ -1,7 +1,6 @@
 # coding: utf-8
 
-from preprocess.preprocess import preprocess
-from preprocess.load_data import load_dataset
+from preprocess.preprocess import load_dataset, preprocess
 
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
