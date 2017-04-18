@@ -3,9 +3,12 @@
 import os
 
 import csv
-import numpy
 from datetime import datetime
+
+import numpy
 import matplotlib.pyplot as plt
+
+import preprocess
 
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
@@ -65,7 +68,7 @@ def get_unit_analysis(time, signal, fs, plot=False):
         plot_time.append(non_nan_time[i])
         readings.append(non_nan_readings[i])
 
-    if plot or True:
+    if plot:
         plt.figure()
         plt.plot(plot_time, readings)
         plt.title('Water consumption readings')
@@ -147,11 +150,13 @@ def save_merged_data_excel(merged_data, path=None):
         path = os.getcwd() + '/data/merged_data.csv'
 
     with open(path, 'w') as csvfile:
-        writer = csv.writer(csvfile, delimiter=';', quotechar='"', quoting=csv.QUOTE_ALL)
+        writer = csv.writer(csvfile, delimiter=';', quotechar='', quoting=csv.QUOTE_NONE)
         writer.writerows(merged_data)
 
+    return path
 
-def preprocess(time, readings):
+
+def preprocess_run(time, readings):
     """
     Pre-processes the collected data:
         * Computes unit of analysis based on non-NaN values
@@ -186,15 +191,18 @@ def preprocess(time, readings):
     # Merge the collected data into one-day vectors composed by 24 readings (sum the values in m3/h)!
     # Whenever a missing value is present in that hour consider that value NaN!
         merged_data = merge_data_readings(time, readings, unit_analysis_hours)
-        save_merged_data_excel(merged_data)
+        merged_data_filepath = save_merged_data_excel(merged_data)
 
     # =========================================== Fill missing values ==================================================
     # To fill the missing values we are going to take advantage of our unit of analysis: We are going to fit a linear
     # regression to each unit of analysis where there are missing values - This seems to make more sense then trying to
     # fit a linear regression on the entire dataset
-    # TODO: Falar braz sobre isto, perguntar opinião (Fit janela vs todo o dataset)
+    # Look at the different profiles for one day (data hour by hour) and try to find out what could be the right order
+    # for the fit
     # TODO: Experimentar diferentes graus dos polinómios com base no número de concavidades das curvas; fazer alguns
     #       testes com dados completos - Isto e, pegar num dia que nao tenha NaN e "à mão" colocar alguns, fazer fit de
     #       um modelo e usá-lo para estimar os valores em falta. Comparar com os valores reais e calcular o RMSE
+    merged_data_filepath = '/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/merged_data.csv'
+    preprocess.fill_missing_values(merged_data_filepath)
 
     # ====================================== Save the data in an Excel file ============================================

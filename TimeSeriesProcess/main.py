@@ -11,7 +11,7 @@ __email__ = 'jocaleitao93@gmail.com'
 
 def main(source_filepath):
     time, readings = preprocess.load_dataset(source_filepath)
-    preprocess.preprocess(time, readings)
+    preprocess.preprocess_run(time, readings)
 
 if __name__ == '__main__':
     _source_filepath = os.getcwd() + '/data/data_final.csv'
