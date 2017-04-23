@@ -167,15 +167,12 @@ def preprocess_run(time, readings):
     if not isinstance(time, numpy.ndarray) or not isinstance(readings, numpy.ndarray):
         raise TypeError('Input parameters must be of type <numpy.array>!!')
 
-    do_preprocess = False
-
     fs = 1 / 60  # Data collected every minute, therefore Ts = 60 seconds
 
     # ================================== Compute unit of analysis ======================================================
-    if do_preprocess:
-        unit_analysis = get_unit_analysis(time, readings, fs)
-        unit_analysis_hours = (1 / unit_analysis) / 3600
-        print('The unit of analysis is of ' + str(unit_analysis_hours) + ' hours')
+    unit_analysis = get_unit_analysis(time, readings, fs)
+    unit_analysis_hours = (1 / unit_analysis) / 3600
+    print('The unit of analysis is of ' + str(unit_analysis_hours) + ' hours')
 
     # Note: The frequency with the largest contribution to the resulting signal is the frequency 0. This result may seem
     # strange but could actually make sense if we consider the following: By performing the FFT of the signal an
@@ -190,8 +187,8 @@ def preprocess_run(time, readings):
     # ====================================== Merge data in the unit of analysis ========================================
     # Merge the collected data into one-day vectors composed by 24 readings (sum the values in m3/h)!
     # Whenever a missing value is present in that hour consider that value NaN!
-        merged_data = merge_data_readings(time, readings, unit_analysis_hours)
-        merged_data_filepath = save_merged_data_excel(merged_data)
+    merged_data = merge_data_readings(time, readings, unit_analysis_hours)
+    merged_data_filepath = save_merged_data_excel(merged_data)
 
     # =========================================== Fill missing values ==================================================
     # To fill the missing values we are going to take advantage of our unit of analysis: We are going to fit a linear
@@ -199,10 +196,38 @@ def preprocess_run(time, readings):
     # fit a linear regression on the entire dataset
     # Look at the different profiles for one day (data hour by hour) and try to find out what could be the right order
     # for the fit
-    # TODO: Experimentar diferentes graus dos polinómios com base no número de concavidades das curvas; fazer alguns
-    #       testes com dados completos - Isto e, pegar num dia que nao tenha NaN e "à mão" colocar alguns, fazer fit de
-    #       um modelo e usá-lo para estimar os valores em falta. Comparar com os valores reais e calcular o RMSE
-    merged_data_filepath = '/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/merged_data.csv'
-    preprocess.fill_missing_values(merged_data_filepath)
 
-    # ====================================== Save the data in an Excel file ============================================
+    # We want to try and compare three different approaches: Fitting a polynomial function to our data; Fitting an ARIMA
+    # model to our data; Interpolating missing data with a kalman filter
+    # The first approach will be implemented in Python, in the function:
+    #           preprocess.test_polyfit_missing (preprocess/missing_values.py)
+    # The second approach will be implemented in R, in the function:
+    #           testArimaMissing (preprocess/missing_values.R)
+    # The third approach will be implemented in R, in the function:
+    #           testKalmanFilterMissing (preprocess/missing_values.R)
+    #
+    # Both approaches were initially applied to the days where no missing values had been registered: The idea was to
+    # 'artificially' introduce missing data in those days and compare the imputations of both approaches. This
+    # comparison was performed with the RMSE metric.
+    # Missing data were imputed based on the unit of analysis: That is, for each day missing data would be induced, the
+    # corresponding models learned, estimation values generated and the corresponding RMSE values computed
+    #
+    # The comparison with the RMSE metric was performed in two stages:
+    #  * Firstly, the average RMSE values of each approach were compared
+    #  * Secondly, the total number of days were one approach registered a smaller RMSE than its alternatives were also
+    #    compared
+    fill_missing_values_test = False  # Not necessary in the final version, as this was implemented in R
+    if fill_missing_values_test:
+        merged_data_filepath = '/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/merged_data.csv'
+        preprocess.test_polyfit_missing(merged_data_filepath)
+
+    # The Polyfit approach registered inferior results in both stages when compared to the ARIMA approach:
+    #   * An average RMSE of 12403.1671256 was registered against an average RMSE of 571.373059567 for ARIMA and
+    #     263.833402729 for the Kalman filter
+    #   * In only 4 of the days the polyfit approach registered a smaller RMSE than the ARIMA and the Kalman filter.
+    #     By its turn, ARIMA registered smaller RMSEs in 72 days, and the Kalman filter was the best in 189 days
+    #
+    # Based on such results the Kalman Filter was chosen as the imputation approach for our data. Therefore, for each
+    # day where missing data were registered, a Kalman Filter model was computed and estimations for the missing data
+    # in that day were obtained. The implementation of this procedure can be found in the R function
+    # 'fillMissingValuesKalman', implemented in the file located at 'preprocess/missing_values.R'

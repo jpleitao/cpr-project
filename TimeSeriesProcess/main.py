@@ -9,9 +9,13 @@ __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
 
 
-def main(source_filepath):
+def do_preprocess(source_filepath):
     time, readings = preprocess.load_dataset(source_filepath)
     preprocess.preprocess_run(time, readings)
+
+
+def main(source_filepath):
+    do_preprocess(source_filepath)
 
 if __name__ == '__main__':
     _source_filepath = os.getcwd() + '/data/data_final.csv'
