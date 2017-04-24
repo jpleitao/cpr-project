@@ -15,7 +15,7 @@ __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
 
 
-def load_dataset(source_filepath):
+def load_dataset_raw_readings(source_filepath):
     values = numpy.genfromtxt(source_filepath, delimiter=';', dtype=str)
 
     time = values[:, 0]
@@ -27,6 +27,27 @@ def load_dataset(source_filepath):
     readings = numpy.array(readings)
 
     return time, readings
+
+
+def load_dataset_days(source_filepath):
+    values = numpy.genfromtxt(source_filepath, delimiter=';', dtype=str)
+
+    time = values[:, 0]
+    time = list(map(lambda s: datetime.strptime(s, '%Y-%m-%d %H:%M:%S'), time))
+    time = numpy.array(time)
+
+    readings = values[:, 1:]
+    readings = readings.astype(numpy.float)
+
+    return time, readings
+
+
+def load_dataset(source_filepath, aggregated=False):
+    if aggregated:
+        return load_dataset_days(source_filepath)
+    else:
+        # Sample csv file with two collumns
+        return load_dataset_raw_readings(source_filepath)
 
 
 def second_largest(numbers):
@@ -219,7 +240,7 @@ def preprocess_run(time, readings):
     fill_missing_values_test = False  # Not necessary in the final version, as this was implemented in R
     if fill_missing_values_test:
         merged_data_filepath = '/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/merged_data.csv'
-        preprocess.test_polyfit_missing(merged_data_filepath)
+        preprocess.polyfit_missing(merged_data_filepath)
 
     # The Polyfit approach registered inferior results in both stages when compared to the ARIMA approach:
     #   * An average RMSE of 12403.1671256 was registered against an average RMSE of 571.373059567 for ARIMA and
@@ -231,3 +252,8 @@ def preprocess_run(time, readings):
     # day where missing data were registered, a Kalman Filter model was computed and estimations for the missing data
     # in that day were obtained. The implementation of this procedure can be found in the R function
     # 'fillMissingValuesKalman', implemented in the file located at 'preprocess/missing_values.R'
+
+    # ========================================= Dimensionality Reduction ===============================================
+    preprocessed_file_path = os.path.dirname(merged_data_filepath) + '/imputed_data.csv'
+    # FIXME: Load dataset
+    # preprocess.reduce_dimensionality()

@@ -20,7 +20,7 @@ def _predict_polyfit(model, pos):
     return model(pos)
 
 
-def test_imputation(current_readings, day):
+def _day_imputation(current_readings, day):
     # Get just the readings and convert to an array of floats
     day_readings = current_readings[1:].astype(numpy.float64)
 
@@ -72,7 +72,7 @@ def test_imputation(current_readings, day):
     plt.close(fig)
 
 
-def test_polyfit_missing(merged_data_filepath):
+def polyfit_missing(merged_data_filepath):
     # Read values from csv into numpy array
     values = numpy.genfromtxt(merged_data_filepath, delimiter=';', dtype=str)
     rows, columns = values.shape
@@ -85,4 +85,4 @@ def test_polyfit_missing(merged_data_filepath):
                 have = True
         if not have:
             # Impute
-            test_imputation(values[i], i)
+            _day_imputation(values[i], i)
