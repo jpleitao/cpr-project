@@ -48,4 +48,7 @@ def reduce_dimensionality(time, readings):
 
     # The final number of components is given by len(components), so the next step would be to perform dimensionality
     # reduction with a SAE - also plot results there and maybe compare the two with the RMSE on the reconstruction
-    num_components = eigenvectors
+    num_components = len(eigenvectors)
+    print('Got ' + str(num_components) + ' components')
+
+    # TODO: SAE performing Feature Extraction for the same dimension as 'num_components'
