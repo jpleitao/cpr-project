@@ -21,7 +21,7 @@ def main():
     # FIXME: REMOVE THIS FROM FINAL VERSION AND DO ALL IN PREPROCESS.PREPROCESS_RUN!
     imputed_file_path = os.getcwd() + '/data/imputed_data.csv'
     time, readings = preprocess.load_dataset(imputed_file_path, True)
-    preprocess.reduce_dimensionality(time, readings)
+    preprocess.reduce_dimensionality(readings)
 
 if __name__ == '__main__':
     main()

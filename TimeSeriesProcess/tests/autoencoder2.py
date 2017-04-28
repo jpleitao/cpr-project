@@ -10,11 +10,6 @@ __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
 
-# TODO: Move implementation to classes!
-# TODO: Convert to denoising autoencoders!
-# TODO: Compute the output of the stacked autoencoders for a given input
-# TODO: "Play" with the activation functions
-
 
 def create_autoencoder(x, hidden_layer_size):
     # ========================================== Build the encoder =====================================================
@@ -50,7 +45,6 @@ def create_autoencoder(x, hidden_layer_size):
 
 def merge_autoencoders(first_autoencoder, second_autoencoder):
     print(first_autoencoder['encoded'])
-
     print(second_autoencoder['encoded'])
 
 

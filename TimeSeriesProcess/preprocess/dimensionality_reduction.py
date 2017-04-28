@@ -3,6 +3,8 @@
 import numpy
 import sklearn.decomposition
 
+import preprocess
+
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
@@ -24,7 +26,9 @@ def _pca_dimen_reduce(data, percentage_variance=0.8):
     # Get components
     components = pca.components_[0: i+1]
 
-    # Transform data
+    # Transform data to the desired number of components - New PCA and fit
+    pca = sklearn.decomposition.PCA(n_components=len(components))
+    pca.fit(data)
     data_transform = pca.transform(data)
 
     # Reconstruct and compute RMSE - Average over all days
@@ -38,17 +42,35 @@ def _pca_dimen_reduce(data, percentage_variance=0.8):
         av_rmse += rmse
     av_rmse = av_rmse/len(data)
 
-    print('[PCA]Average RMSE on all data= ' + str(av_rmse))
+    print('[PCA]Average RMSE on all data = ' + str(av_rmse) + ' with ' + str(len(components)) + ' components')
+
+    import matplotlib.pyplot as plt
+
+    plt.figure()
+    plt.plot(data_reconstructed[0], 'g')
+    plt.plot(data[0], 'r')
 
     return data_transform, components
 
 
-def reduce_dimensionality(time, readings):
-    data_transform, eigenvectors = _pca_dimen_reduce(readings, 0.8)
+def reduce_dimensionality(readings):
+    data_transform, eigenvectors = _pca_dimen_reduce(readings, 0.9)
 
     # The final number of components is given by len(components), so the next step would be to perform dimensionality
     # reduction with a SAE - also plot results there and maybe compare the two with the RMSE on the reconstruction
     num_components = len(eigenvectors)
     print('Got ' + str(num_components) + ' components')
 
-    # TODO: SAE performing Feature Extraction for the same dimension as 'num_components'
+    stacked_autoencoder = preprocess.StackedDenoisedAutoencoder(readings.shape[1],
+                                                                numpy.asscalar(readings[0, 0]).__class__.__name__,
+                                                                [num_components],
+                                                                0.01,
+                                                                2000,
+                                                                'gradient_descent',
+                                                                'mean_square')
+    print('Started training stacked autoencoder')
+    stacked_autoencoder.train(readings)
+    print('Finished training stacked autoencoder')
+    stacked_autoencoder.evaluate_encoder_performance(readings)
+
+    stacked_autoencoder.close_session()
