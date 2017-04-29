@@ -188,12 +188,13 @@ def preprocess_run(time, readings):
     if not isinstance(time, numpy.ndarray) or not isinstance(readings, numpy.ndarray):
         raise TypeError('Input parameters must be of type <numpy.array>!!')
 
-    fs = 1 / 60  # Data collected every minute, therefore Ts = 60 seconds
+    if False:
+        fs = 1 / 60  # Data collected every minute, therefore Ts = 60 seconds
 
     # ================================== Compute unit of analysis ======================================================
-    unit_analysis = get_unit_analysis(time, readings, fs)
-    unit_analysis_hours = (1 / unit_analysis) / 3600
-    print('The unit of analysis is of ' + str(unit_analysis_hours) + ' hours')
+        unit_analysis = get_unit_analysis(time, readings, fs)
+        unit_analysis_hours = (1 / unit_analysis) / 3600
+        print('The unit of analysis is of ' + str(unit_analysis_hours) + ' hours')
 
     # Note: The frequency with the largest contribution to the resulting signal is the frequency 0. This result may seem
     # strange but could actually make sense if we consider the following: By performing the FFT of the signal an
@@ -208,8 +209,8 @@ def preprocess_run(time, readings):
     # ====================================== Merge data in the unit of analysis ========================================
     # Merge the collected data into one-day vectors composed by 24 readings (sum the values in m3/h)!
     # Whenever a missing value is present in that hour consider that value NaN!
-    merged_data = merge_data_readings(time, readings, unit_analysis_hours)
-    merged_data_filepath = save_merged_data_excel(merged_data)
+        merged_data = merge_data_readings(time, readings, unit_analysis_hours)
+        merged_data_filepath = save_merged_data_excel(merged_data)
 
     # =========================================== Fill missing values ==================================================
     # To fill the missing values we are going to take advantage of our unit of analysis: We are going to fit a linear
@@ -237,10 +238,10 @@ def preprocess_run(time, readings):
     #  * Firstly, the average RMSE values of each approach were compared
     #  * Secondly, the total number of days were one approach registered a smaller RMSE than its alternatives were also
     #    compared
-    fill_missing_values_test = False  # Not necessary in the final version, as this was implemented in R
-    if fill_missing_values_test:
-        merged_data_filepath = '/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/merged_data.csv'
-        preprocess.polyfit_missing(merged_data_filepath)
+        fill_missing_values_test = False  # Not necessary in the final version, as this was implemented in R
+        if fill_missing_values_test:
+            merged_data_filepath = os.getcwd() + '/data/merged_data.csv'
+            preprocess.polyfit_missing(merged_data_filepath)
 
     # The Polyfit approach registered inferior results in both stages when compared to the ARIMA approach:
     #   * An average RMSE of 12403.1671256 was registered against an average RMSE of 571.373059567 for ARIMA and
@@ -253,7 +254,52 @@ def preprocess_run(time, readings):
     # in that day were obtained. The implementation of this procedure can be found in the R function
     # 'fillMissingValuesKalman', implemented in the file located at 'preprocess/missing_values.R'
 
+    # ============================================ Load Imputed Data ===================================================
+    imputed_file_path = os.getcwd() + '/data/imputed_data.csv'
+    time, readings = preprocess.load_dataset(imputed_file_path, True)
+
+    # ============================================ Data Normalisation ==================================================
+    # Two normalisation methods are implemented and applied:
+    #   * 'Min-Max Normalisation' - Performs the following transformation on the data:
+    #                 X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
+    #                 X_scaled = X_std * (max - min) + min
+    #   * 'Z-Normalisation' - Perfomrs the following transformation on the data:
+    #                 T = (T-mean(T))/std(T)
+    # Mueen and Keogh provide a valuable insight in the importance and advantages of performing Z-normalisation when
+    # adopting the DTW metric distance with time series. For more information please study the referenced publication:
+    #   Mueen, Abdullah, and Eamonn Keogh. "Extracting Optimal Performance from Dynamic Time Warping."
+    #   Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. ACM, 2016.
+    readings_standard = preprocess.normalise_min_max(readings)
+    readings_znormalise = preprocess.z_normalise(readings)
+
     # ========================================= Dimensionality Reduction ===============================================
-    preprocessed_file_path = os.path.dirname(merged_data_filepath) + '/imputed_data.csv'
-    # FIXME: Load dataset
-    # preprocess.reduce_dimensionality()
+    # Browsing the literature on the topic of time series clustering, clustering algorithms featuring DTW as the metric
+    # distance appear to be the most popular and appropriate. Since they implement the DTW metric, the application of
+    # dimensionality reduction techniques is pointless, since the DTW takes advantage of the time-dependent sequence of
+    # values, whereas when proper dimensionality reduction techniques are applied such dependency is lost.
+    # Nevertheless, one can still find time series clustering approaches in the literature that do not use the DTW as
+    # the distance metric. One such example is the work of Abreu et al.(2012):
+    #   Abreu, Joana M., Francisco Câmara Pereira, and Paulo Ferrão. "Using pattern recognition to identify habitual
+    #   behavior in residential electricity consumption." Energy and buildings 49 (2012): 479-487.
+    # In light of such finds, clustering approaches featuring more generic distance metrics (such as the Euclidean
+    # distance) are also intended to be applied in this work; however, due to the high dimensionality of the data
+    # (each sample corresponds to an array/vector of 24 elements) the computation of Euclidean distances on raw data
+    # would be very computationally expensive. As a result, dimensionality reduction techniques are also addressed, to
+    # reduce the number of features (that is dimensions) required to describe the data.
+    preprocess.reduce_dimensionality(readings_standard)
+
+    # Two dimensionality reduction techniques were applied and compared at this point:
+    #    -> Principal Components Analysis (PCA)
+    #    -> Stacked Autoencoders (SAE)
+    #
+    # In PCA the target number of features was selected as a function of the percentage of explained data variance. In
+    # this sense, principal components capable of representing 90% of the data variance were selected, yielding a
+    # reduced dimensionality of 3 features.
+    # SAEs were then trained for dimensionality reduction, targeting the same number of features as PCA.
+    # Different network architectures were considered while training the SAEs (that is, different number of autoencoders
+    # with different numbers of neurons per hidden layer, different activation functions...); however, in the best
+    # scenarios, SAEs were only capable of getting close to PCA in terms of reconstruction error, producing
+    # reconstructed time series considerably more distant to the original ones than PCA (that is, SAEs were not capable
+    # of capturing the trend and shape of the data over time, while PCA did a much better job here).
+    # It is also worth mentioning at this point that both PCA and SAEs approaches were tested with normalised data,
+    # using the 'Min-Max' method.

@@ -16,12 +16,7 @@ def do_preprocess(source_filepath):
 
 def main():
     original_file_path = os.getcwd() + '/data/data_final.csv'
-    # do_preprocess(original_file_path)
-
-    # FIXME: REMOVE THIS FROM FINAL VERSION AND DO ALL IN PREPROCESS.PREPROCESS_RUN!
-    imputed_file_path = os.getcwd() + '/data/imputed_data.csv'
-    time, readings = preprocess.load_dataset(imputed_file_path, True)
-    preprocess.reduce_dimensionality(readings)
+    do_preprocess(original_file_path)
 
 if __name__ == '__main__':
     main()
