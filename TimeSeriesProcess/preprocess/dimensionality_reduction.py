@@ -198,7 +198,7 @@ class StackedAutoEncoder:
             plt.plot(original[i], 'r', label='Original Data')
             plt.title('Day ' + str(i))
             plt.legend()
-            fig.savefig('data/dimensionality_reduction/stacked_autoencoders/day_' + str(i))
+            fig.savefig('data/images/dimensionality_reduction/stacked_autoencoders/day_' + str(i))
             plt.close(fig)
 
 
@@ -262,7 +262,7 @@ def _pca_dimen_reduce(data, percentage_variance=0.8):
         plt.plot(data[i], 'r', label='Original Data')
         plt.title('Day ' + str(i))
         plt.legend()
-        fig.savefig('data/dimensionality_reduction/pca/day_' + str(i))
+        fig.savefig('data/images/dimensionality_reduction/pca/day_' + str(i))
         plt.close(fig)
 
     return data_transform, components

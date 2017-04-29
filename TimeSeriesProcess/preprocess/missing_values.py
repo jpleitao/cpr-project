@@ -68,7 +68,7 @@ def _day_imputation(current_readings, day):
     plt.plot(time, estimates, 'k', label='Estimates')
     plt.legend()
     plt.title('Day ' + str(day))
-    fig.savefig('/data/missing_data/polyfit/day_' + str(day))
+    fig.savefig('/data/images/missing_data/polyfit/day_' + str(day))
     plt.close(fig)
 
 

@@ -117,8 +117,8 @@ testArimaMissing <- function(data) {
     x <- imputeArima(x)
     
     # Save plots to disk
-    png(paste('/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/missing_data/arima/', full_days[i],
-              '.png', sep=''), width=800, height=600)
+    png(paste('/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/images/missing_data/arima/',
+              full_days[i], '.png', sep=''), width=800, height=600)
     plot(time, x_copy, type='l', col='blue')
     lines(time, x, type='l', col='red')
     dev.off();
@@ -134,7 +134,7 @@ testArimaMissing <- function(data) {
     current_file_line <- paste('[R-ARIMA]DAY: ', full_days[i], ' RMSE: ', rmse, sep='')
     print(current_file_line)
     cat(current_file_line,
-        file="/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/missing_data/arima/output.txt",
+        file="/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/images/missing_data/arima/output.txt",
         append=TRUE, sep='\n')
   }
 }
@@ -173,8 +173,8 @@ testKalmanFilterMissing <- function(data) {
     x <- na.StructTS(x)
     
     # Save plots to disk
-    png(paste('/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/missing_data/kalman/', full_days[i],
-              '.png', sep=''), width=800, height=600)
+    png(paste('/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/images/missing_data/kalman/',
+              full_days[i], '.png', sep=''), width=800, height=600)
     plot(time, x_copy, type='l', col='blue')
     lines(time, x, type='l', col='red')
     dev.off();
@@ -190,7 +190,7 @@ testKalmanFilterMissing <- function(data) {
     current_file_line <- paste('[R-KALMAN]DAY: ', full_days[i], ' RMSE: ', rmse, sep='')
     print(current_file_line)
     cat(current_file_line,
-        file="/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/missing_data/kalman/output.txt",
+        file="/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/images/missing_data/kalman/output.txt",
         append=TRUE, sep='\n')
   }
 }
