@@ -286,7 +286,7 @@ def preprocess_run(time, readings):
     # (each sample corresponds to an array/vector of 24 elements) the computation of Euclidean distances on raw data
     # would be very computationally expensive. As a result, dimensionality reduction techniques are also addressed, to
     # reduce the number of features (that is dimensions) required to describe the data.
-    preprocess.reduce_dimensionality(readings_standard)
+    data_transformed = preprocess.reduce_dimensionality(readings_standard)
 
     # Two dimensionality reduction techniques were applied and compared at this point:
     #    -> Principal Components Analysis (PCA)
@@ -303,3 +303,5 @@ def preprocess_run(time, readings):
     # of capturing the trend and shape of the data over time, while PCA did a much better job here).
     # It is also worth mentioning at this point that both PCA and SAEs approaches were tested with normalised data,
     # using the 'Min-Max' method.
+
+    return data_transformed

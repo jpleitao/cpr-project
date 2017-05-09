@@ -282,3 +282,5 @@ def reduce_dimensionality(readings):
     reconstructed = stacked_autoencoder.decode(transformed)
 
     stacked_autoencoder.assess_reconstruction_performance(readings, reconstructed)
+
+    return data_transform
