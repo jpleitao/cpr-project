@@ -269,7 +269,8 @@ def _pca_dimen_reduce(data, percentage_variance=0.8):
 
 
 def reduce_dimensionality(readings):
-    data_transform, eigenvectors = _pca_dimen_reduce(readings, 0.9)
+    data_transform, eigenvectors = _pca_dimen_reduce(readings, 0.8)
+
     # The final number of components is given by len(components), so the next step would be to perform dimensionality
     # reduction with a SAE - also plot results there and maybe compare the two with the RMSE on the reconstruction
     num_components = len(eigenvectors)

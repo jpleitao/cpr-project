@@ -166,15 +166,26 @@ def merge_data_readings(time, readings, unit_analysis_hours, step_minutes=60):
     return result
 
 
-def save_merged_data_excel(merged_data, path=None):
-    if path is None:
-        path = os.getcwd() + '/data/merged_data.csv'
-
+def save_data_excel(data, path):
     with open(path, 'w') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', quotechar='', quoting=csv.QUOTE_NONE)
-        writer.writerows(merged_data)
+        writer.writerows(data)
 
     return path
+
+
+def add_index_to_data(data):
+    new_data = list()
+    for i in range(len(data)):
+        data_list = data[i].tolist()
+
+        # Add index
+        data_list.append(i)
+
+        # Append to new_data
+        new_data.append(data_list)
+
+    return numpy.array(new_data)
 
 
 def preprocess_run(time, readings):
@@ -183,18 +194,19 @@ def preprocess_run(time, readings):
         * Computes unit of analysis based on non-NaN values
     :param time: The time instants when data was collected
     :param readings: Collected data values
+    :return: The time series data after pre-processing in both the original dimension and projected according to its
+             principal components that explain 80% of the data variance
     """
     # Check parameters type
     if not isinstance(time, numpy.ndarray) or not isinstance(readings, numpy.ndarray):
         raise TypeError('Input parameters must be of type <numpy.array>!!')
 
-    if False:
-        fs = 1 / 60  # Data collected every minute, therefore Ts = 60 seconds
+    fs = 1 / 60  # Data collected every minute, therefore Ts = 60 seconds
 
     # ================================== Compute unit of analysis ======================================================
-        unit_analysis = get_unit_analysis(time, readings, fs)
-        unit_analysis_hours = (1 / unit_analysis) / 3600
-        print('The unit of analysis is of ' + str(unit_analysis_hours) + ' hours')
+    unit_analysis = get_unit_analysis(time, readings, fs)
+    unit_analysis_hours = (1 / unit_analysis) / 3600
+    print('The unit of analysis is of ' + str(unit_analysis_hours) + ' hours')
 
     # Note: The frequency with the largest contribution to the resulting signal is the frequency 0. This result may seem
     # strange but could actually make sense if we consider the following: By performing the FFT of the signal an
@@ -209,8 +221,8 @@ def preprocess_run(time, readings):
     # ====================================== Merge data in the unit of analysis ========================================
     # Merge the collected data into one-day vectors composed by 24 readings (sum the values in m3/h)!
     # Whenever a missing value is present in that hour consider that value NaN!
-        merged_data = merge_data_readings(time, readings, unit_analysis_hours)
-        merged_data_filepath = save_merged_data_excel(merged_data)
+    merged_data = merge_data_readings(time, readings, unit_analysis_hours)
+    merged_data_filepath = save_data_excel(merged_data, os.getcwd() + '/data/merged_data.csv')
 
     # =========================================== Fill missing values ==================================================
     # To fill the missing values we are going to take advantage of our unit of analysis: We are going to fit a linear
@@ -238,10 +250,10 @@ def preprocess_run(time, readings):
     #  * Firstly, the average RMSE values of each approach were compared
     #  * Secondly, the total number of days were one approach registered a smaller RMSE than its alternatives were also
     #    compared
-        fill_missing_values_test = False  # Not necessary in the final version, as this was implemented in R
-        if fill_missing_values_test:
-            merged_data_filepath = os.getcwd() + '/data/merged_data.csv'
-            preprocess.polyfit_missing(merged_data_filepath)
+    fill_missing_values_test = False  # Not necessary in the final version, as this was implemented in R
+    if fill_missing_values_test:
+        merged_data_filepath = os.getcwd() + '/data/merged_data.csv'
+        preprocess.polyfit_missing(merged_data_filepath)
 
     # The Polyfit approach registered inferior results in both stages when compared to the ARIMA approach:
     #   * An average RMSE of 12403.1671256 was registered against an average RMSE of 571.373059567 for ARIMA and
@@ -304,4 +316,23 @@ def preprocess_run(time, readings):
     # It is also worth mentioning at this point that both PCA and SAEs approaches were tested with normalised data,
     # using the 'Min-Max' method.
 
-    return data_transformed
+    # When we perform clustering we do it on normalised or reduced data. In order to interpret the obtained
+    # results we need to have a correspondence between the reduced or transformed data back to the original data (so we
+    # can say that day X belongs to cluster Y and so on...). As a result, the first thing that we can do prior to
+    # actually performing the clustering task is to get a map from the reduced/transformed data to the original one.
+    # Then save the data to a file
+    # Ideas:
+    #   * Have a dictionary where the key is the index in the original readings array and the value is the
+    #     transformed/reduced data
+    #   * Add an additional element to the arrays to contain the index in the original readings. Take care to not
+    #     include that index when computing distances and so on in the clustering tasks...
+    #
+    # For now we will implement the first idea.
+    readings_standard = add_index_to_data(readings_standard)
+    data_transformed = add_index_to_data(data_transformed)
+    readings = add_index_to_data(readings)
+
+    save_data_excel(readings_standard, os.getcwd() + '/data/readings_standard_preprocessed.csv')
+    save_data_excel(data_transformed, os.getcwd() + '/data/data_transformed_preprocessed.csv')
+
+    return readings, data_transformed
