@@ -1,5 +1,8 @@
 # coding: utf-8
 
+import random
+
+import numpy
 import scipy.cluster.hierarchy
 import scipy.spatial.distance
 import clustering.distances
@@ -29,8 +32,74 @@ def hierarchical(readings, time_series=None):
     scipy.cluster.hierarchy.dendrogram(z)
 
 
-def k_means():
-    pass
+def _converged(centroids, centroids_old):
+    if centroids_old is None:
+        return False
+
+    result = numpy.in1d(centroids, centroids_old)
+
+    for temp in result:
+        if not temp:
+            return False
+    return True
+
+
+def k_means(readings, num_clusters, time_series=None):
+    if time_series is None:
+        time_series = True
+    elif not isinstance(time_series, bool):
+        raise TypeError('Argument <time_series> must be of type <bool>!')
+
+    # Choose random centroids
+    centroids_index = random.sample(range(len(readings)), num_clusters)
+    centroids = readings[centroids_index]
+    centroids_old = None
+
+    iteration = 1
+
+    while not _converged(centroids, centroids_old):
+        # Assign data points to clusters
+        assignments = {}
+
+        for ind, i in enumerate(readings):
+            min_dist = float('inf')
+            closest_clust = None
+
+            # Compute closest centroid to data point
+            for c_ind, j in enumerate(centroids):
+                if time_series:
+                    if clustering.distances.lb_keogh(i, j, 5) < min_dist:
+                        cur_dist = clustering.distances.dtw(i, j)
+                    if cur_dist < min_dist:
+                        min_dist = cur_dist
+                        closest_clust = c_ind
+                else:
+                    # TODO
+                    pass
+
+            if closest_clust in assignments:
+                assignments[closest_clust].append(ind)
+            else:
+                assignments[closest_clust] = list()
+
+        # Backup centroids
+        centroids_old = numpy.copy(centroids)
+
+        # Recalculate centroids of clusters
+        for key in assignments:
+            clust_sum = 0
+            for k in assignments[key]:
+                clust_sum = clust_sum + readings[k]
+            centroids[key] = [m / len(assignments[key]) for m in clust_sum]
+
+        print('End of iteration ' + str(iteration) + '\nCentroids:')
+        print(centroids)
+        print('===============\nCentroids_old:')
+        print(centroids_old)
+
+        iteration += 1
+
+    return centroids
 
 
 def clustering_run(readings, data_transform):
@@ -46,9 +115,9 @@ def clustering_run(readings, data_transform):
     # Start by performing hierarchical clustering on the original, raw, time series data. For such a data representation
     # an appropriate distance metric must be used, which in this case is the Dynamic Time Warping.
     # We then move on to performing the same task on the transformed data (reduced dimensionality)
-    hierarchical(readings)
-    hierarchical(data_transform, False)
-    plt.show()
+    # hierarchical(readings)
+    # hierarchical(data_transform, False)
+    # plt.show()
 
     # We will start the analysis of the results with the Hierarchical Clustering on the transformed data.
     # In this task time series data was transformed with PCA in order to reduce its dimensionality. A transformation
@@ -76,3 +145,19 @@ def clustering_run(readings, data_transform):
     # In this sense, a number of clusters between 2 and 4 are intended to be explored in the K-Means Clustering
     # algorithm. If the cluster evaluation metrics for these limits suggest an invalid cluster formation, this range may
     # be extended.
+
+    # FIXME: How should I evaluate the number of clusters? Run several times for each k and select best SC, and only
+    # run the remaining metrics for the best clusters for each k? I can't run all the metrics for all the clusters...
+
+    centroids = k_means(readings, 4, False)
+
+    """
+    for _ in range(10):
+        centroids = k_means(readings, 4)
+
+        plt.figure()
+        for temp in centroids:
+            plt.plot(temp)
+
+    plt.show()
+    """
