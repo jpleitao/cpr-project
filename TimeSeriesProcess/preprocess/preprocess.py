@@ -8,7 +8,9 @@ from datetime import datetime
 import numpy
 import matplotlib.pyplot as plt
 
-import preprocess
+import preprocess.dimensionality_reduction
+import preprocess.missing_values
+import preprocess.normalisation
 
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
@@ -234,7 +236,7 @@ def preprocess_run(time, readings):
     # We want to try and compare three different approaches: Fitting a polynomial function to our data; Fitting an ARIMA
     # model to our data; Interpolating missing data with a kalman filter
     # The first approach will be implemented in Python, in the function:
-    #           preprocess.test_polyfit_missing (preprocess/missing_values.py)
+    #           preprocess.missing_values.test_polyfit_missing (preprocess/missing_values.py)
     # The second approach will be implemented in R, in the function:
     #           testArimaMissing (preprocess/missing_values.R)
     # The third approach will be implemented in R, in the function:
@@ -253,7 +255,7 @@ def preprocess_run(time, readings):
     fill_missing_values_test = False  # Not necessary in the final version, as this was implemented in R
     if fill_missing_values_test:
         merged_data_filepath = os.getcwd() + '/data/merged_data.csv'
-        preprocess.polyfit_missing(merged_data_filepath)
+        preprocess.missing_values.polyfit_missing(merged_data_filepath)
 
     # The Polyfit approach registered inferior results in both stages when compared to the ARIMA approach:
     #   * An average RMSE of 12403.1671256 was registered against an average RMSE of 571.373059567 for ARIMA and
@@ -281,8 +283,8 @@ def preprocess_run(time, readings):
     # adopting the DTW metric distance with time series. For more information please study the referenced publication:
     #   Mueen, Abdullah, and Eamonn Keogh. "Extracting Optimal Performance from Dynamic Time Warping."
     #   Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. ACM, 2016.
-    readings_standard = preprocess.normalise_min_max(readings)
-    readings_znormalise = preprocess.z_normalise(readings)
+    readings_standard = preprocess.normalisation.normalise_min_max(readings)
+    readings_znormalise = preprocess.normalisation.z_normalise(readings)
 
     # ========================================= Dimensionality Reduction ===============================================
     # Browsing the literature on the topic of time series clustering, clustering algorithms featuring DTW as the metric
@@ -298,7 +300,7 @@ def preprocess_run(time, readings):
     # (each sample corresponds to an array/vector of 24 elements) the computation of Euclidean distances on raw data
     # would be very computationally expensive. As a result, dimensionality reduction techniques are also addressed, to
     # reduce the number of features (that is dimensions) required to describe the data.
-    data_transformed = preprocess.reduce_dimensionality(readings_standard)
+    data_transformed = preprocess.dimensionality_reduction.reduce_dimensionality(readings_standard)
 
     # Two dimensionality reduction techniques were applied and compared at this point:
     #    -> Principal Components Analysis (PCA)
