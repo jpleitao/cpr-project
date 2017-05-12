@@ -12,6 +12,10 @@ __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
 
 
+def euclidean(s1, s2):
+    return numpy.sqrt(numpy.sum((s1 - s2) ** 2))
+
+
 def dtw(s1, s2, w=None):
     # Calculates dynamic time warping Euclidean distance between two sequences. Option to enforce locality constraint
     # for window w.

@@ -70,12 +70,14 @@ def k_means(readings, num_clusters, time_series=None):
                 if time_series:
                     if clustering.distances.lb_keogh(i, j, 5) < min_dist:
                         cur_dist = clustering.distances.dtw(i, j)
-                    if cur_dist < min_dist:
-                        min_dist = cur_dist
-                        closest_clust = c_ind
+                    else:
+                        cur_dist = float('inf')
                 else:
-                    # TODO
-                    pass
+                    cur_dist = clustering.distances.euclidean(i, j)
+
+                if cur_dist < min_dist:
+                    min_dist = cur_dist
+                    closest_clust = c_ind
 
             if closest_clust in assignments:
                 assignments[closest_clust].append(ind)
