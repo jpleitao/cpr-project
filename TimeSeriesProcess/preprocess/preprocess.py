@@ -332,9 +332,9 @@ def preprocess_run(time, readings):
     # For now we will implement the first idea.
     readings_standard = add_index_to_data(readings_standard)
     data_transformed = add_index_to_data(data_transformed)
-    readings = add_index_to_data(readings)
+    readings_znormalise = add_index_to_data(readings_znormalise)
 
     save_data_excel(readings_standard, os.getcwd() + '/data/readings_standard_preprocessed.csv')
     save_data_excel(data_transformed, os.getcwd() + '/data/data_transformed_preprocessed.csv')
 
-    return readings, data_transformed
+    return readings_znormalise, data_transformed
