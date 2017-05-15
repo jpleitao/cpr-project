@@ -21,6 +21,7 @@ class _KMeansResults(object):
     Private class to store best cluster solutions using the K-Means clustering algorithm for a given value of K
     (A list of instances of this class is intended to be saved)
     """
+
     def __init__(self, k, assigments, silhouette_coefficient):
         self._k = k
         self._assignments = assigments
@@ -69,6 +70,7 @@ def load_best_results(file_path=None, time_series=None):
         with open(file_path, 'rb') as f:
             best_results = pickle.load(f)
     except Exception:
+        print('Loading empty list')
         best_results = list()
     return best_results
 
@@ -115,10 +117,9 @@ def k_means(readings, num_clusters, time_series=None):
     centroids_old = None
 
     iteration = 1
-
     assignments = dict()
 
-    while not _converged(centroids, centroids_old):
+    while not _converged(centroids, centroids_old) and iteration < 300:
         # Assign data points to clusters
         assignments = dict()
 
@@ -157,6 +158,7 @@ def k_means(readings, num_clusters, time_series=None):
 
         iteration += 1
 
+    print('Converged in iteration ' + str(iteration))
     return centroids, assignments
 
 
@@ -181,11 +183,10 @@ def tune_kmeans(readings, k_raw_data, number_runs, time_series=None):
             # Run silhouette coefficient to evaluate centroids
             silhouette_coef = clustering.metrics.silhouette_coefficient(assignments_inverse, readings)
 
-            print(silhouette_coef)
-
             if silhouette_coef > best_sc:
                 best_sc = silhouette_coef
                 best_assignments = assignments
+            print('Run ' + str(run) + ' SC = ' + str(silhouette_coef) + ' ; Best_SC = ' + str(best_sc))
 
         best_results.append(_KMeansResults(k, best_assignments, best_sc))
 
@@ -305,9 +306,17 @@ def clustering_run(readings, data_transform):
     #    the obtained results
     # 7) If needed, go back to step 1 and change the ranges for the K values
 
+    # A user on stackexchange proposed the following interpretation for the silhouette coefficient:
+    # 0.71-1.0   -> A strong structure has been found
+    # 0.51-0.70  -> A reasonable structure has been found
+    # 0.26-0.50  -> The structure is weak and could be artificial. Try additional methods of data analysis.
+    # < 0.25     -> No substantial structure has been found
 
-    # TODO: TEST THIS
-    k_raw_data = [4, 5, 6, 7, 8]
+    # FIXME: With k = 4 it was giving very bad results, but with K=2 it gives better; however I am afraid that just 2
+    # clusters might be bad for us... Could the SC be a bad metric for this case? Maybe ask the teacher during the next
+    # week!
+    # k_raw_data = [4, 5, 6, 7, 8]
+    k_raw_data = [2, 3, 5, 6, 7, 8]
     number_runs = 10
     best_results_dtw = tune_kmeans(readings, k_raw_data, number_runs)
     # best_results_euclidean = tune_kmeans(readings, k_raw_data, number_runs, False)

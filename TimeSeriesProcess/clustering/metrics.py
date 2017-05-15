@@ -13,6 +13,8 @@ Stores distance and evaluation metrics used in this work:
 
 import numpy
 
+import sklearn.metrics
+
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
@@ -26,16 +28,7 @@ def silhouette_coefficient(assignments, readings, time_series=None):
     :param assignments: A dictionary containing the assignments of each individual reading to a cluster
     :param readings: The readings values, either a z-normalised time series or a reduced time series (via PCA)
     :param time_series: A boolean value, signalling whether or not the readings are z-normalised or reduced
-    :return: The silhouette coefficient for the assigned clusters. The silhouette coefficient is computed as follows:
-             For each sample (that is, datum) in readings, the following score is computed:
-                 s(i) = (b(i) - a(i)) / max(b(i), a(i))
-             where b(i) is the lowest average dissimilarity (distance) of sample i to all samples in other clusters
-             and a(i) is the average dissimilarity of sample i with all samples in the same cluster
-             
-             The value of the silhouette coefficient is computed as an average of all values s(i) for each individual
-             reading.
-             The average s(i) over all data of the entire dataset is a measure of how appropriately the data has been
-             clustered 
+    :return: The silhouette coefficient for the assigned clusters. Implementation from sklearn.metrics.silhouette_score
     """
     if time_series is None:
         time_series = True
@@ -45,54 +38,20 @@ def silhouette_coefficient(assignments, readings, time_series=None):
     if not isinstance(assignments, dict):
         raise TypeError('Argument <assignments> must be of type <dict>!')
 
-    s = 0.0
-    num_s = 0
+    distances = numpy.zeros((len(readings), len(readings)))
+    labels = numpy.zeros((len(readings), ))
 
-    # Iterate over each sample
-    for ind, i in enumerate(readings):
-        # Get cluster of current sample
-        sample_cluster = assignments[ind]
-
-        a = 0.0
-        num_a = 0
-        b = dict()
-
-        # Iterate over all the other samples
-        for ind_s, j in enumerate(readings):
-            if ind == ind_s:
-                continue
-            # Compute distance between them
+    for i in range(len(readings)):
+        labels[i] = assignments[i]
+        for j in range(len(readings)):
             if time_series:
-                dist = dtw(i, j)
+                dist = dtw(readings[i], readings[j])
             else:
-                dist = euclidean(i, j)
+                dist = euclidean(readings[i], readings[j])
 
-            if assignments[ind_s] == sample_cluster:
-                # Same cluster - Compute a(i)
-                a += dist
-                num_a += 1
-            else:
-                # Different clusters - Compute b(i)
-                if assignments[ind_s] not in b.keys():
-                    b[assignments[ind_s]] = (0, 0)
+            distances[i][j] = dist
 
-                # Update element in dictionary
-                b[assignments[ind_s]] = (b[assignments[ind_s]][0] + dist, b[assignments[ind_s]][1] + 1)
-
-        a = a / num_a
-        # Compute minimum average distances for other clusters
-        min_average = float('inf')
-        for k in b.keys():
-            curr_average = b[k][0] / b[k][1]
-
-            if curr_average < min_average:
-                min_average = curr_average
-
-        s += (min_average - a) / (max(min_average, a))
-        num_s += 1
-
-    s = s / num_s
-    return s
+    return sklearn.metrics.silhouette_score(distances, labels, metric='precomputed')
 
 
 def euclidean(s1, s2):
