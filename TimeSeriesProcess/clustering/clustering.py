@@ -113,12 +113,28 @@ def clustering_run(readings, data_transform):
     # 0.26-0.50  -> The structure is weak and could be artificial. Try additional methods of data analysis.
     # < 0.25     -> No substantial structure has been found
 
-    # k_raw_data = [2, 3, 4, 5, 6, 7, 8]
-    k_raw_data = [6, 7, 8]
+    k_values = [2, 3, 4, 5, 6, 7, 8]
     number_runs = 10
-    best_results_dtw = clustering.k_means.tune_kmeans(readings, k_raw_data, number_runs)
-    # best_results_dtw = clustering.k_means.tune_kmeans(readings, k_raw_data, number_runs, True, True)
-    # best_results_euclidean = tune_kmeans(readings, k_raw_data, number_runs, False)
+
+    # The main problem of this approach: DTW + Average prototype is that it has been claimed to be a bad combination;
+    # average prototype is typically applied to non-elastic distance measures such as the Euclidean. When using DTW
+    # local search prototype is common, as well as medoid centroid...
+    # best_results_dtw = clustering.k_means.tune_kmeans(readings, k_values, number_runs)
+
+    # When using dba it appears that the silhouette coefficient is even worse than with the dtw + average...
+    # Let it run over night so we can then process the results!
+    best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, True)
+
+    # best_results_euclidean = clustering.k_means.tune_kmeans(data_transform, k_values, number_runs, False)
+
+    # I've read some papers ("Time Series Clustering: A decade overview") that claim the application of partitioning
+    # methods to time series clustering is a challenging and non-trivial issue. Hierarchical clustering appears as a
+    # popular alternative
+
+    # What about using the medoid as the centroid???? According to "Time Series Clustering: A decade overview" is very
+    # common in time series clustering
+
+    # TODO: Implement Medoid as centroid
 
     """
     for _ in range(10):

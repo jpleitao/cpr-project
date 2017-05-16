@@ -12,6 +12,7 @@ Stores distance and evaluation metrics used in this work:
 """
 
 import numpy
+from numba import jit
 
 import sklearn.metrics
 
@@ -58,6 +59,7 @@ def euclidean(s1, s2):
     return numpy.sqrt(numpy.sum((s1 - s2) ** 2))
 
 
+@jit
 def dtw(s1, s2, w=None):
     # Calculates dynamic time warping Euclidean distance between two sequences. Option to enforce locality constraint
     # for window w.
@@ -94,6 +96,7 @@ def dtw(s1, s2, w=None):
     return numpy.sqrt(d_t_w[len(s1) - 1, len(s2) - 1])
 
 
+@jit
 def lb_keogh(s1, s2, r):
     # Calculates LB_Keough lower bound to dynamic time warping. Linear complexity compared to quadratic complexity
     # of dtw

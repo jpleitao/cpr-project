@@ -7,10 +7,10 @@ Script that contains all the K-Means Clustering-related code
 import os
 import random
 import pickle
-
 import numpy
 
 import clustering.metrics
+import clustering.dba
 
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
@@ -72,6 +72,9 @@ def k_means(readings, num_clusters, time_series=None, do_dba=None):
     iteration = 1
     assignments = dict()
 
+    if do_dba:
+        dba = clustering.dba.DBA(max_iter=30)
+
     while not _converged(centroids, centroids_old) and iteration < 300:
         # Assign data points to clusters
         assignments = dict()
@@ -105,9 +108,17 @@ def k_means(readings, num_clusters, time_series=None, do_dba=None):
         # Recalculate centroids of clusters
         if do_dba:
             # Compute the centroid using the Dynamic Time Warping Barycenter Average (DBA) method
-            # TODO
-            # Check implementation at https://github.com/brandonckelly/bck_stats/blob/master/bck_stats/dba.py
-            pass
+            for key in assignments:
+                cluster_time_series_list = list()
+                for k in assignments[key]:
+                    cluster_time_series_list.append(readings[k])
+                cluster_time_series_list = numpy.array(cluster_time_series_list)
+                len_series = len(cluster_time_series_list[0])
+
+                cluster_time_series_list = clustering.dba.ts_to_dba_list(cluster_time_series_list)
+                result = dba.compute_average(cluster_time_series_list, dba_length=len_series)
+
+                centroids[key] = result.reshape((1, len(result)))[0]
         else:
             # Compute centroid as average of all time series in the cluster
             for key in assignments:
@@ -122,30 +133,46 @@ def k_means(readings, num_clusters, time_series=None, do_dba=None):
     return centroids, assignments
 
 
-def save_best_results(best_results_list, file_path=None, time_series=None):
+def save_best_results(best_results_list, time_series=None, do_dba=None, file_path=None):
     if time_series is None:
         time_series = True
     elif not isinstance(time_series, bool):
         raise TypeError('Argument <time_series> must be of type <bool>!')
 
+    if do_dba is None:
+        do_dba = False
+    elif not isinstance(do_dba, bool):
+        raise TypeError('Argument <do_dba> must be of type <bool>!')
+
     if file_path is None:
         if time_series:
-            file_path = os.getcwd() + '/data/best_results_dtw.pkl'
+            if do_dba:
+                file_path = os.getcwd() + '/data/best_results_dtw_dba.pkl'
+            else:
+                file_path = os.getcwd() + '/data/best_results_dtw.pkl'
         else:
             file_path = os.getcwd() + '/data/best_results_euclidean.pkl'
     with open(file_path, 'wb') as f:
         pickle.dump(best_results_list, f)
 
 
-def load_best_results(file_path=None, time_series=None):
+def load_best_results(time_series=None, do_dba=None, file_path=None):
     if time_series is None:
         time_series = True
     elif not isinstance(time_series, bool):
         raise TypeError('Argument <time_series> must be of type <bool>!')
 
+    if do_dba is None:
+        do_dba = False
+    elif not isinstance(do_dba, bool):
+        raise TypeError('Argument <do_dba> must be of type <bool>!')
+
     if file_path is None:
         if time_series:
-            file_path = os.getcwd() + '/data/best_results_dtw.pkl'
+            if do_dba:
+                file_path = os.getcwd() + '/data/best_results_dtw_dba.pkl'
+            else:
+                file_path = os.getcwd() + '/data/best_results_dtw.pkl'
         else:
             file_path = os.getcwd() + '/data/best_results_euclidean.pkl'
     try:
@@ -179,7 +206,7 @@ def tune_kmeans(readings, k_raw_data, number_runs, time_series=None, do_dba=None
     elif not isinstance(do_dba, bool):
         raise TypeError('Argument <do_dba> must be of type <bool>!')
 
-    best_results = load_best_results()
+    best_results = load_best_results(time_series, do_dba)
 
     for k in k_raw_data:
         best_sc = -1
@@ -202,7 +229,7 @@ def tune_kmeans(readings, k_raw_data, number_runs, time_series=None, do_dba=None
         best_results.append(_KMeansResults(k, best_assignments, best_sc))
 
     # Save best results to pickle file
-    save_best_results(best_results)
+    save_best_results(best_results, time_series=time_series, do_dba=do_dba)
 
     # FIXME: Just some debug print
     for current_result in best_results:
