@@ -23,6 +23,29 @@ __email__ = 'jocaleitao93@gmail.com'
 # TODO: Implement evaluation metrics and add then to documentation
 
 
+def compute_distances(time_series, readings, assignments):
+    distances = numpy.zeros((len(readings), len(readings)))
+
+    if assignments is None:
+        labels = None
+    else:
+        labels = numpy.zeros((len(readings), ))
+
+    for i in range(len(readings)):
+        if assignments is not None:
+            labels[i] = assignments[i]
+        for j in range(i+1, len(readings)):
+            if time_series:
+                dist = dtw(readings[i], readings[j])
+            else:
+                dist = euclidean(readings[i], readings[j])
+
+            distances[i][j] = dist
+            distances[j][i] = dist
+
+    return distances, labels
+
+
 def silhouette_coefficient(assignments, readings, time_series=None):
     """
     Implementation of the silhouette coefficient metric
@@ -39,19 +62,7 @@ def silhouette_coefficient(assignments, readings, time_series=None):
     if not isinstance(assignments, dict):
         raise TypeError('Argument <assignments> must be of type <dict>!')
 
-    distances = numpy.zeros((len(readings), len(readings)))
-    labels = numpy.zeros((len(readings), ))
-
-    for i in range(len(readings)):
-        labels[i] = assignments[i]
-        for j in range(len(readings)):
-            if time_series:
-                dist = dtw(readings[i], readings[j])
-            else:
-                dist = euclidean(readings[i], readings[j])
-
-            distances[i][j] = dist
-
+    distances, labels = compute_distances(time_series, readings, assignments)
     return sklearn.metrics.silhouette_score(distances, labels, metric='precomputed')
 
 

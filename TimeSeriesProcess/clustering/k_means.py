@@ -8,6 +8,7 @@ import os
 import random
 import pickle
 import numpy
+import enum
 
 import clustering.metrics
 import clustering.dba
@@ -41,6 +42,15 @@ class _KMeansResults(object):
         return self._sc
 
 
+class CentroidType(enum.Enum):
+    """
+    Simple class to represent an enum for the centroid computation method
+    """
+    AVERAGE = 1
+    DBA = 2
+    MEDOID = 3
+
+
 def _converged(centroids, centroids_old):
     if centroids_old is None:
         return False
@@ -53,16 +63,16 @@ def _converged(centroids, centroids_old):
     return True
 
 
-def k_means(readings, num_clusters, time_series=None, do_dba=None):
+def k_means(readings, num_clusters, time_series=None, compute_centroid=None):
     if time_series is None:
         time_series = True
     elif not isinstance(time_series, bool):
         raise TypeError('Argument <time_series> must be of type <bool>!')
 
-    if do_dba is None:
-        do_dba = False
-    elif not isinstance(do_dba, bool):
-        raise TypeError('Argument <do_dba> must be of type <bool>!')
+    if compute_centroid is None:
+        compute_centroid = CentroidType.AVERAGE
+    elif not isinstance(compute_centroid, CentroidType):
+        raise TypeError('Argument <compute_centroid> must be of type <CentroidType.class>!')
 
     # Choose random centroids
     centroids_index = random.sample(range(len(readings)), num_clusters)
@@ -72,7 +82,7 @@ def k_means(readings, num_clusters, time_series=None, do_dba=None):
     iteration = 1
     assignments = dict()
 
-    if do_dba:
+    if compute_centroid == CentroidType.DBA:
         dba = clustering.dba.DBA(max_iter=30)
 
     while not _converged(centroids, centroids_old) and iteration < 300:
@@ -106,7 +116,7 @@ def k_means(readings, num_clusters, time_series=None, do_dba=None):
         centroids_old = numpy.copy(centroids)
 
         # Recalculate centroids of clusters
-        if do_dba:
+        if compute_centroid == CentroidType.DBA:
             # Compute the centroid using the Dynamic Time Warping Barycenter Average (DBA) method
             for key in assignments:
                 cluster_time_series_list = list()
@@ -119,6 +129,30 @@ def k_means(readings, num_clusters, time_series=None, do_dba=None):
                 result = dba.compute_average(cluster_time_series_list, dba_length=len_series)
 
                 centroids[key] = result.reshape((1, len(result)))[0]
+        elif compute_centroid == CentroidType.MEDOID:
+            # Compute the centroid using the Medoid method
+            # TODO: Test this!!!
+            distances, _ = clustering.metrics.compute_distances(time_series, readings, None)
+
+            for key in assignments:
+
+                min_index = None
+                min_avg = float('inf')
+                cur_elements = assignments[key]
+
+                for my_i in range(len(cur_elements)):
+                    avg = 0
+                    for my_j in range(len(cur_elements)):
+                        if my_j != my_i:
+                            avg += distances[my_i][my_j]
+                    avg = avg / (len(distances) - 1)
+
+                    if avg < min_avg:
+                        min_avg = avg
+                        min_index = my_i
+
+                centroids[key] = readings[min_index]
+
         else:
             # Compute centroid as average of all time series in the cluster
             for key in assignments:
@@ -133,46 +167,50 @@ def k_means(readings, num_clusters, time_series=None, do_dba=None):
     return centroids, assignments
 
 
-def save_best_results(best_results_list, time_series=None, do_dba=None, file_path=None):
+def save_best_results(best_results_list, time_series=None, compute_centroid=None, file_path=None):
     if time_series is None:
         time_series = True
     elif not isinstance(time_series, bool):
         raise TypeError('Argument <time_series> must be of type <bool>!')
 
-    if do_dba is None:
-        do_dba = False
-    elif not isinstance(do_dba, bool):
-        raise TypeError('Argument <do_dba> must be of type <bool>!')
+    if compute_centroid is None:
+        compute_centroid = CentroidType.AVERAGE
+    elif not isinstance(compute_centroid, CentroidType):
+        raise TypeError('Argument <compute_centroid> must be of type <CentroidType.class>!')
 
     if file_path is None:
         if time_series:
-            if do_dba:
+            if compute_centroid == CentroidType.DBA:
                 file_path = os.getcwd() + '/data/best_results_dtw_dba.pkl'
-            else:
+            elif compute_centroid == CentroidType.AVERAGE:
                 file_path = os.getcwd() + '/data/best_results_dtw.pkl'
+            elif compute_centroid == compute_centroid.MEDOID:
+                file_path = os.getcwd() + '/data/best_results_medoid.pkl'
         else:
             file_path = os.getcwd() + '/data/best_results_euclidean.pkl'
     with open(file_path, 'wb') as f:
         pickle.dump(best_results_list, f)
 
 
-def load_best_results(time_series=None, do_dba=None, file_path=None):
+def load_best_results(time_series=None, compute_centroid=None, file_path=None):
     if time_series is None:
         time_series = True
     elif not isinstance(time_series, bool):
         raise TypeError('Argument <time_series> must be of type <bool>!')
 
-    if do_dba is None:
-        do_dba = False
-    elif not isinstance(do_dba, bool):
-        raise TypeError('Argument <do_dba> must be of type <bool>!')
+    if compute_centroid is None:
+        compute_centroid = CentroidType.AVERAGE
+    elif not isinstance(compute_centroid, CentroidType):
+        raise TypeError('Argument <compute_centroid> must be of type <CentroidType.class>!')
 
     if file_path is None:
         if time_series:
-            if do_dba:
+            if compute_centroid == CentroidType.DBA:
                 file_path = os.getcwd() + '/data/best_results_dtw_dba.pkl'
-            else:
+            elif compute_centroid == CentroidType.AVERAGE:
                 file_path = os.getcwd() + '/data/best_results_dtw.pkl'
+            elif compute_centroid == compute_centroid.MEDOID:
+                file_path = os.getcwd() + '/data/best_results_medoid.pkl'
         else:
             file_path = os.getcwd() + '/data/best_results_euclidean.pkl'
     try:
@@ -195,27 +233,27 @@ def reverse_assignments(assignments):
     return new_assignments
 
 
-def tune_kmeans(readings, k_raw_data, number_runs, time_series=None, do_dba=None):
+def tune_kmeans(readings, k_values, number_runs, time_series=None, compute_centroid=None):
     if time_series is None:
         time_series = True
     elif not isinstance(time_series, bool):
         raise TypeError('Argument <time_series> must be of type <bool>!')
 
-    if do_dba is None:
-        do_dba = False
-    elif not isinstance(do_dba, bool):
-        raise TypeError('Argument <do_dba> must be of type <bool>!')
+    if compute_centroid is None:
+        compute_centroid = CentroidType.AVERAGE
+    elif not isinstance(compute_centroid, CentroidType):
+        raise TypeError('Argument <compute_centroid> must be of type <CentroidType.class>!')
 
-    best_results = load_best_results(time_series, do_dba)
+    best_results = load_best_results(time_series, compute_centroid)
 
-    for k in k_raw_data:
+    for k in k_values:
         best_sc = -1
         best_assignments = None
 
         print('Running for k=' + str(k))
 
         for run in range(number_runs):
-            centroids, assignments = k_means(readings, k, time_series, do_dba)
+            centroids, assignments = k_means(readings, k, time_series, compute_centroid)
             # Process assignments from k_means to get the inverse (values -> keys instead of keys -> values)
             assignments_inverse = reverse_assignments(assignments)
             # Run silhouette coefficient to evaluate centroids
@@ -229,7 +267,7 @@ def tune_kmeans(readings, k_raw_data, number_runs, time_series=None, do_dba=None
         best_results.append(_KMeansResults(k, best_assignments, best_sc))
 
     # Save best results to pickle file
-    save_best_results(best_results, time_series=time_series, do_dba=do_dba)
+    save_best_results(best_results, time_series=time_series, compute_centroid=compute_centroid)
 
     # FIXME: Just some debug print
     for current_result in best_results:

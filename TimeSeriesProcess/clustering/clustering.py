@@ -116,23 +116,32 @@ def clustering_run(readings, data_transform):
     k_values = [2, 3, 4, 5, 6, 7, 8]
     number_runs = 10
 
+    # **************************** DTW + Average ****************************
+    # DONE
     # The main problem of this approach: DTW + Average prototype is that it has been claimed to be a bad combination;
     # average prototype is typically applied to non-elastic distance measures such as the Euclidean. When using DTW
     # local search prototype is common, as well as medoid centroid...
-    # best_results_dtw = clustering.k_means.tune_kmeans(readings, k_values, number_runs)
+    # centroid_type = clustering.k_means.CentroidType.AVERAGE
+    # best_results_dtw = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
-    # When using dba it appears that the silhouette coefficient is even worse than with the dtw + average...
-    # Let it run over night so we can then process the results!
-    best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, True)
+    # **************************** DTW + DBA ****************************
+    # centroid_type = clustering.k_means.CentroidType.DBA
+    # best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
-    # best_results_euclidean = clustering.k_means.tune_kmeans(data_transform, k_values, number_runs, False)
+    # **************************** PCA, Euclidean + AVERAGE ****************************
+    # DONE
+    # centroid_type = clustering.k_means.CentroidType.AVERAGE
+    # best_results_euclid = clustering.k_means.tune_kmeans(data_transform, k_values, number_runs, False, centroid_type)
+
+    # **************************** DTW + Medoid ****************************
+    # TODO: TEST AND RUN THIS!!!
+    # According to "Time Series Clustering: A decade overview" is very common in time series clustering
+    centroid_type = clustering.k_means.CentroidType.MEDOID
+    best_results_medoid = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # I've read some papers ("Time Series Clustering: A decade overview") that claim the application of partitioning
     # methods to time series clustering is a challenging and non-trivial issue. Hierarchical clustering appears as a
     # popular alternative
-
-    # What about using the medoid as the centroid???? According to "Time Series Clustering: A decade overview" is very
-    # common in time series clustering
 
     # TODO: Implement Medoid as centroid
 
