@@ -10,8 +10,9 @@ import pickle
 import numpy
 import enum
 
-import clustering.metrics
 import clustering.dba
+import clustering.metrics
+import clustering.utils
 
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
@@ -84,6 +85,8 @@ def k_means(readings, num_clusters, time_series=None, compute_centroid=None):
 
     if compute_centroid == CentroidType.DBA:
         dba = clustering.dba.DBA(max_iter=30)
+    else:
+        dba = None
 
     while not _converged(centroids, centroids_old) and iteration < 300:
         # Assign data points to clusters
@@ -132,7 +135,7 @@ def k_means(readings, num_clusters, time_series=None, compute_centroid=None):
         elif compute_centroid == CentroidType.MEDOID:
             # Compute the centroid using the Medoid method
             # TODO: Test this!!!
-            distances, _ = clustering.metrics.compute_distances(time_series, readings, None)
+            distances, _ = clustering.utils.compute_distances(time_series, readings, None)
 
             for key in assignments:
 
@@ -222,17 +225,6 @@ def load_best_results(time_series=None, compute_centroid=None, file_path=None):
     return best_results
 
 
-def reverse_assignments(assignments):
-    new_assignments = dict()
-
-    for key in assignments.keys():
-        indexes_list = assignments[key]
-        for i in indexes_list:
-            new_assignments[i] = key
-
-    return new_assignments
-
-
 def tune_kmeans(readings, k_values, number_runs, time_series=None, compute_centroid=None):
     if time_series is None:
         time_series = True
@@ -255,7 +247,7 @@ def tune_kmeans(readings, k_values, number_runs, time_series=None, compute_centr
         for run in range(number_runs):
             centroids, assignments = k_means(readings, k, time_series, compute_centroid)
             # Process assignments from k_means to get the inverse (values -> keys instead of keys -> values)
-            assignments_inverse = reverse_assignments(assignments)
+            assignments_inverse = clustering.utils.reverse_assignments(assignments)
             # Run silhouette coefficient to evaluate centroids
             silhouette_coef = clustering.metrics.silhouette_coefficient(assignments_inverse, readings)
 
