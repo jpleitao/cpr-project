@@ -44,16 +44,40 @@ def evaluate_clusters(data, time_series, centroid_type):
         dba = None
 
     best_results = clustering.k_means.load_best_results(time_series, centroid_type)
-    evaluation = []
+    evaluation = list()
+    avg_wc_ss_list = list()
+    k_values = list()
 
     for result in best_results:
         print('============ Starting Evaluation for K = ' + str(result.k) + ' ============================')
         print('Silhouette Coefficient = ' + str(result.silhouette_coefficient))
-        sse_sum = clustering.metrics.sse(result.assignments, data, centroid_type, time_series, dba)
+
+        # Compute centroids
+        distances, _ = clustering.utils.compute_distances(time_series, data, None)
+        centroids = clustering.utils.compute_centroids(assignments=result.assignments, readings=data,
+                                                       distances=distances, centroid_type=centroid_type, dba=dba)
+
+        sse_sum = clustering.metrics.sse(result.assignments, data, centroids, time_series)
         print('Sum Squared Errors = ' + str(sse_sum))
         ch = clustering.metrics.calinski_herabaz_index(result.assignments, data, time_series)
         print('Calinski-Herabaz Index = ' + str(ch))
-        evaluation.append([data_type, result.k, dist_metric, cent_type, result.silhouette_coefficient, ch, sse_sum])
+        avg_wc_ss = sse_sum / len(data)
+        print('Average Within-Cluster Squared Sums = ' + str(avg_wc_ss))
+
+        avg_wc_ss_list.append(avg_wc_ss)
+        k_values.append(result.k)
+
+        evaluation.append([data_type, result.k, dist_metric, cent_type, result.silhouette_coefficient, ch, sse_sum,
+                           avg_wc_ss])
+
+    # Plot av_wc_ss for Elbow Method
+    fig = plt.figure()
+    plt.plot(k_values, avg_wc_ss_list)
+    plt.title('Elbow Method')
+    plt.xlabel('Number of Clusters')
+    plt.ylabel('Average within-cluster sum of squares')
+    fig.savefig('data/images/elbow_method/' + str(data_type) + '_' + str(dist_metric) + '_' + str(cent_type))
+    plt.close(fig)
 
     # Append to results file
     results_file = os.getcwd() + '/data/metrics_results.csv'
@@ -67,7 +91,7 @@ def evaluate_clusters(data, time_series, centroid_type):
         if open_type == 'w':
             # Write header
             writer.writerow(['Data Type', 'Number Clusters', 'Distance Metric', 'Centroid', 'Silhouette Coefficient',
-                   'Calinski-Herabaz', 'Sum of Squared Errors'])
+                   'Calinski-Herabaz', 'Sum of Squared Errors', 'Average Within-Cluster Sum Squares'])
         writer.writerows(evaluation)
 
 
@@ -206,16 +230,16 @@ def clustering_run(readings, data_transform):
     # TODO: Explain the idea/approach followed in the evaluation of the clusters!!!
 
     # DTW + Average
-    # centroid_type = clustering.k_means.CentroidType.AVERAGE
-    # evaluate_clusters(readings, True, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    evaluate_clusters(readings, True, centroid_type)
 
     # DTW + DBA
-    # centroid_type = clustering.k_means.CentroidType.DBA
-    # evaluate_clusters(readings, True, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.DBA
+    evaluate_clusters(readings, True, centroid_type)
 
     # DTW + Medoid
-    # centroid_type = clustering.k_means.CentroidType.MEDOID
-    # evaluate_clusters(readings, True, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.MEDOID
+    evaluate_clusters(readings, True, centroid_type)
 
     # PCA + Euclidean + Average
     centroid_type = clustering.k_means.CentroidType.AVERAGE

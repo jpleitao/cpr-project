@@ -25,25 +25,15 @@ __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
 
-# TODO: Implement evaluation metrics and add then to documentation
 
-
-def sse(assignments, readings, centroid_type, time_series=None, dba=None):
+def sse(assignments, readings, centroids, time_series=None):
     if not isinstance(assignments, dict):
         raise TypeError('Argument <assignments> must be of type <dict>!')
-
-    if not isinstance(centroid_type, clustering.k_means.CentroidType):
-        raise TypeError('Argument <centroid_type> must be of type <clustering.k_means.CentroidType>!')
 
     if time_series is None:
         time_series = True
     elif not isinstance(time_series, bool):
         raise TypeError('Argument <time_series> must be of type <bool>!')
-
-    # Compute centroids
-    distances, _ = clustering.utils.compute_distances(time_series, readings, None)
-    centroids = clustering.utils.compute_centroids(assignments=assignments, readings=readings, distances=distances,
-                                                   centroid_type=centroid_type, dba=dba)
 
     # For each reading get its cluster and sum its distance to the cluster centroid
     # We are going to kind of invert this and start by iterating over the centroids
