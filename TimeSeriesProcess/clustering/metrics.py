@@ -51,14 +51,9 @@ def sse(assignments, readings, centroids, time_series=None):
     return sse_sum
 
 
-def calinski_herabaz_index(assignments, readings, time_series=None):
+def calinski_herabaz_index(assignments, readings):
     if not isinstance(assignments, dict):
         raise TypeError('Argument <assignments> must be of type <dict>!')
-
-    if time_series is None:
-        time_series = True
-    elif not isinstance(time_series, bool):
-        raise TypeError('Argument <time_series> must be of type <bool>!')
 
     # Get labels for each sample
     reverse_assignments = clustering.utils.reverse_assignments(assignments)

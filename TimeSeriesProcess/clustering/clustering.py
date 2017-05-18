@@ -59,7 +59,7 @@ def evaluate_clusters(data, time_series, centroid_type):
 
         sse_sum = clustering.metrics.sse(result.assignments, data, centroids, time_series)
         print('Sum Squared Errors = ' + str(sse_sum))
-        ch = clustering.metrics.calinski_herabaz_index(result.assignments, data, time_series)
+        ch = clustering.metrics.calinski_herabaz_index(result.assignments, data)
         print('Calinski-Herabaz Index = ' + str(ch))
         avg_wc_ss = sse_sum / len(data)
         print('Average Within-Cluster Squared Sums = ' + str(avg_wc_ss))
@@ -91,7 +91,7 @@ def evaluate_clusters(data, time_series, centroid_type):
         if open_type == 'w':
             # Write header
             writer.writerow(['Data Type', 'Number Clusters', 'Distance Metric', 'Centroid', 'Silhouette Coefficient',
-                   'Calinski-Herabaz', 'Sum of Squared Errors', 'Average Within-Cluster Sum Squares'])
+                             'Calinski-Herabaz', 'Sum of Squared Errors', 'Average Within-Cluster Sum Squares'])
         writer.writerows(evaluation)
 
 
@@ -227,7 +227,28 @@ def clustering_run(readings, data_transform):
     """
 
     # ============================================= Evaluate clusters ==================================================
-    # TODO: Explain the idea/approach followed in the evaluation of the clusters!!!
+    # The evaluation of the computed clusters can be performed using internal indexes and/or external indexes. The main
+    # difference between the two is that external indexes are used to measure the similarity of formed clusters to
+    # externally supplied class labels or ground truth - therefore are supervised metrics - while internal indexes
+    # measure the goodness of the computed clusters without resorting to any external information - they are, therefore,
+    # unsupervised metrics. Since the current project is inserted in a completely unsupervised scenario, internal
+    # indexes must be adopted. Furthermore, the use of graphical inspection methods such as the Elbow method will not be
+    # the main focus of this evaluation task, as it enables more subjective interpretations of the results.
+    #
+    # In this sense, the approach followed with respect to the evaluation of the computed clusters comprises two main
+    # steps:
+    #   * Initially, a series of quantitative internal metrics were computed for the different clusters. These metrics
+    #     were then used to perform an initial comparison of the clusters, discarding solutions that revealed signs of
+    #     poor cluster structure.
+    #
+    #   * In a second iteration, the initially selected cluster solutions were studied more deeply, with metrics and
+    #     properties of interest to the field of application of this work being computed and investigated. They include:
+    #        -> Average water consumptions (or water profile) for each cluster
+    #        -> Number of individual days per cluster
+    #        -> Percentage of week days and weekend days per cluster
+    #        -> Season of the year more representative in each cluster
+    #        -> Etc
+    #
 
     # DTW + Average
     centroid_type = clustering.k_means.CentroidType.AVERAGE
@@ -244,5 +265,39 @@ def clustering_run(readings, data_transform):
     # PCA + Euclidean + Average
     centroid_type = clustering.k_means.CentroidType.AVERAGE
     evaluate_clusters(data_transform, False, centroid_type)
+    # With respect to the quantitative internal metrics applied in the first step, a list of implemented metrics in this
+    # project can be seen in the clustering.metrics module (which also contains implemented distance metrics). The
+    # metrics implemented at this stage are:
+    #        -> Silhouette Coefficient: Implementation from sklearn.metrics.silhouette_score with precomputed distances
+    #                                   (varying depending on the distance metric used to compute the clusters). The SC
+    #                                   can be computed as:
+    #
+    #                                        For each datum i, let the silhouette be:
+    #                                               s(i) = ( b(i) - a(i) ) / max(a(i), b(i))
+    #                                        where a(i) is the average dissimilarity of i with all other data within
+    #                                        the same cluster, and
+    #                                        b(i) is the lowest average dissimilarity of i to any other cluster.
+    #
+    #                                   The silhouette coefficient is, thus, the average of the silhouettes of all data,
+    #                                   and is defined in the range [-1; 1], where values closer to 1 suggest more dense
+    #                                   and well-separated clusters
+    #
+    #        -> Calinski-Herabaz Index: Implementation from sklean.metrics.calinski_harabaz_score.
+    #                                   According to sklearn's this score is defined as ratio between the within-cluster
+    #                                   dispersion and the between-cluster dispersion.
+    #                                   This metric is best suited for euclidean distances and its sklearn's
+    #                                   implementation explores this distance metric.
+    #
+    #        -> Sum of Squared Errors: In a time series unsupervised clustering scenario, an error is defined as the
+    #                                  distance from a datum to the nearest cluster. This is equivalent to say that
+    #                                  this metric is the sum of the squared distances between each datum and their
+    #                                  respective centroids. The SSE is often defined as a measure of coherence of the
+    #                                  computed clusters, where the smaller its value the "better" the computed clusters
+    #
+
+    # TODO: Insert here comments with respect to the first stage and the values of the metrics! Which clusters will be
+    # further evaluated?
 
     # ========================================= Further Cluster Evaluation =============================================
+
+    # TODO: Describe the approach to be followed in the second step and comment its results!
