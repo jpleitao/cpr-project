@@ -6,11 +6,75 @@ Contains utility functions used throughout the clustering package
 
 import numpy
 
+import clustering.dba
 import clustering.metrics
+import clustering.k_means
 
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
+
+
+def _compute_centroids_medoid(assignments, readings, distances, centroids=None):
+    if centroids is None:
+        centroids = dict()
+    for key in assignments:
+        min_index = None
+        min_avg = float('inf')
+        cur_elements = assignments[key]
+
+        for my_i in range(len(cur_elements)):
+            avg = 0
+            for my_j in range(len(cur_elements)):
+                if my_j != my_i:
+                    avg += distances[my_i][my_j]
+            avg = avg / (len(distances) - 1)
+
+            if avg < min_avg:
+                min_avg = avg
+                min_index = my_i
+
+        centroids[key] = readings[min_index]
+    return centroids
+
+
+def _compute_centroids_dba(assignments, readings, dba, centroids=None):
+    if centroids is None:
+        centroids = dict()
+    for key in assignments:
+        cluster_time_series_list = list()
+        for k in assignments[key]:
+            cluster_time_series_list.append(readings[k])
+        cluster_time_series_list = numpy.array(cluster_time_series_list)
+        len_series = len(cluster_time_series_list[0])
+
+        cluster_time_series_list = clustering.dba.ts_to_dba_list(cluster_time_series_list)
+        result = dba.compute_average(cluster_time_series_list, dba_length=len_series)
+
+        centroids[key] = result.reshape((1, len(result)))[0]
+    return centroids
+
+
+def _compute_centroids_average(assignments, readings, centroids=None):
+    if centroids is None:
+        centroids = dict()
+
+    # Compute centroid as average of all time series in the cluster
+    for key in assignments:
+        clust_sum = 0
+        for k in assignments[key]:
+            clust_sum = clust_sum + readings[k]
+        centroids[key] = [m / len(assignments[key]) for m in clust_sum]
+    return centroids
+
+
+def compute_centroids(assignments, readings, distances, centroid_type, centroids=None, dba=None):
+    if centroid_type == clustering.k_means.CentroidType.MEDOID:
+        return _compute_centroids_medoid(assignments, readings, distances, centroids)
+    elif centroid_type == clustering.k_means.CentroidType.AVERAGE:
+        return _compute_centroids_average(assignments, readings, centroids)
+
+    return _compute_centroids_dba(assignments, readings, dba, centroids)
 
 
 def compute_distances(time_series, readings, assignments):

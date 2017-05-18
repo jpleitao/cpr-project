@@ -14,6 +14,8 @@ __email__ = 'jocaleitao93@gmail.com'
 # TODO: Método que recebe os assignments dos dias a cada cluster e retorna um dicionario ou assim que diga quantos dias
 # de semana tem cada cluster, qual a percentagem de dias de cada mês, etc
 
+# FIXME: Mudar isto para o module utils???
+
 
 def is_weekday(day_date):
     """

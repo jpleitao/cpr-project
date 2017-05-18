@@ -119,50 +119,13 @@ def k_means(readings, num_clusters, time_series=None, compute_centroid=None):
         centroids_old = numpy.copy(centroids)
 
         # Recalculate centroids of clusters
-        if compute_centroid == CentroidType.DBA:
-            # Compute the centroid using the Dynamic Time Warping Barycenter Average (DBA) method
-            for key in assignments:
-                cluster_time_series_list = list()
-                for k in assignments[key]:
-                    cluster_time_series_list.append(readings[k])
-                cluster_time_series_list = numpy.array(cluster_time_series_list)
-                len_series = len(cluster_time_series_list[0])
-
-                cluster_time_series_list = clustering.dba.ts_to_dba_list(cluster_time_series_list)
-                result = dba.compute_average(cluster_time_series_list, dba_length=len_series)
-
-                centroids[key] = result.reshape((1, len(result)))[0]
-        elif compute_centroid == CentroidType.MEDOID:
+        if compute_centroid == CentroidType.MEDOID:
             # Compute the centroid using the Medoid method
-            # TODO: Test this!!!
             distances, _ = clustering.utils.compute_distances(time_series, readings, None)
-
-            for key in assignments:
-
-                min_index = None
-                min_avg = float('inf')
-                cur_elements = assignments[key]
-
-                for my_i in range(len(cur_elements)):
-                    avg = 0
-                    for my_j in range(len(cur_elements)):
-                        if my_j != my_i:
-                            avg += distances[my_i][my_j]
-                    avg = avg / (len(distances) - 1)
-
-                    if avg < min_avg:
-                        min_avg = avg
-                        min_index = my_i
-
-                centroids[key] = readings[min_index]
-
         else:
-            # Compute centroid as average of all time series in the cluster
-            for key in assignments:
-                clust_sum = 0
-                for k in assignments[key]:
-                    clust_sum = clust_sum + readings[k]
-                centroids[key] = [m / len(assignments[key]) for m in clust_sum]
+            distances = None
+        centroids = clustering.utils.compute_centroids(assignments, readings, distances, compute_centroid,
+                                                       centroids, dba)
 
         iteration += 1
 
@@ -217,6 +180,7 @@ def load_best_results(time_series=None, compute_centroid=None, file_path=None):
         else:
             file_path = os.getcwd() + '/data/best_results_euclidean.pkl'
     try:
+        print('Opening file ' + str(file_path))
         with open(file_path, 'rb') as f:
             best_results = pickle.load(f)
     except Exception:
@@ -260,9 +224,5 @@ def tune_kmeans(readings, k_values, number_runs, time_series=None, compute_centr
 
     # Save best results to pickle file
     save_best_results(best_results, time_series=time_series, compute_centroid=compute_centroid)
-
-    # FIXME: Just some debug print
-    for current_result in best_results:
-        print('K= ' + str(current_result.k) + ' and SC = ' + str(current_result.silhouette_coefficient))
 
     return best_results

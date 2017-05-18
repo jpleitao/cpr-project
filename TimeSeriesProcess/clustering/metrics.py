@@ -8,7 +8,9 @@ Stores distance and evaluation metrics used in this work:
         -> LB_Keough distance (which is used to compute a lower bound on DTW)
     
     * Regarding Cluster evaluation metrics, implementations of the following can be found:
-        -> Silhouette Coefficient        
+        -> Silhouette Coefficient
+        -> Calinski-Herabaz Index
+        -> Sum of Squared Errors
 """
 
 import numpy
@@ -17,12 +19,65 @@ from numba import jit
 import sklearn.metrics
 
 import clustering.utils
+import clustering.k_means
 
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
 
 # TODO: Implement evaluation metrics and add then to documentation
+
+
+def sse(assignments, readings, centroid_type, time_series=None, dba=None):
+    if not isinstance(assignments, dict):
+        raise TypeError('Argument <assignments> must be of type <dict>!')
+
+    if not isinstance(centroid_type, clustering.k_means.CentroidType):
+        raise TypeError('Argument <centroid_type> must be of type <clustering.k_means.CentroidType>!')
+
+    if time_series is None:
+        time_series = True
+    elif not isinstance(time_series, bool):
+        raise TypeError('Argument <time_series> must be of type <bool>!')
+
+    # Compute centroids
+    distances, _ = clustering.utils.compute_distances(time_series, readings, None)
+    centroids = clustering.utils.compute_centroids(assignments=assignments, readings=readings, distances=distances,
+                                                   centroid_type=centroid_type, dba=dba)
+
+    # For each reading get its cluster and sum its distance to the cluster centroid
+    # We are going to kind of invert this and start by iterating over the centroids
+    sse_sum = 0
+    for k in assignments:
+        readings_indexes = assignments[k]
+        current_centroid = centroids[k]
+        for index in readings_indexes:
+            # Compute minimum distance to a cluster - That is, compute distance to its centroid
+            if time_series:
+                dist = dtw(current_centroid, readings[index])
+            else:
+                dist = euclidean(current_centroid, readings[index])
+            sse_sum += (dist**2)
+    return sse_sum
+
+
+def calinski_herabaz_index(assignments, readings, time_series=None):
+    if not isinstance(assignments, dict):
+        raise TypeError('Argument <assignments> must be of type <dict>!')
+
+    if time_series is None:
+        time_series = True
+    elif not isinstance(time_series, bool):
+        raise TypeError('Argument <time_series> must be of type <bool>!')
+
+    # Get labels for each sample
+    reverse_assignments = clustering.utils.reverse_assignments(assignments)
+    labels = list()
+
+    for i in range(len(readings)):
+        labels.append(reverse_assignments[i])
+
+    return sklearn.metrics.calinski_harabaz_score(readings, labels)
 
 
 def silhouette_coefficient(assignments, readings, time_series=None):
@@ -33,13 +88,13 @@ def silhouette_coefficient(assignments, readings, time_series=None):
     :param time_series: A boolean value, signalling whether or not the readings are z-normalised or reduced
     :return: The silhouette coefficient for the assigned clusters. Implementation from sklearn.metrics.silhouette_score
     """
+    if not isinstance(assignments, dict):
+        raise TypeError('Argument <assignments> must be of type <dict>!')
+
     if time_series is None:
         time_series = True
     elif not isinstance(time_series, bool):
         raise TypeError('Argument <time_series> must be of type <bool>!')
-
-    if not isinstance(assignments, dict):
-        raise TypeError('Argument <assignments> must be of type <dict>!')
 
     distances, labels = clustering.utils.compute_distances(time_series, readings, assignments)
     return sklearn.metrics.silhouette_score(distances, labels, metric='precomputed')

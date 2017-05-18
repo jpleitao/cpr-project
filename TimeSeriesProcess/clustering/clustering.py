@@ -1,14 +1,74 @@
 # coding: utf-8
 
+import os
+import csv
 import matplotlib.pyplot as plt
 
+import clustering.dba
 import clustering.metrics
 import clustering.hierarchical
 import clustering.k_means
+import clustering.utils
 
 __author__ = 'Joaquim Leitão'
 __copyright__ = 'Copyright (c) 2017 Joaquim Leitão'
 __email__ = 'jocaleitao93@gmail.com'
+
+
+def evaluate_clusters(data, time_series, centroid_type):
+    if time_series is None:
+        time_series = True
+    elif not isinstance(time_series, bool):
+        raise TypeError('Argument <time_series> must be of type <bool>!')
+
+    if not isinstance(centroid_type, clustering.k_means.CentroidType):
+        raise TypeError('Argument <centroid_type> must be of type <clustering.k_means.CentroidType>!')
+
+    # Get data type and distance metric
+    if time_series:
+        data_type = 'raw'
+        dist_metric = 'dtw'
+    else:
+        data_type = 'reduced'
+        dist_metric = 'euclidean'
+
+    # Get centroid type
+    if centroid_type == clustering.k_means.CentroidType.AVERAGE:
+        cent_type = 'Average'
+        dba = None
+    elif centroid_type == clustering.k_means.CentroidType.DBA:
+        cent_type = 'DBA'
+        dba = clustering.dba.DBA(max_iter=30)
+    else:
+        cent_type = 'Medoid'
+        dba = None
+
+    best_results = clustering.k_means.load_best_results(time_series, centroid_type)
+    evaluation = []
+
+    for result in best_results:
+        print('============ Starting Evaluation for K = ' + str(result.k) + ' ============================')
+        print('Silhouette Coefficient = ' + str(result.silhouette_coefficient))
+        sse_sum = clustering.metrics.sse(result.assignments, data, centroid_type, time_series, dba)
+        print('Sum Squared Errors = ' + str(sse_sum))
+        ch = clustering.metrics.calinski_herabaz_index(result.assignments, data, time_series)
+        print('Calinski-Herabaz Index = ' + str(ch))
+        evaluation.append([data_type, result.k, dist_metric, cent_type, result.silhouette_coefficient, ch, sse_sum])
+
+    # Append to results file
+    results_file = os.getcwd() + '/data/metrics_results.csv'
+    if os.path.exists(results_file):
+        open_type = 'a'
+    else:
+        open_type = 'w'
+
+    with open(results_file, open_type) as f:
+        writer = csv.writer(f, delimiter=';', quotechar='', quoting=csv.QUOTE_NONE)
+        if open_type == 'w':
+            # Write header
+            writer.writerow(['Data Type', 'Number Clusters', 'Distance Metric', 'Centroid', 'Silhouette Coefficient',
+                   'Calinski-Herabaz', 'Sum of Squared Errors'])
+        writer.writerows(evaluation)
 
 
 def clustering_run(readings, data_transform):
@@ -29,10 +89,10 @@ def clustering_run(readings, data_transform):
     #
     # We then move on to performing the same task on the transformed data (reduced dimensionality)
 
-    # FIXME: Uncomment this in the final version of the code!!!
-    # clustering.hierarchical.hierarchical_clustering(readings)
-    # clustering.hierarchical.hierarchical_clustering(data_transform, False)
-    # plt.show()
+    """
+    clustering.hierarchical.hierarchical_clustering(readings)
+    clustering.hierarchical.hierarchical_clustering(data_transform, False)
+    plt.show()
 
     # We will start the analysis of the results with the Hierarchical Clustering on the transformed data.
     # In this task time series data was transformed with PCA in order to reduce its dimensionality. A transformation
@@ -117,7 +177,6 @@ def clustering_run(readings, data_transform):
     number_runs = 10
 
     # **************************** DTW + Average ****************************
-    # DONE
     # The main problem of this approach: DTW + Average prototype is that it has been claimed to be a bad combination;
     # average prototype is typically applied to non-elastic distance measures such as the Euclidean. When using DTW
     # local search prototype is common, as well as medoid centroid...
@@ -129,12 +188,10 @@ def clustering_run(readings, data_transform):
     # best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # **************************** PCA, Euclidean + AVERAGE ****************************
-    # DONE
     # centroid_type = clustering.k_means.CentroidType.AVERAGE
     # best_results_euclid = clustering.k_means.tune_kmeans(data_transform, k_values, number_runs, False, centroid_type)
 
     # **************************** DTW + Medoid ****************************
-    # TODO: TEST AND RUN THIS!!!
     # According to "Time Series Clustering: A decade overview" is very common in time series clustering
     centroid_type = clustering.k_means.CentroidType.MEDOID
     best_results_medoid = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
@@ -142,16 +199,26 @@ def clustering_run(readings, data_transform):
     # I've read some papers ("Time Series Clustering: A decade overview") that claim the application of partitioning
     # methods to time series clustering is a challenging and non-trivial issue. Hierarchical clustering appears as a
     # popular alternative
-
-    # TODO: Implement Medoid as centroid
-
+    
     """
-    for _ in range(10):
-        centroids, assignments = k_means(readings, 4)
 
-        plt.figure()
-        for temp in centroids:
-            plt.plot(temp)
+    # ============================================= Evaluate clusters ==================================================
+    # TODO: Explain the idea/approach followed in the evaluation of the clusters!!!
 
-    plt.show()
-    """
+    # DTW + Average
+    # centroid_type = clustering.k_means.CentroidType.AVERAGE
+    # evaluate_clusters(readings, True, centroid_type)
+
+    # DTW + DBA
+    # centroid_type = clustering.k_means.CentroidType.DBA
+    # evaluate_clusters(readings, True, centroid_type)
+
+    # DTW + Medoid
+    # centroid_type = clustering.k_means.CentroidType.MEDOID
+    # evaluate_clusters(readings, True, centroid_type)
+
+    # PCA + Euclidean + Average
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    evaluate_clusters(data_transform, False, centroid_type)
+
+    # ========================================= Further Cluster Evaluation =============================================
