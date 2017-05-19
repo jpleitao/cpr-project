@@ -1,10 +1,8 @@
 # coding: utf-8
 
 import os
-
 import csv
 from datetime import datetime
-
 import numpy
 import matplotlib.pyplot as plt
 

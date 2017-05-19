@@ -249,22 +249,6 @@ def clustering_run(readings, data_transform):
     #        -> Season of the year more representative in each cluster
     #        -> Etc
     #
-
-    # DTW + Average
-    centroid_type = clustering.k_means.CentroidType.AVERAGE
-    evaluate_clusters(readings, True, centroid_type)
-
-    # DTW + DBA
-    centroid_type = clustering.k_means.CentroidType.DBA
-    evaluate_clusters(readings, True, centroid_type)
-
-    # DTW + Medoid
-    centroid_type = clustering.k_means.CentroidType.MEDOID
-    evaluate_clusters(readings, True, centroid_type)
-
-    # PCA + Euclidean + Average
-    centroid_type = clustering.k_means.CentroidType.AVERAGE
-    evaluate_clusters(data_transform, False, centroid_type)
     # With respect to the quantitative internal metrics applied in the first step, a list of implemented metrics in this
     # project can be seen in the clustering.metrics module (which also contains implemented distance metrics). The
     # metrics implemented at this stage are:
@@ -294,6 +278,22 @@ def clustering_run(readings, data_transform):
     #                                  respective centroids. The SSE is often defined as a measure of coherence of the
     #                                  computed clusters, where the smaller its value the "better" the computed clusters
     #
+
+    # DTW + Average
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    evaluate_clusters(readings, True, centroid_type)
+
+    # DTW + DBA
+    centroid_type = clustering.k_means.CentroidType.DBA
+    evaluate_clusters(readings, True, centroid_type)
+
+    # DTW + Medoid
+    centroid_type = clustering.k_means.CentroidType.MEDOID
+    evaluate_clusters(readings, True, centroid_type)
+
+    # PCA + Euclidean + Average
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    evaluate_clusters(data_transform, False, centroid_type)
 
     # TODO: Insert here comments with respect to the first stage and the values of the metrics! Which clusters will be
     # further evaluated?

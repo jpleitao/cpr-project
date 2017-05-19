@@ -15,7 +15,6 @@ Stores distance and evaluation metrics used in this work:
 
 import numpy
 from numba import jit
-
 import sklearn.metrics
 
 import clustering.utils
