@@ -295,8 +295,65 @@ def clustering_run(readings, data_transform):
     centroid_type = clustering.k_means.CentroidType.AVERAGE
     evaluate_clusters(data_transform, False, centroid_type)
 
-    # TODO: Insert here comments with respect to the first stage and the values of the metrics! Which clusters will be
-    # further evaluated?
+    # Starting with the use of DTW for the distance metric and the average method for the centroid computation, the
+    # obtained results are not very optimistic: As expected, a large Silhouette Coefficient value is obtained when only
+    # two clusters are being considered; however, the value of this metric drops seriously as further clusters are
+    # considered: Silhouette Coefficient values are under 0.5 are obtained, suggesting a weak structure of the data
+    # clusters. Indeed, as stated in "Time Series Clustering: A Decade Review", computing the average of a collection
+    # of time series is not a trivial task, and in cases that Dynamic Time Warping is used as distance metric,
+    # averaging prototype is avoided.
+    #
+    # The Bary Center Averaging (DBA) method was probably the centroid computation method that produced the most
+    # promising results, in terms of the Silhouette Coefficient, when using the DTW as the distance metric. When 4
+    # clusters were considered, significantly high values of the mentioned metric were obtained: approximately 0.78.
+    # Further increasing the number of clusters (to k=5, 6...) produced very low Silhouette coefficient values,
+    # suggesting a weak cluster structure. It is also worth pointing out that the values of the silhouette coefficient
+    # for k=4 and k=3 are very close (0.78 and 0.79, respectively). When analysing the variation of the average
+    # within-cluster sum of squares for the different values of k (that is, by inspecting the plot of the elbow method)
+    # it can be seen that a drop in the within-cluster sum of squares occurs for k=3, only to be recovered for k=4.
+    # A more careful analysis of the cluster structure for these two limits is alo in demand.
+    #
+    # When the medoid method was instead used to compute the centroids (keeping DTW as the distance metric) the obtained
+    # results suggest a weak cluster structure in the data. In other words, the computed clusters do not appear to have
+    # adequate cluster properties: Dense and well-separated.
+    # TODO: Ver distribuição de dias para cada cluster para os diferentes valores de K neste caso - Pode ser interessante adicionar aqui mais qualquer coisa??
+    #
+    # When dimensionality reduction techniques are applied (as in the case of the work of Joana Abreu - Citation!)
+    # obtained values for the silhouette coefficient remain quite constant as the number of clusters is increased
+    # (ranging between about 0.54 and 0.62), which is a behaviour different from the remainder of the situations.
+    # Nevertheless, the mentioned silhouette coefficient values are not very high, suggesting only a reasonable cluster
+    # structure. By plotting the variation of the average within-cluster sum of squares for the different values of k
+    # (that is, by inspecting the plot of the elbow method), a graphical inspection suggests that for k=5 the decrease
+    # in the average within-cluster sum of squares is less steep, meaning that k=5 could be a good target number of
+    # clusters with this approach. Furthermore, analysing the values for the Sum of Squared Errors, oscillating values
+    # for this metric can be identified: initially it drops as the number of clusters increases from 2 to 3. For k=4
+    # this metric registers it highest value, only to decrease as k grows.
+    #
+    # Generally, a decrease in the value of the silhouette coefficient metric was verified as the value of k increased,
+    # which is an expected result. Indeed, for k=2 the values of this metric tend to be high across all experiments
+    # except when the medoid was used to compute the centroids, which produced very bad results for all k.
+    # Performing a deeper and comparative analysis of the remainder metrics is not an easy task; as these are not
+    # limited metrics, its values can considerably change with different distance metrics and cluster centroid
+    # computation methods being adopted. Within the same combination of methods a comparison of the values of these
+    # metrics can be performed:
+    # Regarding the Sum of Squared Errors, its value was expected to decrease as the number
+    # of clusters increased. This was only verified for two combinations of methods: DTW + Average centroid and
+    # DTW + DBA centroid.
+    # With respect to the Calinski-Herabaz coefficient, even though higher values suggest more dense and well-separated
+    # clusters, the increase in this metric was not always supported by an increase in the silhouette coefficient (for
+    # example when clustering time series pre-processed with dimensionality reduction techniques: Reduced + Euclidean +
+    # Average; Or when using the medoid to compute the centroids, along with the dtw metric: DTW + medoid)
+
+    # Based on these results, k=2 could be seen as good number of clusters in the sense that it produces well-separated
+    # and dense clusters; however two important aspects must be taken into account at this point: First of all, as
+    # expected, when only two clusters are considered the errors (distance of each sample to its cluster centroid) as
+    # higher. Secondly, in the context of the problem being tackled, empiric knowledge suggests that more than 2 groups
+    # of similar consumption profiles can exist. Obviously, this intuition is based on human experience and may be
+    # influenced by consumptions of other regions in the city. In this sense (and specially supported by the high sum of
+    # squared errors for k=2) a further results analysis will be performed on the following cases:
+    #        -> DTW + DBA for k=3 and k=4
+    #        -> FIXME: Algum reduced?
+    #
 
     # ========================================= Further Cluster Evaluation =============================================
 
