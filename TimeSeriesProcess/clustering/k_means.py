@@ -25,9 +25,10 @@ class _KMeansResults(object):
     (A list of instances of this class is intended to be saved)
     """
 
-    def __init__(self, k, assigments, silhouette_coefficient):
+    def __init__(self, k, assigments, centroids, silhouette_coefficient):
         self._k = k
         self._assignments = assigments
+        self._centroids = centroids
         self._sc = silhouette_coefficient
 
     @property
@@ -37,6 +38,10 @@ class _KMeansResults(object):
     @property
     def assignments(self):
         return self._assignments
+
+    @property
+    def centroids(self):
+        return self._centroids
 
     @property
     def silhouette_coefficient(self):
@@ -205,6 +210,7 @@ def tune_kmeans(readings, k_values, number_runs, time_series=None, compute_centr
     for k in k_values:
         best_sc = -1
         best_assignments = None
+        best_centroids = None
 
         print('Running for k=' + str(k))
 
@@ -218,9 +224,23 @@ def tune_kmeans(readings, k_values, number_runs, time_series=None, compute_centr
             if silhouette_coef > best_sc:
                 best_sc = silhouette_coef
                 best_assignments = assignments
+                best_centroids = centroids
             print('Run ' + str(run) + ' SC = ' + str(silhouette_coef) + ' ; Best_SC = ' + str(best_sc))
 
-        best_results.append(_KMeansResults(k, best_assignments, best_sc))
+        # FIXME: Temporary
+        index = None
+        for i in range(len(best_results)):
+            if best_results[i].k == k:
+                if best_sc > best_results[i].silhouette_coefficient:
+                    best_results.remove(best_results[i])
+                    index = i
+                else:
+                    index = -1
+
+        if index is None:
+            best_results.append(_KMeansResults(k, best_assignments, best_centroids, best_sc))
+        elif index != -1:
+            best_results.insert(index, _KMeansResults(k, best_assignments, best_centroids, best_sc))
 
     # Save best results to pickle file
     save_best_results(best_results, time_series=time_series, compute_centroid=compute_centroid)

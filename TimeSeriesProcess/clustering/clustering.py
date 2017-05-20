@@ -35,13 +35,10 @@ def evaluate_clusters(data, time_series, centroid_type):
     # Get centroid type
     if centroid_type == clustering.k_means.CentroidType.AVERAGE:
         cent_type = 'Average'
-        dba = None
     elif centroid_type == clustering.k_means.CentroidType.DBA:
         cent_type = 'DBA'
-        dba = clustering.dba.DBA(max_iter=30)
     else:
         cent_type = 'Medoid'
-        dba = None
 
     best_results = clustering.k_means.load_best_results(time_series, centroid_type)
     evaluation = list()
@@ -52,15 +49,11 @@ def evaluate_clusters(data, time_series, centroid_type):
         print('============ Starting Evaluation for K = ' + str(result.k) + ' ============================')
         print('Silhouette Coefficient = ' + str(result.silhouette_coefficient))
 
-        # Compute centroids
-        distances, _ = clustering.utils.compute_distances(time_series, data, None)
-        centroids = clustering.utils.compute_centroids(assignments=result.assignments, readings=data,
-                                                       distances=distances, centroid_type=centroid_type, dba=dba)
-
-        sse_sum = clustering.metrics.sse(result.assignments, data, centroids, time_series)
-        print('Sum Squared Errors = ' + str(sse_sum))
         ch = clustering.metrics.calinski_herabaz_index(result.assignments, data)
         print('Calinski-Herabaz Index = ' + str(ch))
+
+        sse_sum = clustering.metrics.sse(result.assignments, data, result.centroids, time_series)
+        print('Sum Squared Errors = ' + str(sse_sum))
         avg_wc_ss = sse_sum / len(data)
         print('Average Within-Cluster Squared Sums = ' + str(avg_wc_ss))
 
@@ -113,10 +106,9 @@ def clustering_run(readings, data_transform):
     #
     # We then move on to performing the same task on the transformed data (reduced dimensionality)
 
-    """
-    clustering.hierarchical.hierarchical_clustering(readings)
-    clustering.hierarchical.hierarchical_clustering(data_transform, False)
-    plt.show()
+    # clustering.hierarchical.hierarchical_clustering(readings)
+    # clustering.hierarchical.hierarchical_clustering(data_transform, False)
+    # plt.show()
 
     # We will start the analysis of the results with the Hierarchical Clustering on the transformed data.
     # In this task time series data was transformed with PCA in order to reduce its dimensionality. A transformation
@@ -169,13 +161,10 @@ def clustering_run(readings, data_transform):
     # Jain, A.K. Data clustering: 50 years beyond K-means. Pattern Recognition Lett. (2009),
     # doi: 10.1016/j.patrec.2009.09.011
     #
-    # Such a suggestion is only admissible in a supervised clustering scenario, where the sum squared error can be
-    # computed for the obtained clusters. In an unsupervised scenario, where the correct grouping of the samples is
-    # unknown, such metric cannot be computed; however, Jain's proposal can be adapted and another important cluster
-    # evaluation metric can be adopted instead of the squared errors. For instance, it is admissible that clusters
-    # are sought so that their within-cluster distances are minimised and between-cluster distances maximised. In this
-    # sense, a metric that explores exactly these two properties can be applied. That is the case of the silhouette
-    # coefficient (In addition K-Means tries to optimise exactly the parameters evaluated in the silhouette coefficient)
+    # Given that K-Means tries to optimise exactly the parameters evaluated in the silhouette coefficient (K-Means
+    # searches for clusters whose within-cluster distances is minimised and between-cluster distances maximised), Jain's
+    # suggestion was slightly adjusted, to keep the partition with the higher silhouette coefficient value, instead
+    # of the lowest squared error.
 
     # As a result, the following approach will be followed in the application of the K-Means Clustering algorithm, for
     # both the raw and reduced time series data:
@@ -198,6 +187,7 @@ def clustering_run(readings, data_transform):
     # < 0.25     -> No substantial structure has been found
 
     k_values = [2, 3, 4, 5, 6, 7, 8]
+    k_values = [4]
     number_runs = 10
 
     # **************************** DTW + Average ****************************
@@ -208,23 +198,24 @@ def clustering_run(readings, data_transform):
     # best_results_dtw = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # **************************** DTW + DBA ****************************
-    # centroid_type = clustering.k_means.CentroidType.DBA
-    # best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
-
-    # **************************** PCA, Euclidean + AVERAGE ****************************
-    # centroid_type = clustering.k_means.CentroidType.AVERAGE
-    # best_results_euclid = clustering.k_means.tune_kmeans(data_transform, k_values, number_runs, False, centroid_type)
+    # TODO
+    centroid_type = clustering.k_means.CentroidType.DBA
+    best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # **************************** DTW + Medoid ****************************
     # According to "Time Series Clustering: A decade overview" is very common in time series clustering
-    centroid_type = clustering.k_means.CentroidType.MEDOID
-    best_results_medoid = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
+    # TODO
+    # centroid_type = clustering.k_means.CentroidType.MEDOID
+    # best_results_medoid = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
+
+    # **************************** PCA, Euclidean + AVERAGE ****************************
+    # TODO
+    # centroid_type = clustering.k_means.CentroidType.AVERAGE
+    # best_results_euclid = clustering.k_means.tune_kmeans(data_transform, k_values, number_runs, False, centroid_type)
 
     # I've read some papers ("Time Series Clustering: A decade overview") that claim the application of partitioning
     # methods to time series clustering is a challenging and non-trivial issue. Hierarchical clustering appears as a
     # popular alternative
-    
-    """
 
     # ============================================= Evaluate clusters ==================================================
     # The evaluation of the computed clusters can be performed using internal indexes and/or external indexes. The main
@@ -280,20 +271,26 @@ def clustering_run(readings, data_transform):
     #
 
     # DTW + Average
-    centroid_type = clustering.k_means.CentroidType.AVERAGE
-    evaluate_clusters(readings, True, centroid_type)
+    # TODO
+    # centroid_type = clustering.k_means.CentroidType.AVERAGE
+    # evaluate_clusters(readings, True, centroid_type)
 
     # DTW + DBA
-    centroid_type = clustering.k_means.CentroidType.DBA
-    evaluate_clusters(readings, True, centroid_type)
+    # TODO
+    # centroid_type = clustering.k_means.CentroidType.DBA
+    # evaluate_clusters(readings, True, centroid_type)
 
     # DTW + Medoid
-    centroid_type = clustering.k_means.CentroidType.MEDOID
-    evaluate_clusters(readings, True, centroid_type)
+    # TODO
+    # centroid_type = clustering.k_means.CentroidType.MEDOID
+    # evaluate_clusters(readings, True, centroid_type)
 
     # PCA + Euclidean + Average
-    centroid_type = clustering.k_means.CentroidType.AVERAGE
-    evaluate_clusters(data_transform, False, centroid_type)
+    # TODO
+    # centroid_type = clustering.k_means.CentroidType.AVERAGE
+    # evaluate_clusters(data_transform, False, centroid_type)
+
+    # TODO: REVER ISTO
 
     # Starting with the use of DTW for the distance metric and the average method for the centroid computation, the
     # obtained results are not very optimistic: As expected, a large Silhouette Coefficient value is obtained when only
