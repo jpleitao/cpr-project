@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{aghabozorgi2015time}
 S.~Aghabozorgi, A.~S. Shirkhorshidi, and T.~Y. Wah, ``Time-series clustering--a
@@ -30,6 +30,36 @@ X.~Wang, A.~Mueen, H.~Ding, G.~Trajcevski, P.~Scheuermann, and E.~Keogh,
 J.~M. Abreu, F.~C. Pereira, and P.~Ferr{\~a}o, ``Using pattern recognition to
   identify habitual behavior in residential electricity consumption,'' {\em
   Energy and buildings}, vol.~49, pp.~479--487, 2012.
+
+\bibitem{calabrese2010eigenplaces}
+F.~Calabrese, J.~Reades, and C.~Ratti, ``Eigenplaces: segmenting space through
+  digital signatures,'' {\em IEEE Pervasive Computing}, vol.~9, no.~1,
+  pp.~78--84, 2010.
+
+\bibitem{moritz2015comparison}
+S.~Moritz, A.~Sard{\'a}, T.~Bartz-Beielstein, M.~Zaefferer, and J.~Stork,
+  ``Comparison of different methods for univariate time series imputation in
+  r,'' {\em arXiv preprint arXiv:1510.03924}, 2015.
+
+\bibitem{troyanskaya2001missing}
+O.~Troyanskaya, M.~Cantor, G.~Sherlock, P.~Brown, T.~Hastie, R.~Tibshirani,
+  D.~Botstein, and R.~B. Altman, ``Missing value estimation methods for dna
+  microarrays,'' {\em Bioinformatics}, vol.~17, no.~6, pp.~520--525, 2001.
+
+\bibitem{yu2014short}
+F.~Yu and X.~Xu, ``A short-term load forecasting model of natural gas based on
+  optimized genetic algorithm and improved bp neural network,'' {\em Applied
+  Energy}, vol.~134, pp.~102--113, 2014.
+
+\bibitem{liao2005clustering}
+T.~W. Liao, ``Clustering of time series data—a survey,'' {\em Pattern
+  recognition}, vol.~38, no.~11, pp.~1857--1874, 2005.
+
+\bibitem{mueen2016extracting}
+A.~Mueen and E.~Keogh, ``Extracting optimal performance from dynamic time
+  warping,'' in {\em Proceedings of the 22nd ACM SIGKDD International
+  Conference on Knowledge Discovery and Data Mining}, pp.~2129--2130, ACM,
+  2016.
 
 \bibitem{jain2009data}
 A.~K. Jain, ``Data clustering: 50 years beyond k-means,'' {\em Pattern

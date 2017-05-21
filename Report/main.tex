@@ -120,17 +120,84 @@ Clustering Algorithm: \textbf{FIXME: Para já estou apenas a considerar HC + K-M
 
 \textbf{FIXME: Adicionar uma tabela com os grupos de testes que fizémos}
 
+\textbf{FIXME: Acho que é melhor colocar esta tabela na sua propria secção depois da secção de clustering! Alterar referências a esta tabela! Dizer também que apenas fizémos um conjunto de testes para reduced dimensionality por questões de tempo, mas que seria interessante aplicar outras métricas no calculo dos centroides, nomeadamente aplicar o medoid!}
 
 \section{Time Series Pre-Processing}
+\label{pre_processing}
 
-Unit of analysis and missing data imputation
+As stated in section \ref{methodology}, time series pre-processing comprises two main iterations: computing the unit of analysis of the time series and imputing missing values in time series' readings. These steps will be covered in more detail in their own subsections.
+
+\subsection{Unit of Analysis}
+
+When identifying patterns of recurrent behaviour in time series data it is important to determine the periods of time with the higher contributions to the overall signal. In other words, the most intense and important periods of time are sought.
+
+Similarly to the works of Abreu \emph{et al.}\cite{abreu2012using} and Calabrese \emph{et al.}\cite{calabrese2010eigenplaces}, a \emph{Fourier} analysis can be conducted on the collected time series data to determine the frequencies with higher contribution. In this sense, a \emph{Fast Fourier  Transform} (FFT) was performed on the time series data. 
+
+Analysing the results of such transformation, it was determined that the frequency with the largest contribution to the resulting signal was the frequency 0 $Hz$. Even though this may seem an unexpected result, a valid explanation can be found: by performing the FFT of a given signal, the frequency with higher contribution is usually an approximation of the fundamental frequency. As the signal being analysed (the time series data) is not periodic, its fundamental period is infinite, rendering its fundamental frequency to be 0 $Hz$. In such scenarios, the second frequency with higher contribution is usually considered as the unit of analysis. In this case such a frequency was around $24h$, suggesting this to be the unit of analysis.
+
+With this finding, an aggregation of the time series values was conducted: the values of the original time series were recorded with a one-minute interval; since the unit of analysis is $24h$, each sample to be clustered contains readings of one day, with an interval of $1h$\footnote{Therefore, each sample consists in a list of 24 values, one per hour. These individual hourly consumptions were obtained simply by adding all partial consumptions in the same hour.}.
+
+\subsection{Missing Data Imputation}
+
+In almost all real-life applications, errors in the data collection procedures are prompted to occur, forcing data analysis and processing methods to properly deal with missing and invalid values. Substantial research has been performed on the topic of missing data imputation, resulting in different methods and techniques being proposed and tested in a variety of problems.
+
+Nevertheless, choosing a valid missing data imputation technique to be applied in a given problem is far from being an easy task. The same method can have completely distinct performances when applied to different data, of diverse natures and/or collected in different ways. In the particular case of this work, no previous studies of the performance of missing data imputation methods had been conducted on the collected data. As a result, a choice was made to browse the literature on this topic and test the application of the most cited and used ones in the collected data.
+
+Steffen \emph{et al.}\cite{moritz2015comparison} studied the application of different missing data imputation methods on univariate time series. In their work, the authors obtained interesting results for approaches exploring linear interpolation, ARIMA and SARIMA models and Kalman Filters. 
+
+Alternative methods can also be considered. Usually more active in time series prediction and classification, techniques featuring artificial neural networks, decision tress or k-nearest neighbours\cite{troyanskaya2001missing, yu2014short} can also be applied to compute estimations for missing values. In addition, traditional time series analysis methods such as autocorrelation and trend analysis have also been applied\cite{abreu2012using}, as well as expectation-maximization and multivariate algorithms on lagged data\cite{moritz2015comparison}.
+
+Inspired by the results reported on the literature, and after an initial study of the different methods, a choice was made to select the following three missing data imputation methods for further analysis: (i) linear interpolation; (ii) ARIMA; (iii) Kalman Filter.
+
+At this point, the goal of this analysis was to studying the performance of these methods when applied to the collected data. This study was conducted as follows: Initially individual samples were divided into samples that contained missing values and samples without missing value\footnote{The reader must keep in mind that individual samples consist in a list with water consumptions for a given day, featuring hourly values.}. For each complete sample missing values were artificially introduced. Each method was then applied to the individual samples and the correctness of their imputations was assessed using the \emph{root mean squared error} (rmse) metric.
+
+Overall the Kalman Filter produced better estimates than the competing alternatives: An average rmse of about $263.83$ was registered (against a rmse of about $571.37$ for the ARIMA model and $12403.17$ for the linear interpolation), and the Kalman filter produced better daily estimates (smaller rmse on individual samples) in 189 days (against 72 for the ARIMA model and only 4 for the linear interpolation).
+
+Based on such results the Kalman Filter was chosen as the imputation approach for our data. Therefore, for each day where missing data were registered, a Kalman Filter model was computed and estimations for the missing data in that day were obtained.
 
 \section{Time Series Representation}
+\label{time_series_representation}
 
-Começar a falar de raw time series data, dizer que é apenas o resultado de agrupar os dados originais na unidade de análise anteriormente calculada, aplicar método de missing values imputation e pronto.
+When working with high dimensional data, computational requirements grow both in terms of memory and execution time: if each time series contains more values then it will require more space in memory and, therefore, if a larger number of time series is intended to be clustered or processed in some way substantially more memory may be required to load all the time series data. In addition, specially in the case of clustering, distance computation between data samples is often performed; if a larger number of samples is considered, each comprising several dimensions, distance computation between pairs of samples will take longer to compute, as will the overall process.
 
-Falar de PCA e Stack Autoencoders - Comparar performances, dizer que SAEs nao conseguiram aprender --> e deixar já nota para future work?
+Another motivation for seeking alternative time series representations, as pointed out by Aghabozorgi \emph{et al.}\cite{aghabozorgi2015time}, has to do with the fact that when measuring the distance between raw time series samples highly unintuitive results may be gathered resulting in the clustering of series similar in noise, instead of shape. It must be noticed that the adopted distance metric highly influences the clustering results.
 
+In this sense, several time series representation methods have been proposed in the literature. Aghabozorgi \emph{et al.} presents a taxonomy comprising four main categories: i) Data adaptive; (ii) Non-data adaptive; (iii) Model-based; and (iv) Data dictated. The choice of time series representation has a big impact in the outcome of the clustering exercise, in both quality and execution time. Furthermore, time series representation also affects the choice of distance metric (also called dissimilarity function).
+
+In the specific clustering problem being tackled in this work, where time series containing similar behaviours are intended to be grouped together, one of the major challenges to be face has to due with the dissimilarity function (that is, how to determine that two time series are close together). Even though it is computationally expensive, the \emph{Dynamic Time Warping} (DTW) distance metric is quite popular\cite{liao2005clustering, aghabozorgi2015time}.
+
+As the DTW targets time sequences, it can be concluded that a substantial number of approaches adopt a raw time series representation. Dimensionality Reduction (DR) techniques such as \emph{Principal Components Analysis} (PCA) have also been explored \cite{abreu2012using} in an attempt to represent time series samples in fewer dimensions, thus reducing the computational burden of distance computation. As the application of DR techniques loses the temporal sequence of the data, alternative distance metrics need to be considered.
+
+In light of the discussion carried out in this section, in the scope of the current work, it is intended to explore clustering performance obtained using two distinct time series representation approaches: (i) \textbf{Raw time series representation}, featuring the use of the popular \emph{Dynamic Time Warping} distance metric; (ii) \textbf{"Dimensionality-Reduced" time series representation}, featuring the use of the classical \emph{Euclidean} distance.
+
+\subsection{Raw Time Series Representation}
+
+With respect to the \emph{raw} time series representation not much needs to be added to what has already been mentioned. Initially, this representation can be seen as considering raw collected time series values.
+
+Taking into account the pre-processing steps mentioned in section \ref{pre_processing}, imputed time series corresponding to daily lists of hourly water consumption readings should be considered at this point; however, an additional step must be considered: when working with raw time series data, performing a \emph{Z-Normalization} of the data can significantly improve distance computation results with the DTW metric\cite{mueen2016extracting}.
+
+As a result, when working with raw time series representation, a \emph{Z-Normalization} of the data was conducted. The \emph{Z-Normalization} can be defined as:
+
+$$X = \frac{X - MEAN(X)}{STD(X)} $$
+
+\subsection{Dimensionality Reduction for Time Series}
+
+Regarding the application of dimensionality reduction techniques to time series data, two popular algorithms of this nature were compared: \emph{PCA} and \emph{Stacked Autoencoders} (SAEs). The comparison was based on the rmse on reconstruction and on visual inspection of the reconstructed series.
+
+In PCA the target number of features was selected as a function of the percentage of explained data variance. In this sense, principal components capable of representing $80\%$ of the data variance were selected, yielding a reduced dimensionality of 3 features.
+
+SAEs were then trained for dimensionality reduction, targeting the same number of features as PCA. Different network architectures were considered while training the SAEs (that is, different number of autoencoders with different numbers of neurons per hidden layer, different activation functions, etc); however, in the best scenarios, SAEs were only capable of getting close to PCA in terms of reconstruction error, producing reconstructed time series considerably more distant to the original ones than PCA.
+
+It is also worth mentioning at this point that both PCA and SAEs approaches were tested with normalised data, using the \emph{Min-Max} method. Figure \ref{day3_reconstruction} presents a reconstruction of water consumptions for one day using both a PCA decomposition and Stacked Autoencoders.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.5]{images/pca_sae_day3.png}
+	\caption{Reconstruction of water consumptions for one day using a PCA decomposition and a Stacked Autoencoder.}
+	\label{day3_reconstruction}
+\end{figure}
+
+From the analysis of figure \ref{day3_reconstruction} it is clear that, even though SAEs may be able to reconstruct the original data with an error close to PCA, SAEs fail in capturing the shape and tendency of the series. As a proper learning could not be obtained with SAEs, PCA was the dimensionality reduction technique chosen to be applied in the experiments and exercises carried out in the remainder of this work.
 
 \section{Clustering}
 
@@ -148,6 +215,11 @@ In K-Means, clusters are sought so that their within-cluster distances are minim
 
 Therefore, for each of the tests presented in table \ref{} \textbf{FIXME: Referência tabela a adicionar na secção 4} where the K-Means algorithm was used, 10 repetitions for the algorithm were considered for each value of $k$ defined. After the 10 repetitions, only the partition with the highest silouette coefficient value was kept.
 
+\section{Summary of the Experiments}
+
+Colocar a tabela
+
+
 \section{Results Assessment}
 
 \textbf{FIXME: Texto introdutório}
@@ -161,6 +233,8 @@ Fazer uma reflexão sobre os resultados e dizer quais aqueles que merecem ser ma
 \subsection{Further Results Analysis}
 
 Apresentar novas métricas, resultados e reflexão
+
+Meter gráficos aqui
 
 \section{Conclusion}
 \label{conclusions}
