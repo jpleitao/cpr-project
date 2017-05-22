@@ -65,7 +65,7 @@ In the field of pattern recognition, tasks of this nature are referred to as \em
 	"Given a dataset of n time series data $D = \{F_{1}, \cdots , F_{n}\}$, time series clustering can be defined as the process of unsupervised partitioning of $D$ into $C = {C_{1}, \cdots , C_{k}}$ in such a way that homogeneous time series are grouped together based on a certain similarity measure."
 \end{mydef}
 
-The remainder of this document is organised as follows: Section \ref{objectives} presents the main objectives of this work. In section \ref{dataset_description} water consumption data used in this work is briefly presented. The methodology adopted throughout this work is discussed in section \ref{methodology}. Sections \ref{} to \ref{} cover the main steps of the work, presented in the methodology section. Finally, section \ref{conclusions} concludes this document.
+The remainder of this document is organised as follows: Section \ref{objectives} presents the main objectives of this work. In section \ref{dataset_description} water consumption data used in this work is briefly presented. The methodology adopted throughout this work is discussed in section \ref{methodology} and an overview of the experimental setup is provided in section \ref{experiments_summary}. Sections \ref{pre_processing} to \ref{results_assessment} cover the main steps of the work, presented in the methodology section. Finally, section \ref{conclusions} concludes this document.
 
 \textbf{FIXME: Review outline}
 
@@ -111,16 +111,17 @@ Determining the most appropriate technique to be applied in our problem is far f
 As a result, in the current work, different techniques are intended to be explored in an attempt to determine the ones that appear to be more suitable to the collected data. These techniques fall in four distinct categories: \emph{Missing Data Imputation}, \emph{Time Series Representation}, \emph{Time Series Distance Metrics} and \emph{Clustering Algorithms}.
  
 Regarding missing data imputation, three distinct techniques are considered to be applied to provide sounding estimations for missing water consumptions data: fitting a polynomial expression, fitting an ARIMA model or the application of Kalman Filters.
-	
-Distance computation between raw time series data tends to be an heavy task in terms of computational resources. The main reason for this has to do with the high dimensionality of time series data. In this sense, in some publications the application of dimensionality reduction techniques has been explored. In the scope of this work both raw time series data and reduced dimensionality time series data is intended to be applied. Regarding dimensionality reduction techniques, \emph{Principal Components Analysis} and \emph{Stacked Autoencoders} are intended to be explored.
-	
-When dealing with raw time series, the use of more traditional distance metrics, such as the euclidean distance, has been shown to fail in capturing similarities in the series' shape. Alternative distance metrics, among which \emph{Dynamic Time Warping} (DTW) \cite{chu2002iterative} is highlighted, have been extensively adopted when dealing with raw time series data \cite{petitjean2014dynamic, izakian2015fuzzy} and is considered a more robust distance metric for time series \cite{wang2013experimental}. Nevertheless, euclidean distance is still applied in time series clustering works, specially if dimensionality reduction techniques are employed. An example of such application can be found in the work of Abreu \emph{et al.} \cite{abreu2012using}. In this sense, DTW is intended to be used when dealing with raw time series data, whereas the euclidean distance will be the choice for the dimensionality reduced data.
-	
-Clustering Algorithm: \textbf{FIXME: Para já estou apenas a considerar HC + K-Means e apenas vario a metrica de distancia e a forma como calculo os centroides. No entanto posso vir a considerar um outro algoritmo, o TADPole, que aparentemente existe em R e é batante utilizado - Para já deixar este ponto em standby}
 
-\textbf{FIXME: Adicionar uma tabela com os grupos de testes que fizémos}
+With respect to time series representation methods, two alternatives are intended to be considered: on one side, the popular \emph{raw time series} representation - where time series are represented as an ordered list of values collected over time; as an alternative, the applications of dimensionality reduction methods via \emph{Principal Components Analysis} and \emph{Stacked Autoencoders} is also explored.
+	
+Several clustering algorithms have been proposed and studied in the literature; however, based on the studied and referenced works, more traditional algorithms such as \emph{Hierarchical} and \emph{K-Means} clustering still remain popular and valid choices among researchers in this field. In this sense, their performance when applied to our data will be assessed. Another popular algorithm applied in time series clustering problems will be implemented and evaluated: this is the case of the recently proposed \emph{TADPole}\cite{begum2015accelerating} density-based clustering algorithm, featuring a pruning strategy that softens the computational burden of the application of traditional clustering algorithms to time series.
 
-\textbf{FIXME: Acho que é melhor colocar esta tabela na sua propria secção depois da secção de clustering! Alterar referências a esta tabela! Dizer também que apenas fizémos um conjunto de testes para reduced dimensionality por questões de tempo, mas que seria interessante aplicar outras métricas no calculo dos centroides, nomeadamente aplicar o medoid!}
+In the next section, Table \ref{experiments_summary_table} presents the different combinations of clustering algorithms and parameters ranges used. Subsequent sections provide a more detailed overview of the different steps followed in this work.
+
+\section{Summary of the Experiments}
+\label{experiments_summary}
+
+Colocar a tabela com label "experiments\_summary\_table"
 
 \section{Time Series Pre-Processing}
 \label{pre_processing}
@@ -164,7 +165,7 @@ Another motivation for seeking alternative time series representations, as point
 
 In this sense, several time series representation methods have been proposed in the literature. Aghabozorgi \emph{et al.} presents a taxonomy comprising four main categories: i) Data adaptive; (ii) Non-data adaptive; (iii) Model-based; and (iv) Data dictated. The choice of time series representation has a big impact in the outcome of the clustering exercise, in both quality and execution time. Furthermore, time series representation also affects the choice of distance metric (also called dissimilarity function).
 
-In the specific clustering problem being tackled in this work, where time series containing similar behaviours are intended to be grouped together, one of the major challenges to be face has to due with the dissimilarity function (that is, how to determine that two time series are close together). Even though it is computationally expensive, the \emph{Dynamic Time Warping} (DTW) distance metric is quite popular\cite{liao2005clustering, aghabozorgi2015time}.
+In the specific clustering problem being tackled in this work, where time series containing similar behaviours are intended to be grouped together, one of the major challenges to be face has to due with the dissimilarity function (that is, how to determine that two time series are close together). Even though it is computationally expensive, the \emph{Dynamic Time Warping} (DTW)\cite{chu2002iterative} distance metric is quite popular, having been extensively adopted when dealing with raw time series data\cite{liao2005clustering, petitjean2014dynamic, izakian2015fuzzy, aghabozorgi2015time} and being considered a more robust distance metric for time series\cite{wang2013experimental}. 
 
 As the DTW targets time sequences, it can be concluded that a substantial number of approaches adopt a raw time series representation. Dimensionality Reduction (DR) techniques such as \emph{Principal Components Analysis} (PCA) have also been explored \cite{abreu2012using} in an attempt to represent time series samples in fewer dimensions, thus reducing the computational burden of distance computation. As the application of DR techniques loses the temporal sequence of the data, alternative distance metrics need to be considered.
 
@@ -213,14 +214,11 @@ As a result of this characteristic, K-Means clustering is usually executed sever
 
 In K-Means, clusters are sought so that their within-cluster distances are minimised and between-cluster distances maximised. Indeed, this is exactly the same evaluation performed in the computation of the silhouette coefficient. In this sense, Jain's suggestion was slightly adjusted, to keep the partition with the higher silhouette coefficient value, instead of the lowest squared error.
 
-Therefore, for each of the tests presented in table \ref{} \textbf{FIXME: Referência tabela a adicionar na secção 4} where the K-Means algorithm was used, 10 repetitions for the algorithm were considered for each value of $k$ defined. After the 10 repetitions, only the partition with the highest silouette coefficient value was kept.
-
-\section{Summary of the Experiments}
-
-Colocar a tabela
+Therefore, for each of the tests presented in table \ref{experiments_summary_table} where the K-Means algorithm was used, 10 repetitions for the algorithm were considered for each value of $k$ defined. After the 10 repetitions, only the partition with the highest silhouette coefficient value was kept.
 
 
 \section{Results Assessment}
+\label{results_assessment}
 
 \textbf{FIXME: Texto introdutório}
 
@@ -230,6 +228,10 @@ Dizer que os resultados obtidos para cada uma das combinações de métodos apre
 
 Fazer uma reflexão sobre os resultados e dizer quais aqueles que merecem ser mais estudados.
 
+Atenção que analisei muita coisa com base no SC mas este pode nao ser o melhor método... Combinar um pouco a análise com o elbow method! (SC e um indicador normalisado, o que tem vantagens porque nao e tao sujeito a subjectividade como e o elbow method, mas por vezes em dados reais pode ser necessario experiencia e analise visual que o SC nao consegue traduzir)
+
+\textbf{FIXME: Não esquecer de falar do facto de o SC poder nao ser a metrica mais adequada para avaliar os clusters!}
+
 \subsection{Further Results Analysis}
 
 Apresentar novas métricas, resultados e reflexão
@@ -238,6 +240,8 @@ Meter gráficos aqui
 
 \section{Conclusion}
 \label{conclusions}
+
+De uma forma geral o numero de clusters parece andar proximo de 4, pelo menos andamos sempre a volta desse valor...
 
 
 \bibliographystyle{ieeetr}
