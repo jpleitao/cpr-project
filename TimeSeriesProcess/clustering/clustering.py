@@ -187,7 +187,6 @@ def clustering_run(readings, data_transform):
     # < 0.25     -> No substantial structure has been found
 
     k_values = [2, 3, 4, 5, 6, 7, 8]
-    k_values = [4]
     number_runs = 10
 
     # **************************** DTW + Average ****************************
@@ -198,18 +197,15 @@ def clustering_run(readings, data_transform):
     # best_results_dtw = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # **************************** DTW + DBA ****************************
-    # TODO
-    centroid_type = clustering.k_means.CentroidType.DBA
-    best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
+    # centroid_type = clustering.k_means.CentroidType.DBA
+    # best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # **************************** DTW + Medoid ****************************
     # According to "Time Series Clustering: A decade overview" is very common in time series clustering
-    # TODO
     # centroid_type = clustering.k_means.CentroidType.MEDOID
     # best_results_medoid = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # **************************** PCA, Euclidean + AVERAGE ****************************
-    # TODO
     # centroid_type = clustering.k_means.CentroidType.AVERAGE
     # best_results_euclid = clustering.k_means.tune_kmeans(data_transform, k_values, number_runs, False, centroid_type)
 
@@ -271,49 +267,49 @@ def clustering_run(readings, data_transform):
     #
 
     # DTW + Average
-    # TODO
     # centroid_type = clustering.k_means.CentroidType.AVERAGE
     # evaluate_clusters(readings, True, centroid_type)
 
     # DTW + DBA
-    # TODO
     # centroid_type = clustering.k_means.CentroidType.DBA
     # evaluate_clusters(readings, True, centroid_type)
 
     # DTW + Medoid
-    # TODO
     # centroid_type = clustering.k_means.CentroidType.MEDOID
     # evaluate_clusters(readings, True, centroid_type)
 
     # PCA + Euclidean + Average
-    # TODO
     # centroid_type = clustering.k_means.CentroidType.AVERAGE
     # evaluate_clusters(data_transform, False, centroid_type)
-
-    # TODO: REVER ISTO
 
     # Starting with the use of DTW for the distance metric and the average method for the centroid computation, the
     # obtained results are not very optimistic: As expected, a large Silhouette Coefficient value is obtained when only
     # two clusters are being considered; however, the value of this metric drops seriously as further clusters are
-    # considered: Silhouette Coefficient values are under 0.5 are obtained, suggesting a weak structure of the data
+    # considered: Silhouette Coefficient values under 0.5 are obtained, suggesting a weak structure of the data
     # clusters. Indeed, as stated in "Time Series Clustering: A Decade Review", computing the average of a collection
     # of time series is not a trivial task, and in cases that Dynamic Time Warping is used as distance metric,
-    # averaging prototype is avoided.
+    # averaging prototype is avoided. Analysing the variation of the average within-cluster sum of squares for the
+    # different values of k (that is, by inspecting the plot of the elbow method), the plot seems to decrease more
+    # slowly after k=5. Even though low Silhouette Coefficient values were recorded for such number of clusters, a
+    # deeper analysis of the cluster structure for this number of clusters could be interesting to perform.
     #
-    # The Bary Center Averaging (DBA) method was probably the centroid computation method that produced the most
-    # promising results, in terms of the Silhouette Coefficient, when using the DTW as the distance metric. When 4
-    # clusters were considered, significantly high values of the mentioned metric were obtained: approximately 0.78.
-    # Further increasing the number of clusters (to k=5, 6...) produced very low Silhouette coefficient values,
-    # suggesting a weak cluster structure. It is also worth pointing out that the values of the silhouette coefficient
-    # for k=4 and k=3 are very close (0.78 and 0.79, respectively). When analysing the variation of the average
-    # within-cluster sum of squares for the different values of k (that is, by inspecting the plot of the elbow method)
-    # it can be seen that a drop in the within-cluster sum of squares occurs for k=3, only to be recovered for k=4.
-    # A more careful analysis of the cluster structure for these two limits is alo in demand.
+    # Results obtained with the Bary Center Averaging (DBA) method followed a similar trend with the main difference
+    # that a strong structure of the data is still suggested for k=3 clusters. Further raising the number of clusters
+    # lead to considerably low Silhouette Coefficient scores - ranging from about 0.32 all the way down to about 0.2.
+    # This suggests a weak cluster structure. When analysing the variation of the average within-cluster sum of squares
+    # for the different values of k (that is, by inspecting the plot of the elbow method) a steep drop can be seen when
+    # changing k from 3 to 4. If the number of clusters is furhter increased the average within-cluster sum of squares
+    # increases, which suggests a decrease in the cluster quality (samples in the same cluster are farther apart -
+    # clusters are not as dense). Based on these observations, a more careful analysis of the clusters obtained for
+    # k=3 and k=4 could be performed.
     #
     # When the medoid method was instead used to compute the centroids (keeping DTW as the distance metric) the obtained
     # results suggest a weak cluster structure in the data. In other words, the computed clusters do not appear to have
-    # adequate cluster properties: Dense and well-separated.
-    # TODO: Ver distribuição de dias para cada cluster para os diferentes valores de K neste caso - Pode ser interessante adicionar aqui mais qualquer coisa??
+    # adequate cluster properties: Dense and well-separated. Indeed besides scoring low silhouette coefficient scores,
+    # even for a small number of clusters like 2, the average within-cluster sum of squares remains constant, which is
+    # not a good characteristic/behaviour.
+    # TODO: Ver distribuição de dias para cada cluster para os diferentes valores de K neste caso????
+    # TODO: Pode ser interessante adicionar aqui mais qualquer coisa??
     #
     # When dimensionality reduction techniques are applied (as in the case of the work of Joana Abreu - Citation!)
     # obtained values for the silhouette coefficient remain quite constant as the number of clusters is increased
@@ -324,7 +320,21 @@ def clustering_run(readings, data_transform):
     # in the average within-cluster sum of squares is less steep, meaning that k=5 could be a good target number of
     # clusters with this approach. Furthermore, analysing the values for the Sum of Squared Errors, oscillating values
     # for this metric can be identified: initially it drops as the number of clusters increases from 2 to 3. For k=4
-    # this metric registers it highest value, only to decrease as k grows.
+    # this metric registers it highest value (suggesting less dense clusters), only to decrease as k continues to grow.
+    #
+    # Finally, the application of the TADPole clustering method produced, probably, the most unexpected results mostly
+    # due to the fact that, according to the Silhouette Coefficient scores computed, an adequate cluster structure could
+    # only be achieved for 2 clusters. For all the other cases (k=3-8) strongly inadequate cluster structures were
+    # determined, resulting in negative scores for the mentioned metric. Another metric that supports the inferences
+    # suggested by the analysis of the Silhouette Coefficient scores is the Sum of Squared Errors: Indeed, considerably
+    # high values were registered for this metric, being only exceeded in the case of the Euclidean Distance and Average
+    # prototype (when dimensionality-reduced data was used, via PCA). A similar scenario is observed for the Average
+    # Within-Cluster Sum of Squares.
+    # Nevertheless, looking at the elbow plot (containing the variation of the average within-cluster sum of squares
+    # with the different values of k considered) a sharp decrease in the average within-cluster sum of squares can be
+    # identified when increasing the number of clusters from 3 to 4. For higher numbers of clusters the plotted metric
+    # does not decrease as fast. Indeed, such a graphical inspection suggests a deeper inspection of the clusters
+    # obtained for these two situations (k=3 and k=4).
     #
     # Generally, a decrease in the value of the silhouette coefficient metric was verified as the value of k increased,
     # which is an expected result. Indeed, for k=2 the values of this metric tend to be high across all experiments
@@ -333,13 +343,13 @@ def clustering_run(readings, data_transform):
     # limited metrics, its values can considerably change with different distance metrics and cluster centroid
     # computation methods being adopted. Within the same combination of methods a comparison of the values of these
     # metrics can be performed:
-    # Regarding the Sum of Squared Errors, its value was expected to decrease as the number
-    # of clusters increased. This was only verified for two combinations of methods: DTW + Average centroid and
-    # DTW + DBA centroid.
+    # Regarding the Sum of Squared Errors, its value was expected to decrease as the number of clusters increased.
+    # This was only verified for two combinations of methods: DTW + DBA centroid (k=4-6), DTW + Medoid (value reamined
+    # the same, as already stated) and Euclidean + Average
     # With respect to the Calinski-Herabaz coefficient, even though higher values suggest more dense and well-separated
     # clusters, the increase in this metric was not always supported by an increase in the silhouette coefficient (for
-    # example when clustering time series pre-processed with dimensionality reduction techniques: Reduced + Euclidean +
-    # Average; Or when using the medoid to compute the centroids, along with the dtw metric: DTW + medoid)
+    # example when clustering time series pre-processed with dimensionality reduction techniques: Euclidean + Average;
+    # Or when using the medoid to compute the centroids, along with the dtw metric: DTW + medoid; DTW + TADPole)
 
     # Based on these results, k=2 could be seen as good number of clusters in the sense that it produces well-separated
     # and dense clusters; however two important aspects must be taken into account at this point: First of all, as
@@ -348,8 +358,10 @@ def clustering_run(readings, data_transform):
     # of similar consumption profiles can exist. Obviously, this intuition is based on human experience and may be
     # influenced by consumptions of other regions in the city. In this sense (and specially supported by the high sum of
     # squared errors for k=2) a further results analysis will be performed on the following cases:
+    #        -> DTW + Average for k=4 and k=5
     #        -> DTW + DBA for k=3 and k=4
-    #        -> FIXME: Algum reduced?
+    #        -> Euclidean + Average for k=4 and k=5
+    #        -> DTW + TADPole for k=3 and k=4
     #
 
     # ========================================= Further Cluster Evaluation =============================================

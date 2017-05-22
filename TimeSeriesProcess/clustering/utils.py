@@ -49,7 +49,7 @@ def _compute_centroids_dba(assignments, readings, dba, centroids=None):
         len_series = len(cluster_time_series_list[0])
 
         cluster_time_series_list = clustering.dba.ts_to_dba_list(cluster_time_series_list)
-        result = dba.compute_average(cluster_time_series_list, dba_length=len_series)
+        result = dba.compute_average(tseries=cluster_time_series_list, nstarts=5, dba_length=len_series)
 
         centroids[key] = result.reshape((1, len(result)))[0]
     return centroids

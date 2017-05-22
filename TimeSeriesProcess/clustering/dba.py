@@ -140,7 +140,10 @@ class DBA(object):
 
         if initial_value is None:
             # initialize the average as a random draw from the set of inputs
-            start_idx = np.random.permutation(len(tseries))[:nstarts]
+            start_idx = np.random.permutation(len(tseries))[:nstarts+1]
+
+        if nstarts > len(tseries):
+            nstarts = len(tseries)
 
         best_wgss = 1e300
         if self.verbose:
@@ -148,7 +151,8 @@ class DBA(object):
         for i in range(nstarts):
             # print(str(i) + '...')
             if initial_value is None:
-                iseries = tseries[start_idx[i]]
+                my_index = start_idx[i]
+                iseries = tseries[my_index]
             else:
                 iseries = initial_value
             if dba_length is not None:
