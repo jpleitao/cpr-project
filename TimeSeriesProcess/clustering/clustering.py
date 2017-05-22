@@ -324,12 +324,13 @@ def clustering_run(readings, data_transform):
     #
     # Finally, the application of the TADPole clustering method produced, probably, the most unexpected results mostly
     # due to the fact that, according to the Silhouette Coefficient scores computed, an adequate cluster structure could
-    # only be achieved for 2 clusters. For all the other cases (k=3-8) strongly inadequate cluster structures were
-    # determined, resulting in negative scores for the mentioned metric. Another metric that supports the inferences
-    # suggested by the analysis of the Silhouette Coefficient scores is the Sum of Squared Errors: Indeed, considerably
-    # high values were registered for this metric, being only exceeded in the case of the Euclidean Distance and Average
-    # prototype (when dimensionality-reduced data was used, via PCA). A similar scenario is observed for the Average
-    # Within-Cluster Sum of Squares.
+    # only be achieved for 2 clusters. The code corresponding to the implementation of the TADPole clustering method
+    # can be found in the file 'clustering/clustering.R'. For all the other cases (k=3-8) strongly inadequate cluster
+    # structures were determined, resulting in negative scores for the mentioned metric. Another metric that supports
+    # the inferences suggested by the analysis of the Silhouette Coefficient scores is the Sum of Squared Errors:
+    # Indeed, considerably high values were registered for this metric, being only exceeded in the case of the Euclidean
+    # Distance and Average prototype (when dimensionality-reduced data was used, via PCA). A similar scenario is
+    # observed for the Average Within-Cluster Sum of Squares.
     # Nevertheless, looking at the elbow plot (containing the variation of the average within-cluster sum of squares
     # with the different values of k considered) a sharp decrease in the average within-cluster sum of squares can be
     # identified when increasing the number of clusters from 3 to 4. For higher numbers of clusters the plotted metric
@@ -344,7 +345,7 @@ def clustering_run(readings, data_transform):
     # computation methods being adopted. Within the same combination of methods a comparison of the values of these
     # metrics can be performed:
     # Regarding the Sum of Squared Errors, its value was expected to decrease as the number of clusters increased.
-    # This was only verified for two combinations of methods: DTW + DBA centroid (k=4-6), DTW + Medoid (value reamined
+    # This was only verified for two combinations of methods: DTW + DBA centroid (k=4-6), DTW + Medoid (value remained
     # the same, as already stated) and Euclidean + Average
     # With respect to the Calinski-Herabaz coefficient, even though higher values suggest more dense and well-separated
     # clusters, the increase in this metric was not always supported by an increase in the silhouette coefficient (for

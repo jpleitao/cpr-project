@@ -116,12 +116,23 @@ With respect to time series representation methods, two alternatives are intende
 	
 Several clustering algorithms have been proposed and studied in the literature; however, based on the studied and referenced works, more traditional algorithms such as \emph{Hierarchical} and \emph{K-Means} clustering still remain popular and valid choices among researchers in this field. In this sense, their performance when applied to our data will be assessed. Another popular algorithm applied in time series clustering problems will be implemented and evaluated: this is the case of the recently proposed \emph{TADPole}\cite{begum2015accelerating} density-based clustering algorithm, featuring a pruning strategy that softens the computational burden of the application of traditional clustering algorithms to time series.
 
-In the next section, Table \ref{experiments_summary_table} presents the different combinations of clustering algorithms and parameters ranges used. Subsequent sections provide a more detailed overview of the different steps followed in this work.
-
 \section{Summary of the Experiments}
 \label{experiments_summary}
 
-Colocar a tabela com label "experiments\_summary\_table"
+Following the discussion started in the previous section, Tale \ref{experiments_summary_table} presents a summary of the experiments performed, mentioning the algorithms and respective configurations adopted. A further discussion and more detailed overview of the different points introduced in the previous section is carried out in subsequent sections.
+
+\begin{table}[ht]
+	\centering
+	\caption{Summary of the experiments performed.}
+	\label{experiments_summary_table}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		Data Type                                               & \begin{tabular}[c]{@{}c@{}}Distance\\ Metric\end{tabular} & \begin{tabular}[c]{@{}c@{}}Clustering\\ Algorithm\end{tabular} & \begin{tabular}[c]{@{}c@{}}Centroid\\ Computation\end{tabular}   & \begin{tabular}[c]{@{}c@{}}Number of\\ Clusters\end{tabular} \\ \hline
+		Raw                                                     & DTW                                                       & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & \begin{tabular}[c]{@{}c@{}}Average;\\ DBA;\\ Medoid\end{tabular} & 2 to 8                                                       \\ \hline
+		\begin{tabular}[c]{@{}c@{}}Reduced\\ (PCA)\end{tabular} & Euclidean                                                 & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & Average                                                          & 2 to 8                                                       \\ \hline
+		Raw                                                     & DTW                                                       & TADPole                                                        & -                                                                & 2 to 8                                                       \\ \hline
+	\end{tabular}
+\end{table}
 
 \section{Time Series Pre-Processing}
 \label{pre_processing}
@@ -202,7 +213,7 @@ From the analysis of figure \ref{day3_reconstruction} it is clear that, even tho
 
 \section{Clustering}
 
-Dizer que escolhemos HC + K-Means \textbf{FIXME: TADPole?}
+Dizer que escolhemos HC + K-Means e TADPole - Menção à tabela
 
 why and how!!!
 
