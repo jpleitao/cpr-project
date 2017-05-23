@@ -92,47 +92,27 @@ During the data acquisition equipment errors and malfunctions can occur, resulti
 \section{Methodology}
 \label{methodology}
 
-To accomplish the mentioned objectives the following steps were considered in the developed work:
+Extensive research has been made in the field of time series clustering, resulting in the adoption and proposal of a wide variety of clustering approaches and techniques. In a 2015 survey on time series clustering, Aghabozorgi \emph{et al.} \cite{aghabozorgi2015time} highlights techniques such as \emph{hierarchical clustering}, \emph{k-means clustering} and \emph{k-medoids clustering}. Other techniques have also been applied, such as neural networks and variations of the mentioned algorithms, namely of \emph{k-means} ans \emph{k-medoids}.
+
+Determining the most appropriate technique to be applied in our problem is far from being an easy task. The same methods applied on data of distinct natures can produce completely different results, and the same can even occur with similar data, collected from distinct sources and (most probably) with a different process.
+
+As a result, in the current work, different techniques are intended to be explored in an attempt to determine the ones that appear to be more suitable to the collected data. These techniques fall in four distinct categories that compose four main steps of time series clustering. In subsequent sections a more derailed overview of such categories will be provided.
 
 \begin{enumerate}
 	\item \textbf{Time Series pre-processing}, comprising two major tasks: computing the unit of analysis for the time series; and imputing missing values
 	
 	\item \textbf{Time Series Representation}, consisting in the application of dimensionality reduction techniques. As will be explained later in this section, both raw time series data and dimensionality reduced time series data is intended to be clustered, in order to compare the results obtained with both methods.
 	
-	\item \textbf{Segmentation of water consumptions}, consisting in the application of clustering techniques to group similar samples together.
+	\item \textbf{Time Series Segmentation}, consisting in the application of clustering techniques to group similar samples together.
 	
 	\item \textbf{Results analysis and assessment}
 \end{enumerate}
-
-Extensive research has been made in the field of time series clustering, resulting in the adoption and proposal of a wide variety of clustering approaches and techniques. In a 2015 survey on time series clustering, Aghabozorgi \emph{et al.} \cite{aghabozorgi2015time} highlights techniques such as \emph{hierarchical clustering}, \emph{k-means clustering} and \emph{k-medoids clustering}. Other techniques have also been applied, such as neural networks and variations of the mentioned algorithms, namely of \emph{k-means} ans \emph{k-medoids}.
-
-Determining the most appropriate technique to be applied in our problem is far from being an easy task. The same methods applied on data of different natures can produce completely different results, and the same can even be considered with data of the same nature, but collected from distinct sources and (most probably) with a different methodology.
-
-As a result, in the current work, different techniques are intended to be explored in an attempt to determine the ones that appear to be more suitable to the collected data. These techniques fall in four distinct categories: \emph{Missing Data Imputation}, \emph{Time Series Representation}, \emph{Time Series Distance Metrics} and \emph{Clustering Algorithms}.
  
 Regarding missing data imputation, three distinct techniques are considered to be applied to provide sounding estimations for missing water consumptions data: fitting a polynomial expression, fitting an ARIMA model or the application of Kalman Filters.
 
 With respect to time series representation methods, two alternatives are intended to be considered: on one side, the popular \emph{raw time series} representation - where time series are represented as an ordered list of values collected over time; as an alternative, the applications of dimensionality reduction methods via \emph{Principal Components Analysis} and \emph{Stacked Autoencoders} is also explored.
 	
-Several clustering algorithms have been proposed and studied in the literature; however, based on the studied and referenced works, more traditional algorithms such as \emph{Hierarchical} and \emph{K-Means} clustering still remain popular and valid choices among researchers in this field. In this sense, their performance when applied to our data will be assessed. Another popular algorithm applied in time series clustering problems will be implemented and evaluated: this is the case of the recently proposed \emph{TADPole}\cite{begum2015accelerating} density-based clustering algorithm, featuring a pruning strategy that softens the computational burden of the application of traditional clustering algorithms to time series.
-
-\section{Summary of the Experiments}
-\label{experiments_summary}
-
-Following the discussion started in the previous section, Tale \ref{experiments_summary_table} presents a summary of the experiments performed, mentioning the algorithms and respective configurations adopted. A further discussion and more detailed overview of the different points introduced in the previous section is carried out in subsequent sections.
-
-\begin{table}[ht]
-	\centering
-	\caption{Summary of the experiments performed.}
-	\label{experiments_summary_table}
-	\begin{tabular}{|c|c|c|c|c|}
-		\hline
-		Data Type                                               & \begin{tabular}[c]{@{}c@{}}Distance\\ Metric\end{tabular} & \begin{tabular}[c]{@{}c@{}}Clustering\\ Algorithm\end{tabular} & \begin{tabular}[c]{@{}c@{}}Centroid\\ Computation\end{tabular}   & \begin{tabular}[c]{@{}c@{}}Number of\\ Clusters\end{tabular} \\ \hline
-		Raw                                                     & DTW                                                       & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & \begin{tabular}[c]{@{}c@{}}Average;\\ DBA;\\ Medoid\end{tabular} & 2 to 8                                                       \\ \hline
-		\begin{tabular}[c]{@{}c@{}}Reduced\\ (PCA)\end{tabular} & Euclidean                                                 & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & Average                                                          & 2 to 8                                                       \\ \hline
-		Raw                                                     & DTW                                                       & TADPole                                                        & -                                                                & 2 to 8                                                       \\ \hline
-	\end{tabular}
-\end{table}
+Several clustering algorithms have been proposed and studied in the literature; however, based on the studied and referenced works, more traditional algorithms such as \emph{Hierarchical} and \emph{K-Means} clustering still remain popular and valid choices among researchers in this field. In this sense, their performance when applied to our data will be assessed. Another algorithm applied in time series clustering problems will be implemented and evaluated: this is the case of the recently proposed \emph{TADPole} density-based clustering algorithm, featuring a pruning strategy that softens the computational burden of the application of traditional clustering algorithms to time series.
 
 \section{Time Series Pre-Processing}
 \label{pre_processing}
@@ -213,29 +193,140 @@ From the analysis of figure \ref{day3_reconstruction} it is clear that, even tho
 
 \section{Clustering}
 
-Dizer que escolhemos HC + K-Means e TADPole - Menção à tabela
+The choice of which clustering algorithm to apply in a given problem can strongly condition the obtained results. Several clustering algorithms have been proposed over the years and applied to a wide variety of problems.
 
-why and how!!!
+It is common among authors to characterise and classify clustering approaches according to how the algorithms work. Aghabozorgi \emph{et al.}\cite{aghabozorgi2015time} proposes a general categorisation of clustering algorithms applied to time series featuring six different groups: Hierarchical, Partitioning, Model-based, Density-based, Grid-based and Multi-step clustering.
 
-Mostrar resultados HC
+As mentioned in section \ref{methodology}, from the conducted literature review on time series clustering \emph{Hierarchical} and \emph{K-Means} clustering algorithms were identified as the most popular choice among researchers.
 
-A major characteristic of K-Means clustering is that, depending on how the initial cluster centroids are computed, different results in each run of the algorithm (for the same value of the parameter K) may be produced. This is specially true if a random initialisation is performed.
+One of the main drawbacks of most time series clustering algorithms is related with the computational burden of finding similarities in the data being clustered. As the most robust similarity measures for time series rely on a raw representation, continuously searching for patterns based on similarities/dissimilarities in the data becomes very expensive in computation time.
 
-As a result of this characteristic, K-Means clustering is usually executed several times for the same value of K and the initial cluster selection that produces better results is chosen. The question that immediately raises from such a statement is how to determine if one cluster selection is better than another? To answer this question, Anil Jain \cite{jain2009data} proposed the execution of the K-Means algorithm several times, for the same value of $k$, keeping the partition that produced the smallest squared error.
+Motivated by the fact that robust and less demanding alternatives to metrics such as the \emph{DTW} have not been achieved, some researchers studied ways of reducing this computational burden. This is the case of \emph{TADPole}\cite{begum2015accelerating}. Proposed in 2015 by Begum \emph{et al.}, TADPole exploits upper and lower bounds on DTW in a novel pruning strategy that avoids a large fraction of distance calculations, achieving results identical to brute force (but at least an order of magnitude faster).
 
-In K-Means, clusters are sought so that their within-cluster distances are minimised and between-cluster distances maximised. Indeed, this is exactly the same evaluation performed in the computation of the silhouette coefficient. In this sense, Jain's suggestion was slightly adjusted, to keep the partition with the higher silhouette coefficient value, instead of the lowest squared error.
+In this sense, the mentioned cluster algorithms were selected for analysis at this point. Regarding HC and K-Means, as is often performed in the literature, both algorithms were combined\cite{jain2010data}. In the remainder of this section, details regarding the implementation and experimental setup of the two sets of algorithms being compared are covered.
 
-Therefore, for each of the tests presented in table \ref{experiments_summary_table} where the K-Means algorithm was used, 10 repetitions for the algorithm were considered for each value of $k$ defined. After the 10 repetitions, only the partition with the highest silhouette coefficient value was kept.
+\subsection{Combining Hierarchical and K-Means Clustering}
+
+Formulating K-Means clustering into an algorithm comprises quite simple steps. Nevertheless, this simplicity does not avoid some of the most well-known and documented drawbacks of this algorithm: K-means requires the specification of a number of clusters prior to its execution; resulting from the previous point, K-means always groups the data into the specified number of clusters, meaning even if the number of clusters is inadequate to the dataset at hand, K-means will find such a number of partitions; even on perfect datasets it can get stuck on local minimum; and lastly, the final clustering solution is very sensitive to the initial cluster selection.
+
+To avoid (or at least soften) these problems, an hybrid approach is typically used by combining \emph{hierarchical clustering} and \emph{k-means} methods. The procedure is as follows:
+
+\begin{enumerate}
+	\item Compute hierarchical clustering and cut the resulting dendrogram into k-clusters.
+	
+	\item Compute the centroid of each cluster.
+	
+	\item Compute K-means by using the previously computed centroids as the initial cluster selection.
+\end{enumerate}
+
+\subsection{Centroid Computation in K-Means}
+
+Besides specifying the number of clusters, K-Means also allows for different methods to be applied when computing the centroid representative of a given cluster. A widely used method that can be applied to many distance metrics involves computing, for each dimension of the data, the average of all the samples assigned to the cluster in question. For this reason this method is often referred to as the \emph{average} method.
+
+As mentioned by Aghabozorgi \emph{et al.}\cite{aghabozorgi2015time}, when working with time series data the average centroid computation method tends to only be applied when time series have equal length and a none-elastic distance metric (such as the Euclidean distance) is employed.
+
+When time series are allowed to have different lengths, or when distance metrics of other natures are employed (namely the DTW) simply performing the mean of the time series at each point fails to capture the average shape of all the time series in the given cluster. As a result, alternative centroid computation methods more adequate to these distance metrics have been studied.
+
+Probably the most common centroid computation method used with raw time series data is the \emph{medoid} method. According to this method, the centroid is the sample that minimizes the sum of squared distance to all the other samples within the cluster. Examples of the application of this method can be found in \cite{liao2006adaptive, izakian2015fuzzy}.
+
+A more recent centroid computation method is the \emph{DTW Barycenter Averaging} (DBA)\cite{petitjean2011global}, proposed in 2011 by Petitjean \emph{et al.}. This method was specified for the DTW distance metric and, according to the authors of the cited work, is claimed to outperform all existing averaging techniques when applied to datasets of the UCR Archive\cite{keogh2006ucr}.
+
+When computing the cluster centroid, DBA tries to minimize the sum of squared DTW distances from the average sequence (that is, the centroid) to all the sequences assigned to the cluster in question. A local optimisation strategy is implemented, which strongly depends on an initial guess for the average sequence - the initial centroid guess. As a result, improved results are usually obtained by performing multiple random initial starts. An example study making use of the DBA to compute the centroids for K-Means clustering can be found in \cite{petitjean2014dynamic}.
+
+In short, taking into account that two distinct time series representation techniques are intended to be applied, different centroid computation methods were also implemented and the performances of the resulting clusterings compared:
+
+\begin{itemize}
+	\item Regarding the \emph{DTW} distance metric, the following centroid computation methods were considered: \emph{Average}, \emph{Medoid} and \emph{DBA}.
+	
+	\item With respect to the \emph{Euclidean} distance metric, only the \emph{Average} centroid method was considered.
+\end{itemize}
+
+\subsection{TADPole}
+
+In the beginning of the current section a brief introduction to the TADPole clustering algorithm was performed, highlighting its main characteristics and motivations leading to its development. Regarding implementation details of this algorithm, two parameters must be defined prior to its applications: the \emph{window size} used in the DTW computations and a cutoff distance.
+
+The TADPole algorithm makes use of a centred window when computing distances (using the DTW metric). For any observation $x_{i}$ the algorithm considers the points in the range $x_{i-w}$ and $x_{i+w}$ in the DTW computation. As such taking into account that the DTW is only applied for raw time series representation, and that such time series have a dimensionality of $24$, a window size of $23$ was defined.
+
+The second parameter that needs to be defined is the cutoff distance, often represented as $d_{c}$. In an initial step of the algorithm, upper and lower bound on the DTW are used to find time series with many close neighbours. The mentioned cutoff distance is used as a threshold when determining a time series' neighbours: Any other time series whose distance is below $d_{c}$ is considered a neighbour. In the current work initial experiments were performed with different values for the $d_{c}$ threshold, obtaining a value of $1.5$ as the outcome. Nevertheless, further research on the most appropriate and adequate value for this parameter can still be performed.
+
+Finally, regarding the cluster computation, TADPole takes the series that lie in dense areas (that is, the series that have many neighbours) as the cluster centroids.
+
+\section{Summary of the Experiments}
+\label{experiments_summary}
+
+Following the discussion started in the previous sections, Table \ref{experiments_summary_table} presents a summary of the experiments performed, mentioning the algorithms and respective configurations adopted.
+
+With respect to the last column of the table (entitled \emph{"Number of Clusters"}) an explanation for the selected ranges of values is performed on section \ref{initial_number_clusters}.
+
+\begin{table}[ht]
+	\centering
+	\caption{Summary of the experiments performed.}
+	\label{experiments_summary_table}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		Data Type                                               & \begin{tabular}[c]{@{}c@{}}Distance\\ Metric\end{tabular} & \begin{tabular}[c]{@{}c@{}}Clustering\\ Algorithm\end{tabular} & \begin{tabular}[c]{@{}c@{}}Centroid\\ Computation\end{tabular}   & \begin{tabular}[c]{@{}c@{}}Number of\\ Clusters\end{tabular} \\ \hline
+		Raw                                                     & DTW                                                       & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & \begin{tabular}[c]{@{}c@{}}Average;\\ DBA;\\ Medoid\end{tabular} & 2 to 8                                                       \\ \hline
+		\begin{tabular}[c]{@{}c@{}}Reduced\\ (PCA)\end{tabular} & Euclidean                                                 & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & Average                                                          & 2 to 8                                                       \\ \hline
+		Raw                                                     & DTW                                                       & TADPole                                                        & -                                                                & 2 to 8                                                       \\ \hline
+	\end{tabular}
+\end{table}
 
 
 \section{Results Assessment}
 \label{results_assessment}
 
-\textbf{FIXME: Texto introdutório}
+The current section covers the distinct experiments conducted in the course of this work, presenting and discussing its main findings. As acknowledged in the previous section, different configurations for the clustering process were defined. Overall, the experimental procedure and consequent results analysis can be summarised in four main steps:
+
+\begin{enumerate}
+	\item Initially estimates for the number of clusters were obtained by performing \emph{Hierarchical Clustering} on the time series data and analysing the obtain dendrogram.
+	
+	\item Apply an hybrid clustering algorithm, where the centroids obtained for the different selected number of clusters in the previous point are used as initial centroids for the \emph{K-Means Clustering} algorithm.
+	
+	\item Apply cluster evaluation metrics to assess the quality of the clusters computed in the hybrid approach.
+	
+	\item Based on the cluster quality computed in the previous point select a subset of clustering results to be further analysed. Analysis conducted at this point focuses on descriptive characteristics of the categorisation performed, namely percentage of weekdays and weekend-days assigned to each cluster, percentage of days of each month assigned to each cluster, among others.
+\end{enumerate}
+
+In this sense, each of the four points mentioned in the previous listing will be covered in a separate subsection, within the remainder of the current section.
+
+\subsection{Initial Number of Cluster Estimates}
+\label{initial_number_clusters}
+
+Based on the experimental setup presented in table \ref{experiments_summary_table}, and discussed throughout the document, time series' similarities were computed based on two distinct distance metrics: DTW and Euclidean. As such, hierarchical clustering using both metrics was computed to obtain the initial estimates for the number of clusters. Figures \ref{hierarchical_clustering_dtw} and \ref{hierarchical_clustering_euclidean} present the dendrograms obtained:
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.2]{images/Hierarchical_Clustering_DTW.png}
+	\caption{Dendrogram obtained using the DTW metric.}
+	\label{hierarchical_clustering_dtw}
+\end{figure}
+
+Starting with the analysis of Figure \ref{hierarchical_clustering_dtw}, referring to the hierarchical clustering of the z-normalised time series data, 2 major and uneven clusters can be identified and further analysed.
+
+With respect to the right side of the dendrogram (represented in red) three main clusters appear to form. Further divisions can only be considered for significantly smaller distances, for which a high number of clusters needs to be considered. Analysing the left side of the dendrogram (represented in green) several divisions can be identified. For distances smaller than about 3 a high number of divisions can be identified.
+
+Since water consumption patterns for an entire year are intended to be discovered with the goal of improving urban water management, the target number of clusters does not need to be considerably high: for example, if 300 clusters were formed it would be impossible to identify recurrent patterns of consumption.
+
+In this sense, and considering the high number of divisions identified at the mentioned distance, a decision was made to keep it as the maximum number of clusters considered in this work. As the identified number of clusters for the mentioned distance is 8, the K-Means clustering algorithm will be applied to time series data using the DTW metric for a target number of clusters from 2 to 8. The reader's attention is drawn to Table \ref{experiments_summary_table}, where this range is presented.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.18]{images/Hierarchical_Clustering_Euclidean.png}
+	\caption{Dendrogram obtained using the Euclidean metric.}
+	\label{hierarchical_clustering_euclidean}
+\end{figure}
+
+Moving on to time series data represented using dimensionality reduction techniques the scenario is different from the one presented in Figure \ref{hierarchical_clustering_dtw}: even though two main clusters can still be identified, they are not as unbalanced as the ones in the previous analysis.
+
+By using a reasoning similar to the previous analysis, for distances lower than 50 the number of clusters begins to increase rapidly, suggesting that distance to be defined as the limit for the number of clusters which, is this case, is 8. Similarly to the previous analysis, this value is presented in Table \ref{experiments_summary_table}.
+
+Being in a completely unsupervised scenario alternative ranges for the number of clusters could be considered. Furthermore, a cyclic process could even be considered in which the dendrogram would be initially analysed to extract estimates for  the number of clusters, which would be computed using the K-Means algorithm. Upon further analysis of the results obtained with the K-Means the dendrogram could be analysed again, and new estimates for the value of $k$ could be computed, repeating this process. Nevertheless, and because of time restrictions, this process was only performed once.
 
 \subsection{Initial Results Analysis}
 
-Dizer que os resultados obtidos para cada uma das combinações de métodos apresentados anteriormente (que podem ser consultados na tabela da secção 4) foram avaliados segundo X métricas: \textbf{FIXME: Apresentar métricas num itemize e fazer uma breve descrição, colocar fórmulas, dizer que valores são bons, etc}
+Primeiro apresentar dendrogramas do hierarchical clustering obtido com cada uma das distance metrics. A partir daí apresentar ranges relativas ao número de clusters que testámos.
+
+Referir quais as métricas que utilizámos para avaliar os resultados: Apresentar métricas num itemize e fazer uma breve descrição, colocar fórmulas, dizer que valores são bons, etc
 
 Fazer uma reflexão sobre os resultados e dizer quais aqueles que merecem ser mais estudados.
 

@@ -3,44 +3,53 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
 The style file: ieeetr.bst
 Database file #1: bibliography.bib.bib
-You've used 14 entries,
+Repeated entry---line 160 of file bibliography.bib.bib
+ : @article{izakian2015fuzzy
+ :                          ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 182 of file bibliography.bib.bib
+ : @inproceedings{petitjean2014dynamic
+ :                                    ,
+I'm skipping whatever remains of this entry
+You've used 17 entries,
             1876 wiz_defined-function locations,
-            573 strings with 6431 characters,
-and the built_in function-call counts, 4715 in all, are:
-= -- 480
-> -- 179
+            591 strings with 7075 characters,
+and the built_in function-call counts, 5618 in all, are:
+= -- 573
+> -- 215
 < -- 0
-+ -- 65
-- -- 51
-* -- 341
-:= -- 648
-add.period$ -- 14
-call.type$ -- 14
-change.case$ -- 14
++ -- 78
+- -- 61
+* -- 409
+:= -- 774
+add.period$ -- 17
+call.type$ -- 17
+change.case$ -- 17
 chr.to.int$ -- 0
-cite$ -- 14
-duplicate$ -- 240
-empty$ -- 428
-format.name$ -- 51
-if$ -- 1147
+cite$ -- 17
+duplicate$ -- 285
+empty$ -- 508
+format.name$ -- 61
+if$ -- 1366
 int.to.chr$ -- 0
-int.to.str$ -- 14
-missing$ -- 14
-newline$ -- 45
-num.names$ -- 14
-pop$ -- 43
+int.to.str$ -- 17
+missing$ -- 17
+newline$ -- 54
+num.names$ -- 17
+pop$ -- 49
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 179
+skip$ -- 211
 stack$ -- 0
-substring$ -- 395
-swap$ -- 112
+substring$ -- 467
+swap$ -- 133
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 53
-width$ -- 16
-write$ -- 143
+while$ -- 62
+width$ -- 19
+write$ -- 173
+(There were 2 error messages)

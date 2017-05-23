@@ -4,12 +4,6 @@
 S.~Aghabozorgi, A.~S. Shirkhorshidi, and T.~Y. Wah, ``Time-series clustering--a
   decade review,'' {\em Information Systems}, vol.~53, pp.~16--38, 2015.
 
-\bibitem{begum2015accelerating}
-N.~Begum, L.~Ulanova, J.~Wang, and E.~Keogh, ``Accelerating dynamic time
-  warping clustering with a novel admissible pruning strategy,'' in {\em
-  Proceedings of the 21th ACM SIGKDD International Conference on Knowledge
-  Discovery and Data Mining}, pp.~49--58, ACM, 2015.
-
 \bibitem{abreu2012using}
 J.~M. Abreu, F.~C. Pereira, and P.~Ferr{\~a}o, ``Using pattern recognition to
   identify habitual behavior in residential electricity consumption,'' {\em
@@ -67,8 +61,30 @@ A.~Mueen and E.~Keogh, ``Extracting optimal performance from dynamic time
   Conference on Knowledge Discovery and Data Mining}, pp.~2129--2130, ACM,
   2016.
 
-\bibitem{jain2009data}
+\bibitem{begum2015accelerating}
+N.~Begum, L.~Ulanova, J.~Wang, and E.~Keogh, ``Accelerating dynamic time
+  warping clustering with a novel admissible pruning strategy,'' in {\em
+  Proceedings of the 21th ACM SIGKDD International Conference on Knowledge
+  Discovery and Data Mining}, pp.~49--58, ACM, 2015.
+
+\bibitem{jain2010data}
 A.~K. Jain, ``Data clustering: 50 years beyond k-means,'' {\em Pattern
-  recognition letters}, vol.~31, no.~8, pp.~651--666, 2009.
+  recognition letters}, vol.~31, no.~8, pp.~651--666, 2010.
+
+\bibitem{liao2006adaptive}
+T.~W. Liao, C.-F. Ting, and P.-C. Chang, ``An adaptive genetic clustering
+  method for exploratory mining of feature vector and time series data,'' {\em
+  International Journal of Production Research}, vol.~44, no.~14,
+  pp.~2731--2748, 2006.
+
+\bibitem{petitjean2011global}
+F.~Petitjean, A.~Ketterlin, and P.~Gan{\c{c}}arski, ``A global averaging method
+  for dynamic time warping, with applications to clustering,'' {\em Pattern
+  Recognition}, vol.~44, no.~3, pp.~678--693, 2011.
+
+\bibitem{keogh2006ucr}
+E.~Keogh, X.~Xi, L.~Wei, and C.~A. Ratanamahatana, ``The ucr time series
+  classification/clustering homepage,'' {\em URL= http://www. cs. ucr.
+  edu/eamonn/time series data}, 2006.
 
 \end{thebibliography}
