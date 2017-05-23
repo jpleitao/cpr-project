@@ -65,7 +65,7 @@ In the field of pattern recognition, tasks of this nature are referred to as \em
 	"Given a dataset of n time series data $D = \{F_{1}, \cdots , F_{n}\}$, time series clustering can be defined as the process of unsupervised partitioning of $D$ into $C = {C_{1}, \cdots , C_{k}}$ in such a way that homogeneous time series are grouped together based on a certain similarity measure."
 \end{mydef}
 
-The remainder of this document is organised as follows: Section \ref{objectives} presents the main objectives of this work. In section \ref{dataset_description} water consumption data used in this work is briefly presented. The methodology adopted throughout this work is discussed in section \ref{methodology} and an overview of the experimental setup is provided in section \ref{experiments_summary}. Sections \ref{pre_processing} to \ref{results_assessment} cover the main steps of the work, presented in the methodology section. Finally, section \ref{conclusions} concludes this document.
+The remainder of this document is organised as follows: Section \ref{objectives} presents the main objectives of this work. In section \ref{dataset_description} water consumption data used in this work is briefly presented. The methodology adopted throughout this work is discussed in section \ref{methodology}. Sections \ref{pre_processing} to \ref{results_assessment} cover the main steps of the work, presented in the methodology section. Finally, section \ref{conclusions} concludes this document.
 
 \textbf{FIXME: Review outline}
 
@@ -251,27 +251,6 @@ The second parameter that needs to be defined is the cutoff distance, often repr
 
 Finally, regarding the cluster computation, TADPole takes the series that lie in dense areas (that is, the series that have many neighbours) as the cluster centroids.
 
-\section{Summary of the Experiments}
-\label{experiments_summary}
-
-Following the discussion started in the previous sections, Table \ref{experiments_summary_table} presents a summary of the experiments performed, mentioning the algorithms and respective configurations adopted.
-
-With respect to the last column of the table (entitled \emph{"Number of Clusters"}) an explanation for the selected ranges of values is performed on section \ref{initial_number_clusters}.
-
-\begin{table}[ht]
-	\centering
-	\caption{Summary of the experiments performed.}
-	\label{experiments_summary_table}
-	\begin{tabular}{|c|c|c|c|c|}
-		\hline
-		Data Type                                               & \begin{tabular}[c]{@{}c@{}}Distance\\ Metric\end{tabular} & \begin{tabular}[c]{@{}c@{}}Clustering\\ Algorithm\end{tabular} & \begin{tabular}[c]{@{}c@{}}Centroid\\ Computation\end{tabular}   & \begin{tabular}[c]{@{}c@{}}Number of\\ Clusters\end{tabular} \\ \hline
-		Raw                                                     & DTW                                                       & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & \begin{tabular}[c]{@{}c@{}}Average;\\ DBA;\\ Medoid\end{tabular} & 2 to 8                                                       \\ \hline
-		\begin{tabular}[c]{@{}c@{}}Reduced\\ (PCA)\end{tabular} & Euclidean                                                 & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & Average                                                          & 2 to 8                                                       \\ \hline
-		Raw                                                     & DTW                                                       & TADPole                                                        & -                                                                & 2 to 8                                                       \\ \hline
-	\end{tabular}
-\end{table}
-
-
 \section{Results Assessment}
 \label{results_assessment}
 
@@ -322,11 +301,114 @@ By using a reasoning similar to the previous analysis, for distances lower than 
 
 Being in a completely unsupervised scenario alternative ranges for the number of clusters could be considered. Furthermore, a cyclic process could even be considered in which the dendrogram would be initially analysed to extract estimates for  the number of clusters, which would be computed using the K-Means algorithm. Upon further analysis of the results obtained with the K-Means the dendrogram could be analysed again, and new estimates for the value of $k$ could be computed, repeating this process. Nevertheless, and because of time restrictions, this process was only performed once.
 
+\subsection{Summary of the Experiments}
+\label{experiments_summary}
+
+Following the discussion started in the previous sections, Table \ref{experiments_summary_table} presents a summary of the experiments performed, mentioning the algorithms and respective configurations adopted.
+
+\begin{table}[ht]
+	\centering
+	\caption{Summary of the experiments performed.}
+	\label{experiments_summary_table}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		Data Type                                               & \begin{tabular}[c]{@{}c@{}}Distance\\ Metric\end{tabular} & \begin{tabular}[c]{@{}c@{}}Clustering\\ Algorithm\end{tabular} & \begin{tabular}[c]{@{}c@{}}Centroid\\ Computation\end{tabular}   & \begin{tabular}[c]{@{}c@{}}Number of\\ Clusters\end{tabular} \\ \hline
+		Raw                                                     & DTW                                                       & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & \begin{tabular}[c]{@{}c@{}}Average;\\ DBA;\\ Medoid\end{tabular} & 2 to 8                                                       \\ \hline
+		\begin{tabular}[c]{@{}c@{}}Reduced\\ (PCA)\end{tabular} & Euclidean                                                 & \begin{tabular}[c]{@{}c@{}}HC\\ +\\ K-Means\end{tabular}       & Average                                                          & 2 to 8                                                       \\ \hline
+		Raw                                                     & DTW                                                       & TADPole                                                        & -                                                                & 2 to 8                                                       \\ \hline
+	\end{tabular}
+\end{table}
+
+
 \subsection{Initial Results Analysis}
 
-Primeiro apresentar dendrogramas do hierarchical clustering obtido com cada uma das distance metrics. A partir daí apresentar ranges relativas ao número de clusters que testámos.
+After obtaining the initial estimations for the number of clusters the segmentation of the water consumptions must be performed. As discussed throughout the document, approaches of different natures are intended to be compared, raising the need to define metrics that assess the quality of the computed clusters, thus allowing the comparison of the different approaches.
 
-Referir quais as métricas que utilizámos para avaliar os resultados: Apresentar métricas num itemize e fazer uma breve descrição, colocar fórmulas, dizer que valores são bons, etc
+Evaluating algorithms' performance in unsupervised problems such as clustering (without knowing the optimal number of clusters and assignments of each sample) is a challenging task and still considered an open research problem\cite{aghabozorgi2015time},mostly due to the ambiguity and subjectiveness underlining the definition of a cluster.
+
+Popular evaluation metrics involve \emph{internal} indexes, where cluster quality is summarised to a single score without resorting to any externally supplied labels or ground truth. Whenever such information is available \emph{external} indexes may be applied. In the current work, a completely unsupervised scenario is faced, calling for the application of \emph{internal} indexes.
+
+Several internal indexes have been proposed in the literature to assess cluster quality. In the current work the following were considered:
+
+\begin{itemize}
+	\item \emph{Silhouette Coefficient} (SC), also referred to as silhouette index, score or value. SC measures how similar a sample is to other in its own cluster in comparison to other clusters. It is defined as the average of individual samples' silhouette values, $s(i)$, computed as:
+	
+	$$s(i) = \frac{b(i) - a(i)}{max\{b(i); a(i)\}} $$
+	
+	where $a(i)$ is the average dissimilarity of sample $i$ to all samples in the same cluster and $b(i)$ is the lowest average dissimilarity of sample $i$ to any other cluster. SC takes a value in the range $[-1, 1]$ where values closer to $1$ suggest more dense and well-separated clusters.
+	
+	\vspace{0.3cm}
+	
+	\item \emph{Calinski-Herabaz Index} (CH), also referred to as the \emph{Variance Ratio Criterion} (VRC). CH is defined as follows:
+	
+	$$CH = \frac{SS_{B}}{SS_{W}} \times \frac{(N - k)}{(k - 1)}$$
+	
+	where $SS_{B}$ is the overall between-cluster variance, $SS_{W}$ is the overall within-cluster variance, $k$ is the number of clusters and $N$ is the number of samples/observations.
+	
+	The SC metric is best suited for euclidean distances and, unlike the silhouette coefficient, it is not bounded: higher values of CH signal more dense and well-separated clusters.
+	
+	\vspace{0.3cm}
+	
+	\item \emph{Sum of Squared Errors} (SSE). In the context of clustering, the \emph{error} of a sample can be defined as its distance to its cluster centroids. Therefore, the sum of squared errors consists in the sum of the squares of such distances. As clusters are desirably as dense as possible, smaller values of this metric suggest a more adequate cluster structure. The SSE is often defined as a measure of coherence of the computed clusters, where the smaller its value the "better" the computed clusters.
+
+	\vspace{0.3cm}	
+	
+	\item \emph{Average Within-Cluster Sum Squares}. As the name suggests, this metric computed the average dissimilarity of samples belonging to the same cluster, for a given cluster composition. Such a metric is necessary for the application of the \emph{elbow method}, a popular graphical inspection technique used to select the number of clusters for a given dataset: by plotting the value of this metric for different values of $k$, at some point, an angle in the graph will be verified, yielding the choice for the number of clusters.
+	
+\end{itemize}
+
+Table \ref{initial_results_table} presents the values of the mentioned metrics for the clusters computed according to the summary presented in Table \ref{experiments_summary_table}:
+
+
+\begin{table*}[t]
+	\centering
+	\caption{Evaluation of the clusters computed for the ranges of $k$ obtained from the dendrograms.}
+	\label{initial_results_table}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		Data Type & \begin{tabular}[c]{@{}c@{}}Number\\ Clusters\end{tabular} & \begin{tabular}[c]{@{}c@{}}Distance\\ Metric\end{tabular} & Centroid & \begin{tabular}[c]{@{}c@{}}Silhouette\\ Coefficient\end{tabular} & Calinski-Herabaz & \begin{tabular}[c]{@{}c@{}}Sum Squared\\ Errors\end{tabular} & \begin{tabular}[c]{@{}c@{}}Average\\ Within-Cluster\\ Sum Squares\end{tabular} \\ \hline
+		raw & 2 & dtw & Average & 0.854 & 702.506 & 2738.524 & 7.482 \\ \hline
+		raw & 3 & dtw & Average & 0.498 & 634.724 & 1277.772 & 3.491 \\ \hline
+		raw & 4 & dtw & Average & 0.494 & 459.867 & 1200.868 & 3.281 \\ \hline
+		raw & 5 & dtw & Average & 0.330 & 500.096 & 792.516 & 2.165 \\ \hline
+		raw & 6 & dtw & Average & 0.328 & 403.613 & 776.355 & 2.121 \\ \hline
+		raw & 7 & dtw & Average & 0.328 & 380.359 & 656.397 & 1.793 \\ \hline
+		raw & 8 & dtw & Average & 0.268 & 321.327 & 690.031 & 1.885 \\ \hline
+		raw & 2 & dtw & DBA & 0.855 & 702.506 & 2276.811 & 6.221 \\ \hline
+		raw & 3 & dtw & DBA & 0.798 & 375.516 & 2028.609 & 5.543 \\ \hline
+		raw & 4 & dtw & DBA & 0.326 & 553.938 & 1507.036 & 4.117 \\ \hline
+		raw & 5 & dtw & DBA & 0.324 & 305.732 & 1651.674 & 4.513 \\ \hline
+		raw & 6 & dtw & DBA & 0.267 & 338.719 & 1675.054 & 4.577 \\ \hline
+		raw & 7 & dtw & DBA & 0.247 & 273.032 & 1348.368 & 3.684 \\ \hline
+		raw & 8 & dtw & DBA & 0.202 & 258.607 & 1609.535 & 4.398 \\ \hline
+		raw & 2 & dtw & Medoid & 0.182 & 26.003 & 8125.153 & 22.200 \\ \hline
+		raw & 3 & dtw & Medoid & 0.198 & 52.744 & 8125.153 & 22.200 \\ \hline
+		raw & 4 & dtw & Medoid & 0.198 & 52.744 & 8125.153 & 22.200 \\ \hline
+		raw & 5 & dtw & Medoid & 0.198 & 52.744 & 8125.153 & 22.200 \\ \hline
+		raw & 6 & dtw & Medoid & 0.198 & 52.744 & 8125.153 & 22.200 \\ \hline
+		raw & 7 & dtw & Medoid & 0.121 & 52.146 & 8125.153 & 22.200 \\ \hline
+		raw & 8 & dtw & Medoid & 0.114 & 50.424 & 8125.153 & 22.200 \\ \hline
+		reduced & 2 & euclidean & Average & 0.625 & 1091.771 & 1021632.989 & 2791.347 \\ \hline
+		reduced & 3 & euclidean & Average & 0.587 & 1451.359 & 454165.827 & 1240.890 \\ \hline
+		reduced & 4 & euclidean & Average & 0.567 & 1807.807 & 255658.371 & 698.520 \\ \hline
+		reduced & 5 & euclidean & Average & 0.555 & 2162.009 & 163725.151 & 447.336 \\ \hline
+		reduced & 6 & euclidean & Average & 0.546 & 2503.043 & 114244.296 & 312.143 \\ \hline
+		reduced & 7 & euclidean & Average & 0.539 & 2851.059 & 83985.351 & 229.468 \\ \hline
+		reduced & 8 & euclidean & Average & 0.535 & 3198.039 & 64312.803 & 175.718 \\ \hline
+		raw & 2 & dtw & TADPole & 0.901 & 3315.641 & 39732.457 & 108.558 \\ \hline
+		raw & 3 & dtw & TADPole & -0.100 & 110.288 & 39517.909 & 107.972 \\ \hline
+		raw & 4 & dtw & TADPole & 0.036 & 95.061 & 35628.406 & 97.345 \\ \hline
+		raw & 5 & dtw & TADPole & -0.124 & 126.863 & 35393.535 & 96.704 \\ \hline
+		raw & 6 & dtw & TADPole & -0.211 & 101.870 & 35300.627 & 96.45 \\ \hline
+		raw & 7 & dtw & TADPole & -0.235 & 84.550 & 35311.599 & 96.480 \\ \hline
+		raw & 8 & dtw & TADPole & -0.358 & 72.449 & 35278.512 & 96.389 \\ \hline
+	\end{tabular}
+\end{table*}
+
+
+
+
+Apresentar tabela com resultados - Fazer tabela ocupar as duas colunas!
 
 Fazer uma reflexão sobre os resultados e dizer quais aqueles que merecem ser mais estudados.
 
