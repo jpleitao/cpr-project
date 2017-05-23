@@ -134,6 +134,8 @@ def clustering_run(readings, data_transform):
     # algorithm. If the cluster evaluation metrics for these limits suggest an invalid cluster formation, this range may
     # be extended.
 
+    # Maybe start the analysis on 2 clusters
+
     # ====================================== K-Means Clustering ========================================================
     # A user on stackexchange proposed the following interpretation for the silhouette coefficient:
     # 0.71-1.0   -> A strong structure has been found
