@@ -135,51 +135,6 @@ def clustering_run(readings, data_transform):
     # be extended.
 
     # ====================================== K-Means Clustering ========================================================
-    # Similarly to Hierarchical Clustering, two distinct K-Means Clustering algorithm implementations will be carried
-    # out: At first, K-Means clustering will be performed over the z-normalised time series data, using the DTW
-    # distance metric;
-    # In a second implementation, reduced time series data (after the PCA transformation) will be used along with the
-    # Euclidean distance metric.
-    # From the Hierarchical Clustering  step, several ranges of values for the number of clusters were defined for both
-    # the approaches. The goal is to test K-Means with these different number of clusters and determine which appears to
-    # be the optimal number of clusters, or at least the one that produces the clusters with the best scores in the
-    # adopted cluster evaluation metrics.
-    # A major characteristic of K-Means clustering is that, depending on how the initial cluster centroids are computed,
-    # different results in each run of the algorithm (for the same value of the parameter K) may be produced. This is
-    # specially true if a random initialisation is performed.
-    # As a result of this characteristic, K-Means clustering is usually executed several times for the same value of K
-    # and the initial cluster selection that produces better results is chosen. The question that immediately raises
-    # from such a statement is how to determine if one cluster selection is better than another?
-    # In 2009 Anil Jain published a scientific article reviewing clustering algorithm, namely K-Means Clustering, where
-    # the following suggestion was made:
-    #
-    # "Typically, K-means is run independently for different values of K and the partition that appears the most
-    # meaningful to the domain expert is selected. Different initializations can lead to different final clustering
-    # because K-means only converges to local minima. One way to overcome the local minima is to run the K-means
-    # algorithm, for a given K , with multiple different initial partitions and choose the partition with the smallest
-    # squared error."
-    # Jain, A.K. Data clustering: 50 years beyond K-means. Pattern Recognition Lett. (2009),
-    # doi: 10.1016/j.patrec.2009.09.011
-    #
-    # Given that K-Means tries to optimise exactly the parameters evaluated in the silhouette coefficient (K-Means
-    # searches for clusters whose within-cluster distances is minimised and between-cluster distances maximised), Jain's
-    # suggestion was slightly adjusted, to keep the partition with the higher silhouette coefficient value, instead
-    # of the lowest squared error.
-
-    # As a result, the following approach will be followed in the application of the K-Means Clustering algorithm, for
-    # both the raw and reduced time series data:
-    #
-    # 1) Get ranges for the parameter K from the Dendrogram obtained via Hierarchical Clustering
-    # 2) For each value of K to consider
-    #       3) Run the K-Means Clustering Algorithm for that value of K, with random centroid initialisation, a
-    #          number of times (Say, 10)
-    #       4) After each run has finished compute the silhouette coefficient for the clusters obtained
-    #       5) Save the clusters from the run that produced the highest silhouette coefficient, yielding clusters with
-    #          higher between-cluster distances and lower within-cluster distances
-    # 6) Finally, for each set of clusters obtained for each value of K compute cluster evaluation metrics to compare
-    #    the obtained results
-    # 7) If needed, go back to step 1 and change the ranges for the K values
-
     # A user on stackexchange proposed the following interpretation for the silhouette coefficient:
     # 0.71-1.0   -> A strong structure has been found
     # 0.51-0.70  -> A reasonable structure has been found
