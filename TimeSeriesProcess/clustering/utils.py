@@ -4,6 +4,7 @@
 Contains utility functions used throughout the clustering package
 """
 
+import datetime
 import numpy
 
 import clustering.dba
@@ -109,5 +110,20 @@ def reverse_assignments(assignments):
             new_assignments[i] = key
 
     return new_assignments
+
+
+def is_weekday(day_date):
+    """
+    Receives a given date as a datetime.datetime type, and returns a boolean variable, signalling whether or not the
+    date in question is a weekday.
+    :param day_date: The date to be processed, as a datetime.datetime type
+    :return: A boolean variable, signalling whether or not the date in question is a weekday.
+    """
+    if not isinstance(day_date, datetime.datetime):
+        return TypeError('Argument <day_date> should be of type <datetime.datetime>!')
+
+    # datetime.date.weekday() - "Return day of the week, where Monday == 0 ... Sunday == 6."
+    # So it is weekend if it returns 5 or 6, a lower value indicates weekday
+    return day_date.weekday() < 5
 
 

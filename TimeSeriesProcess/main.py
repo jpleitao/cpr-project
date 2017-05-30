@@ -17,22 +17,19 @@ def do_preprocess(source_filepath):
 
 
 def main():
-    # readings_znormalise, data_transform = do_preprocess(os.getcwd() + '/data/data_final.csv')
+    # readings_znormalise, data_transform, pca, scaler, means, stds = do_preprocess(os.getcwd() + '/data/data_final.csv')
 
     # FIXME: Testing-purposed Code -- Start
     # Load data from file
     imputed_file_path = os.getcwd() + '/data/imputed_data.csv'
     time, readings = preprocess.load_dataset(imputed_file_path, True)
-    readings_znormalise = preprocess.z_normalise(readings)
-    readings_index = preprocess.add_index_to_data(readings_znormalise)  # FIXME: Needed?
-
-    # Load transformed data from file
-    data_transform = numpy.genfromtxt(os.getcwd() + '/data/data_transformed_preprocessed.csv', delimiter=';',
-                                      dtype=float)
+    readings_znormalise, means, stds = preprocess.z_normalise(readings, True)
+    readings_standard, scaler = preprocess.normalisation.normalise_min_max(readings, True)
+    data_transformed, pca = preprocess.dimensionality_reduction.reduce_dimensionality(readings_standard)
     # FIXME: Testing-purposed Code -- End
 
     # Perform clustering with the standardised data and with the reduced data
-    clustering.clustering_run(readings_znormalise, data_transform)
+    clustering.clustering_run(readings_znormalise, data_transformed, pca, means, stds, scaler)
 
 if __name__ == '__main__':
     main()

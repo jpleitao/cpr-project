@@ -5,6 +5,7 @@ import csv
 import matplotlib.pyplot as plt
 
 import clustering.dba
+import clustering.evaluation
 import clustering.metrics
 import clustering.hierarchical
 import clustering.k_means
@@ -88,7 +89,7 @@ def evaluate_clusters(data, time_series, centroid_type):
         writer.writerows(evaluation)
 
 
-def clustering_run(readings, data_transform):
+def clustering_run(readings, data_transform, pca, means, stds, scaler):
     """
     Performs clustering of the time series data. The same clustering methods are intended to be applied to two different
     time series representations: On one of them the raw time series data (with Z-normalisation) is intended to be used;
@@ -96,6 +97,11 @@ def clustering_run(readings, data_transform):
     dimensionality capable of explaining 80% of the data variance (3 dimensions)
     :param readings: The original time series values, with Z-Normalisation
     :param data_transform: The time series values in the reduced (that is, transformed) dimensionality
+    :param pca: The Principal Components object, used to obtain the time series in reduced dimensionality (its purpose
+                is to reverse the process)
+    :param means: The means used to compute the z-normalisation
+    :param stds: The stds used to compute the Z-normalisation
+    :param scaler: The scaler object used to normalise the data with the min-max method
     """
     # ==================================== Hierarchical Clustering =====================================================
     # Start by performing hierarchical clustering on the raw, z-normalised, time series data. For such a data
@@ -143,8 +149,8 @@ def clustering_run(readings, data_transform):
     # 0.26-0.50  -> The structure is weak and could be artificial. Try additional methods of data analysis.
     # < 0.25     -> No substantial structure has been found
 
-    k_values = [2, 3, 4, 5, 6, 7, 8]
-    number_runs = 10
+    # k_values = [2, 3, 4, 5, 6, 7, 8]
+    # number_runs = 10
 
     # **************************** DTW + Average ****************************
     # The main problem of this approach: DTW + Average prototype is that it has been claimed to be a bad combination;
@@ -255,7 +261,7 @@ def clustering_run(readings, data_transform):
     # lead to considerably low Silhouette Coefficient scores - ranging from about 0.32 all the way down to about 0.2.
     # This suggests a weak cluster structure. When analysing the variation of the average within-cluster sum of squares
     # for the different values of k (that is, by inspecting the plot of the elbow method) a steep drop can be seen when
-    # changing k from 3 to 4. If the number of clusters is furhter increased the average within-cluster sum of squares
+    # changing k from 3 to 4. If the number of clusters is further increased the average within-cluster sum of squares
     # increases, which suggests a decrease in the cluster quality (samples in the same cluster are farther apart -
     # clusters are not as dense). Based on these observations, a more careful analysis of the clusters obtained for
     # k=3 and k=4 could be performed.
@@ -265,8 +271,6 @@ def clustering_run(readings, data_transform):
     # adequate cluster properties: Dense and well-separated. Indeed besides scoring low silhouette coefficient scores,
     # even for a small number of clusters like 2, the average within-cluster sum of squares remains constant, which is
     # not a good characteristic/behaviour.
-    # TODO: Ver distribuição de dias para cada cluster para os diferentes valores de K neste caso????
-    # TODO: Pode ser interessante adicionar aqui mais qualquer coisa??
     #
     # When dimensionality reduction techniques are applied (as in the case of the work of Joana Abreu - Citation!)
     # obtained values for the silhouette coefficient remain quite constant as the number of clusters is increased
@@ -301,9 +305,11 @@ def clustering_run(readings, data_transform):
     # limited metrics, its values can considerably change with different distance metrics and cluster centroid
     # computation methods being adopted. Within the same combination of methods a comparison of the values of these
     # metrics can be performed:
+    #
     # Regarding the Sum of Squared Errors, its value was expected to decrease as the number of clusters increased.
-    # This was only verified for two combinations of methods: DTW + DBA centroid (k=4-6), DTW + Medoid (value remained
-    # the same, as already stated) and Euclidean + Average
+    # This was only not verified for three combinations of methods: DTW + DBA centroid (k=4-6), DTW + Medoid (value
+    # remained the same, as already stated) and Euclidean + Average
+    #
     # With respect to the Calinski-Herabaz coefficient, even though higher values suggest more dense and well-separated
     # clusters, the increase in this metric was not always supported by an increase in the silhouette coefficient (for
     # example when clustering time series pre-processed with dimensionality reduction techniques: Euclidean + Average;
@@ -311,7 +317,7 @@ def clustering_run(readings, data_transform):
 
     # Based on these results, k=2 could be seen as good number of clusters in the sense that it produces well-separated
     # and dense clusters; however two important aspects must be taken into account at this point: First of all, as
-    # expected, when only two clusters are considered the errors (distance of each sample to its cluster centroid) as
+    # expected, when only two clusters are considered the errors (distance of each sample to its cluster centroid) are
     # higher. Secondly, in the context of the problem being tackled, empiric knowledge suggests that more than 2 groups
     # of similar consumption profiles can exist. Obviously, this intuition is based on human experience and may be
     # influenced by consumptions of other regions in the city. In this sense (and specially supported by the high sum of
@@ -319,9 +325,21 @@ def clustering_run(readings, data_transform):
     #        -> DTW + Average for k=4 and k=5
     #        -> DTW + DBA for k=3 and k=4
     #        -> Euclidean + Average for k=4 and k=5
-    #        -> DTW + TADPole for k=3 and k=4
+    #        -> DTW + TADPole for k=3 and k=4 -- Eventualmente tirar o TADPole por causa dos SC?? Embora eu fui la pelo elbow...
     #
 
     # ========================================= Further Cluster Evaluation =============================================
+    # DTW + Average
+    # centroid_type = clustering.k_means.CentroidType.AVERAGE
+    # clustering.evaluation.further_cluster_evaluation(readings, True, centroid_type, [4, 5], pca, means, stds, scaler)
+
+    # DTW + DBA
+    # centroid_type = clustering.k_means.CentroidType.DBA
+    # clustering.evaluation.further_cluster_evaluation(readings, True, centroid_type, [3, 4], pca, means, stds, scaler)
+
+    # Euclidean + Average
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    clustering.evaluation.further_cluster_evaluation(data_transform, False, centroid_type, [4, 5], pca, means, stds,
+                                                     scaler)
 
     # TODO: Describe the approach to be followed in the second step and comment its results!

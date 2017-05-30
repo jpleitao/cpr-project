@@ -197,6 +197,8 @@ def preprocess_run(time, readings):
     :return: The time series data after pre-processing in both the original dimension and projected according to its
              principal components that explain 80% of the data variance
     """
+
+    """
     # Check parameters type
     if not isinstance(time, numpy.ndarray) or not isinstance(readings, numpy.ndarray):
         raise TypeError('Input parameters must be of type <numpy.array>!!')
@@ -266,6 +268,8 @@ def preprocess_run(time, readings):
     # in that day were obtained. The implementation of this procedure can be found in the R function
     # 'fillMissingValuesKalman', implemented in the file located at 'preprocess/missing_values.R'
 
+    """
+
     # ============================================ Load Imputed Data ===================================================
     imputed_file_path = os.getcwd() + '/data/imputed_data.csv'
     time, readings = preprocess.load_dataset(imputed_file_path, True)
@@ -281,8 +285,8 @@ def preprocess_run(time, readings):
     # adopting the DTW metric distance with time series. For more information please study the referenced publication:
     #   Mueen, Abdullah, and Eamonn Keogh. "Extracting Optimal Performance from Dynamic Time Warping."
     #   Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. ACM, 2016.
-    readings_standard = preprocess.normalisation.normalise_min_max(readings)
-    readings_znormalise = preprocess.normalisation.z_normalise(readings)
+    readings_standard, scaler = preprocess.normalisation.normalise_min_max(readings, True)
+    readings_znormalise, means, stds = preprocess.normalisation.z_normalise(readings, True)
 
     # ========================================= Dimensionality Reduction ===============================================
     # Browsing the literature on the topic of time series clustering, clustering algorithms featuring DTW as the metric
@@ -298,7 +302,7 @@ def preprocess_run(time, readings):
     # (each sample corresponds to an array/vector of 24 elements) the computation of Euclidean distances on raw data
     # would be very computationally expensive. As a result, dimensionality reduction techniques are also addressed, to
     # reduce the number of features (that is dimensions) required to describe the data.
-    data_transformed = preprocess.dimensionality_reduction.reduce_dimensionality(readings_standard)
+    data_transformed, pca = preprocess.dimensionality_reduction.reduce_dimensionality(readings_standard)
 
     # Two dimensionality reduction techniques were applied and compared at this point:
     #    -> Principal Components Analysis (PCA)
@@ -316,23 +320,7 @@ def preprocess_run(time, readings):
     # It is also worth mentioning at this point that both PCA and SAEs approaches were tested with normalised data,
     # using the 'Min-Max' method.
 
-    # When we perform clustering we do it on normalised or reduced data. In order to interpret the obtained
-    # results we need to have a correspondence between the reduced or transformed data back to the original data (so we
-    # can say that day X belongs to cluster Y and so on...). As a result, the first thing that we can do prior to
-    # actually performing the clustering task is to get a map from the reduced/transformed data to the original one.
-    # Then save the data to a file
-    # Ideas:
-    #   * Have a dictionary where the key is the index in the original readings array and the value is the
-    #     transformed/reduced data
-    #   * Add an additional element to the arrays to contain the index in the original readings. Take care to not
-    #     include that index when computing distances and so on in the clustering tasks...
-    #
-    # For now we will implement the first idea.
-    readings_standard = add_index_to_data(readings_standard)
-    data_transformed = add_index_to_data(data_transformed)
-    readings_znormalise = add_index_to_data(readings_znormalise)
-
     save_data_excel(readings_standard, os.getcwd() + '/data/readings_standard_preprocessed.csv')
     save_data_excel(data_transformed, os.getcwd() + '/data/data_transformed_preprocessed.csv')
 
-    return readings_znormalise, data_transformed
+    return readings_znormalise, data_transformed, pca, scaler, means, stds

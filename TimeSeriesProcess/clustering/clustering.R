@@ -73,7 +73,6 @@ tadCluster <- function(readings_znormalise) {
   
   filePath <- '/media/jpleitao/Data/PhD/PDCTI/CPR/cpr-project/TimeSeriesProcess/data/metrics_results.csv'
   
-  # Try window.size to be the size of the samples (so 24)!!
   for (curr_k in 2:8) {
     print(paste('===================== K = ', curr_k, ' =======================================', sep=''))
     clusterResult <- tsclust(readings_znormalise, type="tadpole", k=curr_k, trace=TRUE,
@@ -92,5 +91,8 @@ tadCluster <- function(readings_znormalise) {
     dataWrite <- matrix(c('raw', curr_k, 'dtw', 'TADPole', cviResult['Sil'], cviResult['CH'], sseSum, avSseSum),
                         nrow=1, ncol=8)
     write.table(dataWrite, file=filePath, row.names=FALSE, col.names=FALSE, sep=';', append=TRUE, quote=FALSE)
+    
+    # Further Cluster evaluation (only for k=3 and k=4)
+    # TODO(jpleitao)
   }
 }
