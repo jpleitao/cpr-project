@@ -197,8 +197,6 @@ def preprocess_run(time, readings):
     :return: The time series data after pre-processing in both the original dimension and projected according to its
              principal components that explain 80% of the data variance
     """
-
-    """
     # Check parameters type
     if not isinstance(time, numpy.ndarray) or not isinstance(readings, numpy.ndarray):
         raise TypeError('Input parameters must be of type <numpy.array>!!')
@@ -267,8 +265,6 @@ def preprocess_run(time, readings):
     # day where missing data were registered, a Kalman Filter model was computed and estimations for the missing data
     # in that day were obtained. The implementation of this procedure can be found in the R function
     # 'fillMissingValuesKalman', implemented in the file located at 'preprocess/missing_values.R'
-
-    """
 
     # ============================================ Load Imputed Data ===================================================
     imputed_file_path = os.getcwd() + '/data/imputed_data.csv'

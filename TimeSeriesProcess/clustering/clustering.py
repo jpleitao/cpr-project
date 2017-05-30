@@ -325,13 +325,14 @@ def clustering_run(readings, data_transform, pca, means, stds, scaler):
     #        -> DTW + Average for k=4 and k=5
     #        -> DTW + DBA for k=3 and k=4
     #        -> Euclidean + Average for k=4 and k=5
-    #        -> DTW + TADPole for k=3 and k=4 -- Eventualmente tirar o TADPole por causa dos SC?? Embora eu fui la pelo elbow...
     #
 
     # ========================================= Further Cluster Evaluation =============================================
     # DTW + Average
-    # centroid_type = clustering.k_means.CentroidType.AVERAGE
-    # clustering.evaluation.further_cluster_evaluation(readings, True, centroid_type, [4, 5], pca, means, stds, scaler)
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    clustering.evaluation.further_cluster_evaluation(readings, True, centroid_type, [4, 5], pca, means, stds, scaler)
+
+    print('=========================')
 
     # DTW + DBA
     # centroid_type = clustering.k_means.CentroidType.DBA
@@ -341,5 +342,3 @@ def clustering_run(readings, data_transform, pca, means, stds, scaler):
     centroid_type = clustering.k_means.CentroidType.AVERAGE
     clustering.evaluation.further_cluster_evaluation(data_transform, False, centroid_type, [4, 5], pca, means, stds,
                                                      scaler)
-
-    # TODO: Describe the approach to be followed in the second step and comment its results!
