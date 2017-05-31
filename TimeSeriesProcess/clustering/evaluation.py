@@ -50,6 +50,8 @@ def plot_centroids(centroids, clusters_image_path, k, time_series, pca, means, s
         plt.plot(time, centroid, label='Cluster ' + str(i))
     plt.legend()
     plt.title('Cluster Centroids')
+    plt.xlabel('Time (Hours)')
+    plt.ylabel('Water Consumption (m3/h)')
     fig.savefig(folder_path + 'centroids_' + str(k))
     plt.close(fig)
 
