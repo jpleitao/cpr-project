@@ -605,6 +605,7 @@ One possible reason that could lead to such a $single-day$ cluster has to do wit
 Nevertheless, it must be pointed out that this cluster has low representativeness, since it only contains one day with a clearly atypical consumption profile. 
 
 \subsection{5 Clusters}
+\label{5_clusters}
 
 When considering one additional grouping computed clusters do not change drastically. Even though such a result could occur and depending on the data and clustering algorithms implemented even be justifiable, similar results to the ones presented in the previous subsection were expected.
 
@@ -655,14 +656,33 @@ If the number of elements in each cluster varies than so does the percentage of 
 \section{Conclusion}
 \label{conclusions}
 
-\textbf{TODO}
+The current work studies methods and techniques for automatic categorisation of urban domestic water consumptions. Results not only show that such automatic categorisation is possible but also allow to pinpoint the periods during the year where certain consumption profiles occur.
 
-De uma forma geral o numero de clusters parece andar proximo de 4, pelo menos andamos sempre a volta desse valor...
+Indeed, being able to recognise habitual water consumptions and to assign a time period to each characteristic, recurrent, consumption profile is of extreme importance to existing water companies, enabling them to manage their infrastructures more accurately and efficiently. 
 
-\textbf{FIXME: Não esquecer de falar do facto de o SC poder nao ser a metrica mais adequada para avaliar os clusters!} - Procurei utilizar uma métrica limitada, uma vez que não tinha conhecimento de trabalhos anteriores de bons indicadores de outras naturezas. No entanto, é importante frisar que, embora a métrica traduza a densidade e well-separation dos clusters, o próprio processo de clustering está dependente dos dados em questão, onde expert knowledge também pode contribuir para um melhor entendimento e avaliação dos resultados.
+As highlighted in Section \ref{methodology}, this work featured important steps that needed to be properly performed in order to allow for such automatic information categorisation. The lack of past experience with the produced data motivated a comparison of several methods in different moments of the execution. Such comparison was supported by a study of the literature in this topic, critic evaluation of results at any stage of the work and, sometimes, a \emph{trial-and-error} approach.
 
+With respect to the actual categorisation of water consumptions several approaches were compared varying different parameters, of which the distance metric, clustering algorithm and centroid computation method are highlighted.
 
-Future work - Fazer análise discriminativa de que features (horas do dia) estão a ser utilizadas para fazer o assignment de cada dia a um cluster - Isso pode-nos permitir perceber melhor qual o perfil de consumo de cada dia...
+A somewhat preference was given to working with explicit time series data. Indeed, the main reasons for this choice were related with the popularity of this representation in time series clustering problems, as well as the existence of proper metrics to compare time series in such a representation. The main drawback of such a decision had to do with the high computational cost of working with explicit time series data (and of the adopted time series distance metric). As can be observed from the provided results and discussion, the application of alternative - and more \emph{traditional} - techniques enabled very similar results.
+
+Another important decision that needed to be made was related with the evaluation of the computed solutions. In a completely unsupervised scenario such as this one, there is no way of accurately knowing which group of clusters (from a set of groupings proposed) represents more adequately recurrent behaviours in the dataset. Four cluster evaluation metrics were considered at this point in the work, with the \emph{Silhouette Coefficient} assuming a primary role.
+
+The main reason for such a decision has to due with the fact that this is a metric for dense and well-separated clusters - characteristics that are always sought in this type of problem. Furthermore, this is the only limited metric; for all the others, values in different ranges may be obtained for distinct clustering algorithms, distance metrics, etc, strongly conditioning any attempt to compare cluster adequacy. Nevertheless, it should be pointed out that expert knowledge of the problem and data being processed is extremely important when analysing and evaluating clustering results.
+
+Based on the results presented and the discussion conducted throughout the different sections that make up the document, the number of clusters (or number of recurrent water consumption profiles) that best fits the studied dataset is $4$.
+
+Certainly, as noted by the results presented in Section \ref{5_clusters}, increasing the number of clusters from $4$ to $5$ only lead to a separation of existing groupings, without leading to significative changes in the recurrent consumption profiles already identified. In addition, working with low dimensional time series data lead to similar groupings and similar consumption profiles\footnote{When in comparison with consumption profiles obtained with explicit time series data.}, at a considerably lower computational cost.
+
+\section{Future Work}
+
+Future iterations of the current work could and should study alternative paths to the one presented and followed.
+
+For example, a considerably more extensive study on missing data imputation techniques could contribute towards the identification of methods more suited to provide estimations for missing data in this dataset and other datasets of the same nature.
+
+In this line of though alternative representation techniques could also be employed, namely solutions that work with features extracted from the time series, such as average consumption, standard deviation, etc. Techniques of this nature would not only avoid producing estimates for missing values, but also reduce computational costs associated with the \emph{DTW} computation. A potential drawback of such solutions could be the lack of interpretability of the obtained results, as well as difficulties in obtaining a water consumption profile associated with each grouping.
+
+Finally, even when working with explicit time series data, a discriminative analysis of the features (hours of the day in this case) that are responsible for assigning samples to a given cluster would also be valuable. Indeed, this would strongly contribute to a better understanding of the consumption profiles identified, and the hours of the day that are more important (and therefore critical) in each grouping.
 
 \bibliographystyle{ieeetr}
 \bibliography{bibliography.bib}
