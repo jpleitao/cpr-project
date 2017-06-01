@@ -70,8 +70,6 @@ In the field of pattern recognition, tasks of this nature are referred to as \em
 
 The remainder of this document is organised as follows: Section \ref{objectives} presents the main objectives of this work. In section \ref{dataset_description} water consumption data used in this work is briefly presented. The methodology adopted throughout this work is discussed in section \ref{methodology}. Sections \ref{pre_processing} to \ref{results_assessment} cover the main steps of the work, presented in the methodology section. Finally, section \ref{conclusions} concludes this document.
 
-\textbf{FIXME: Review outline}
-
 \section{Objectives}
 \label{objectives}
 
@@ -494,22 +492,14 @@ Considering that the same ranges for the number of clusters were defined differe
 
 \subsection{4 Clusters}
 
-Figure \ref{centroids_4clusters} presents the centroids for the $4$ clusters computed in the two scenarios being.
+Figure \ref{centroids_4clusters} presents the centroids for the $4$ clusters computed in the two scenarios being considered.
 
-\begin{figure}[htp]
+\begin{figure*}
 	\centering
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/centroids_reduced_average_4.png}
-		\caption{}
-	\end{subfigure}\hfill%
-
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/centroids_raw_average_4.png}
-		\caption{}
-	\end{subfigure}%
+	\includegraphics[scale=0.4]{images/centroids_4_clusters.png}
 	\caption{Cluster centroids computed for a target number of clusters of $4$ with the K-Means algorithm along with the euclidean distance metric and average centroid computation method (a); and with the K-Means algorithm along with the DTW distance metric and average centroid computation method (b).}
 	\label{centroids_4clusters}
-\end{figure}
+\end{figure*}
 
 \subsubsection{Residual Consumptions - Summer}
 \label{residual_consumptions}
@@ -520,35 +510,19 @@ Further inspecting the composition of these clusters, it can be seen that not on
 
 Figures \ref{distribution_euclidean_average_4clusters} and \ref{distribution_raw_average_4clusters} support these statements.
 
-\begin{figure}[H]
+\begin{figure*}
 	\centering
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/percent_week_raw_average_4.png}
-		\caption{}
-	\end{subfigure}\hfill%
-	
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/percent_months_raw_average_4.png}
-		\caption{}
-	\end{subfigure}%
-	\caption{Distribution of days over Cluster $0$ for the \emph{Euclidean Distance + Average Centroid} scenario: Percentage of weekdays and weekends (a) and Distribution over months of the year (b).}
+	\includegraphics[scale=0.4]{images/percent_week_months_raw_average_4.png}
+	\caption{Distribution of days over Cluster $0$ for the \emph{Euclidean Distance + Average Centroid} scenario: Percentage of weekdays and weekends (a) and distribution over months of the year (b).}
 	\label{distribution_euclidean_average_4clusters}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[H]
+\begin{figure*}
 	\centering
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/percent_week_raw_average_4.png}
-		\caption{}
-	\end{subfigure}\hfill%
-	
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/percent_months_raw_average_4.png}
-		\caption{}
-	\end{subfigure}%
-	\caption{Distribution of days over Cluster $0$ for the \emph{DTW + Average Centroid} scenario: Percentage of weekdays and weekends (a) and Distribution over months of the year (b).}
+	\includegraphics[scale=0.4]{images/percent_week_months_raw_average_4.png}
+	\caption{Distribution of days over Cluster $0$ for the \emph{DTW + Average Centroid} scenario: Percentage of weekdays and weekends (a) and distribution over months of the year (b).}
 	\label{distribution_raw_average_4clusters}
-\end{figure}
+\end{figure*}
 
 \subsubsection{End of Summer}
 
@@ -560,57 +534,72 @@ As seen in Figures \ref{cluster3_euclidean}b) and \ref{cluster2_raw}b), water co
 
 Water consumptions belonging to these periods are characterised by high demands during typical business hours: from about $7-8am$ to about $8pm$. It it also worth pointing out a slight decrease around $3pm$.
 
-\begin{figure}[H]
+\begin{figure*}
 	\centering
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/percent_week_euc_average_cluster3_k4.png}
-		\caption{}
-	\end{subfigure}\hfill%
-	
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/percent_months_euc_average_cluster3_k4.png}
-		\caption{}
-	\end{subfigure}%
-	\caption{Distribution of days over Cluster $3$ for the \emph{Euclidean Distance + Average Centroid} scenario: Percentage of weekdays and weekends (a) and Distribution over months of the year (b).}
+	\includegraphics[scale=0.4]{images/percent_week__months_euc_average_cluster3_k4.png}
+	\caption{Distribution of days over Cluster $3$ for the \emph{Euclidean Distance + Average Centroid} scenario: Percentage of weekdays and weekends (a) and distribution over months of the year (b).}
 	\label{cluster3_euclidean}
-\end{figure}
+\end{figure*}
 
 Similarly to the previous case, weekends and weekdays appear to be evenly distributed in these clusters, taking into account their expected proportions: since a week is composed of $7$ days, $5$ of which are weekdays and only $2$ weekends, in this context, an even distribution of weekends and weekdays means that a proportion of about $70-30$ is registered.
 
 Indeed, as supported by Figures \ref{cluster3_euclidean}a) and \ref{cluster2_raw}a), proportions between weekdays and weekends similar to this one have been verified.
 
-\begin{figure}[H]
+\begin{figure*}
 	\centering
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/percent_week_dtw_average_cluster2_k4.png}
-		\caption{}
-	\end{subfigure}\hfill%
-	
-	\begin{subfigure}{0.8\columnwidth}
-		\includegraphics[scale=0.4]{images/percent_months_euc_average_cluster2_k4.png}
-		\caption{}
-	\end{subfigure}%
-	\caption{Distribution of days over Cluster $2$ for the \emph{DTW + Average Centroid} scenario: Percentage of weekdays and weekends (a) and Distribution over months of the year (b).}
+	\includegraphics[scale=0.4]{images/percent_week_months_dtw_average_cluster2_k4.png}
+	\caption{Distribution of days over Cluster $2$ for the \emph{DTW + Average Centroid} scenario: Percentage of weekdays and weekends (a) and distribution over months of the year (b).}
 	\label{cluster2_raw}
-\end{figure}
+\end{figure*}
 
 \subsubsection{Entire Year}
 
-\textbf{TODO}
+In both approaches clusters that represent water consumption profiles that occur repeatedly throughout the year can also be identified, although similarities between clusters computed with both approaches might not be as clear as in previous cases.
 
-Dizer que cluster 1 e 2 do reduced são muito parecidos em termos de distribuição ao longo do ano, embora tenham consumos com caracteristicas diferentes (consumos cluster 1 atingem valores tipicamente mais altos e o cluster 1 agrega quase o dobro dos dias que o cluster 2).
+Starting with the approach of Figure \ref{centroids_4clusters}a) - \emph{Euclidean} distance with \emph{Average} centroid method - clusters $1$ and $2$ are similar to a certain degree in terms of water consumptions and occurrence during the year, as suggested by Figure \ref{year_dist_k12_euc_average4}.
 
-No entanto, estes dois clusters juntos representam praticamente a mesma percentagem do dataset que o cluster 1 do raw (74.52 contra 72.6), tendo uma distribuição muito semelhante ao longo do ano. Referir apenas que no que diz respeito à percentagem de weekdays e weekends, estes dois conjuntos (cluster 1 e 2 vs cluster 1) não aparentam ter a mesma distribuição. - Não acho que valha muito a pena estar a colocar plots da distribuição de weekdays e weekends
+\begin{figure*}
+	\centering
+	\includegraphics[scale=0.4]{images/percent_months_euc_average_k12_4.png}
+	\caption{Distribution of days over the year for Clusters $1$ (a) and $2$ (b) for the \emph{Euclidean Distance + Average Centroid} scenario.}
+	\label{year_dist_k12_euc_average4}
+\end{figure*}
 
-Mostrar imagens distribuição clusters pelo ano E SÓ PELO ANO!!
+In terms of the water consumption profiles, the main difference between these two clusters is the overall higher consumptions of cluster $1$, specially during the middle of the morning (between $8am$ and about $10am$) and the beginning of the night (around $8pm$).
+
+Regarding distribution of days, as already mentioned both clusters have similar distribution over the year, containing identical percentages of days of each month of the year. Where these two clusters distinguish themselves from one another is in the distribution over the week: while cluster $1$ only contains weekdays, cluster $2$ is mainly composed of weekend days. Such statements are supported by the contents of Figure \ref{week_dist_k12_eu_average4}.
+
+\begin{figure*}
+	\centering
+	\includegraphics[scale=0.4]{images/percent_week_euc_average_k12_4.png}
+	\caption{Distribution of days over the week for Clusters $1$ (a) and $2$ (b) for the \emph{Euclidean Distance + Average Centroid} scenario: Percentage of weekdays and weekends.}
+	\label{week_dist_k12_eu_average4}
+\end{figure*}
+
+Moving on to the approach of Figure \ref{centroids_4clusters}b) - \emph{DTW} distance with \emph{Average} centroid method - cluster $1$ is also spread over the entire year. Of all the clusters computed in the two approaches being addressed in the current subsection, this cluster represents the highest percentage of the dataset ($72.6\%$).
+
+When comparing this cluster with the two previously presented, besides the already mentioned similarities in the distribution over the year, equivalent percentages of the dataset are being represented: together, clusters $1$ and $2$ of \ref{centroids_4clusters}a) contain about $74.52\%$ of the days are being considered in this analysis.
+
+Furthermore, similar distributions over the days of the week can be found, and in both cases they are close to the already mentioned expected ratio of $70-30$.
+
+The main differences between these two groups - clusters $1$ and $2$ from \ref{centroids_4clusters}a) and cluster $1$ from \ref{centroids_4clusters}b) - are related with their water consumption profiles: a similar trend can be identified during early hours of the day (up until about $6am$) and after about $4pm$. In the mean time, cluster $1$ from \ref{centroids_4clusters}b) appears to characterise a more constant, and sometimes more intense, consumption profile.
+
+All these statements are supported by the contents of Figure \ref{week_month_dist_k1_dtw_average4}.
+
+\begin{figure*}
+	\centering
+	\includegraphics[scale=0.4]{images/percent_week_months_dtw_average_cluster1_k4.png}
+	\caption{Distribution of days over Clusters $1$ for the \emph{DTW + Average Centroid} scenario: Percentage of weekdays and weekends (a) and distribution over the months of the year (b).}
+	\label{week_month_dist_k1_dtw_average4}
+\end{figure*}
 
 \subsubsection{Isolated Clusters}
 
-\textbf{TODO}
+Finally, when performing K-Means Clustering with the DTW distance metric an isolated cluster can be identified: cluster $3$ contains only one day of the year during the month of June.
 
-Mencionar aqui apenas que o Cluster 3 do raw está isolado, apenas tem um dia que é no mês de Junho - Reforçar que no HC havia clusters isolados, pelo que este resultado é perfeitamente possível.
+The fact that a unitary cluster has been identified does not, necessarily, signal any problem with the computed clusters: indeed, the Hierarchical Clustering initially performed and illustrated in Figure \ref{hierarchical_clustering_dtw} contains such clusters even for high cutoff distance values.
 
-Acho que aqui não vale a pena colocar nenhuma imagem, já tenho que cheguem!!
+One possible reason that could lead to such a $single-day$ cluster has to do with the water consumption profile for this day: as presented in Figure \ref{centroids_4clusters}b), a sharp decrease in water consumptions during the afternoon and night can be observed, reaching consumptions even lower than the residual ones assigned to cluster $0$.
 
 \subsection{5 Clusters}
 
@@ -624,6 +613,9 @@ Acho que aqui não vale a pena colocar nenhuma imagem, já tenho que cheguem!!
 De uma forma geral o numero de clusters parece andar proximo de 4, pelo menos andamos sempre a volta desse valor...
 
 \textbf{FIXME: Não esquecer de falar do facto de o SC poder nao ser a metrica mais adequada para avaliar os clusters!} - Procurei utilizar uma métrica limitada, uma vez que não tinha conhecimento de trabalhos anteriores de bons indicadores de outras naturezas. No entanto, é importante frisar que, embora a métrica traduza a densidade e well-separation dos clusters, o próprio processo de clustering está dependente dos dados em questão, onde expert knowledge também pode contribuir para um melhor entendimento e avaliação dos resultados.
+
+
+Future work - Fazer análise discriminativa de que features (horas do dia) estão a ser utilizadas para fazer o assignment de cada dia a um cluster - Isso pode-nos permitir perceber melhor qual o perfil de consumo de cada dia...
 
 
 \bibliographystyle{ieeetr}
