@@ -594,6 +594,7 @@ All these statements are supported by the contents of Figure \ref{week_month_dis
 \end{figure*}
 
 \subsubsection{Isolated Clusters}
+\label{isolated_clusters}
 
 Finally, when performing K-Means Clustering with the DTW distance metric an isolated cluster can be identified: cluster $3$ contains only one day of the year during the month of June.
 
@@ -601,9 +602,55 @@ The fact that a unitary cluster has been identified does not, necessarily, signa
 
 One possible reason that could lead to such a $single-day$ cluster has to do with the water consumption profile for this day: as presented in Figure \ref{centroids_4clusters}b), a sharp decrease in water consumptions during the afternoon and night can be observed, reaching consumptions even lower than the residual ones assigned to cluster $0$.
 
+Nevertheless, it must be pointed out that this cluster has low representativeness, since it only contains one day with a clearly atypical consumption profile. 
+
 \subsection{5 Clusters}
 
-\textbf{TODO}
+When considering one additional grouping computed clusters do not change drastically. Even though such a result could occur and depending on the data and clustering algorithms implemented even be justifiable, similar results to the ones presented in the previous subsection were expected.
+
+This is, in fact, the case, as clusters representing similar consumption profiles were obtained at this point, and also featuring equivalent distributions over weekdays and throughout the entire year. As such, the discussion taking place in the current subsection will not follow the same organisation as the previous section: cluster solutions obtained with the same approach but for a different number of clusters will be compared; That is, cluster solutions obtained with \emph{Euclidean} distance and \emph{Average} centroid method for both $k=4$ and $k=5$ and cluster solutions obtained with \emph{DTW} distance and \emph{Average} centroid method for both $k=4$ and $k=5$ will be compared.
+
+\subsubsection{Euclidean Distance and Average Centroid}
+
+Overall, when dimensionality reduction techniques were applied no major differences in the computed water consumption profiles were registered when the target number of clusters was increased. Figure \ref{comparison_clusters_45_average} presents cluster centroids computed with both target number of clusters.
+
+\begin{figure*}
+	\centering
+	\includegraphics[scale=0.4]{images/centroids_45_clusters.png}
+	\caption{Cluster centroids computed with the K-Means algorithm along with the \emph{Euclidean} distance metric and average centroid computation method for a target number of clusters of $4$ (a) and $5$ (b).}
+	\label{comparison_clusters_45_average}
+\end{figure*}
+
+Analysing and comparing the distribution of days of the dataset throughout the clusters, equivalent compositions were found.
+
+As already mentioned, one cluster representing residual consumptions during summer months can be found in both cases (Cluster $2$ for $k=5$). One grouping representative of the terminal part of the summer (Cluster $0$ for $k=5$).
+
+With respect to the typical consumption profiles that occur throughout the entire year (clusters $1$ and $2$ for $k=4$), almost the same consumption profiles and distribution of days were obtained with the new target number of clusters (clusters $1$ and $3$, respectively, for $k=5$).
+
+Since one additional cluster must also be computed, cluster $4$ was also obtained; however, this cluster is not very representative, given the fact that only two days (one in June and another in July) were assigned to this cluster.
+
+\subsubsection{DTW Distance and Average Centroid}
+
+In the case in which clustering of raw time series data was performed, more visible changes in the computed consumption profiles were detected. Such a finding is mostly due to the disappearing of cluster $3$ which, has stated in \ref{isolated_clusters} has low representativeness.
+
+Figure \ref{comparison_clusters_45_dtw} presents cluster centroids computed with both target number of clusters.
+
+\begin{figure*}
+	\centering
+	\includegraphics[scale=0.4]{images/centroids_45_clusters_dtw.png}
+	\caption{Cluster centroids computed with the K-Means algorithm along with the \emph{DTW} distance metric and average centroid computation method for a target number of clusters of $4$ (a) and $5$ (b).}
+	\label{comparison_clusters_45_dtw}
+\end{figure*}
+
+Analysing the plots in Figure \ref{comparison_clusters_45_dtw}, when increasing the number of clusters from $4$ to $5$ two distinct behaviours can be identified:
+
+On the one hand, some cluster groupings remained almost the same, representing the same consumption profile over the day and containing the same distribution of days over the week and year. This is the case of the residual water consumptions: For $k=4$ cluster $0$ was representative of such behaviours and, for $k=5$, this is the job of cluster $4$. The only difference that must be referenced between the profiles represented by these two clusters is the fact that for $k=5$ water consumptions appear to increase earlier in the day (around $9am$) when in comparison with the cluster for $k=4$ (where water consumptions only increase around $2pm$).
+
+On the other hand, some existing cluster groupings appear to have been split in two new clusters representing similar but slightly different consumption profiles. This is the case of cluster $1$ - which was split into clusters $0$ and $3$ - and cluster $2$ - split into clusters $0$ and $3$. These new clusters maintain a similar distribution in terms of weekdays and days over the year.
+
+With the mentioned cluster divisions resulting from the inclusion of an additional cluster, the number of elements assign to each cluster also suffers slight variations. For example, even though cluster $2$ was split into clusters $0$ and $3$, the total number of days in these two clusters is slightly inferior to the total number of days in the \emph{"original"} cluster $2$ (about $20.55\%$ of the dataset against approximately $21.64\%$).
+
+If the number of elements in each cluster varies than so does the percentage of weekdays and weekends, and days of each month. Nevertheless, as in the situation described in the previous paragraph, these are slight variations, meaning that both the $4$ or $5$ identified groups represent a similar distribution and grouping of water consumptions.
 
 \section{Conclusion}
 \label{conclusions}
@@ -616,7 +663,6 @@ De uma forma geral o numero de clusters parece andar proximo de 4, pelo menos an
 
 
 Future work - Fazer análise discriminativa de que features (horas do dia) estão a ser utilizadas para fazer o assignment de cada dia a um cluster - Isso pode-nos permitir perceber melhor qual o perfil de consumo de cada dia...
-
 
 \bibliographystyle{ieeetr}
 \bibliography{bibliography.bib}
