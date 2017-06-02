@@ -1,0 +1,265 @@
+[Test_Imputation]DAY: 0 positions: [18, 10, 13, 15, 11] RMSE: 789.46785684
+[Test_Imputation]DAY: 1 positions: [23, 14, 15, 18, 12] RMSE: 1407.67022674
+[Test_Imputation]DAY: 2 positions: [9, 16, 8] RMSE: 1565.09841258
+[Test_Imputation]DAY: 3 positions: [4, 11] RMSE: 1559.72545532
+[Test_Imputation]DAY: 4 positions: [2, 13] RMSE: 1049.61077059
+[Test_Imputation]DAY: 5 positions: [8, 18, 11, 19, 22, 14, 9] RMSE: 2739.26109879
+[Test_Imputation]DAY: 7 positions: [16, 6, 15, 5, 8, 2, 23, 4, 18, 3] RMSE: 5018.2630382
+[Test_Imputation]DAY: 8 positions: [8, 13, 21] RMSE: 497.98566078
+[Test_Imputation]DAY: 9 positions: [16, 0] RMSE: 6748.47362601
+[Test_Imputation]DAY: 10 positions: [6, 8, 7, 16, 15, 19, 17, 22, 12, 18, 1] RMSE: 2986.63573986
+[Test_Imputation]DAY: 11 positions: [2, 7, 14] RMSE: 2157.20976249
+[Test_Imputation]DAY: 12 positions: [15, 23, 0, 16, 7, 5, 18, 11, 12] RMSE: 8361.57203712
+[Test_Imputation]DAY: 13 positions: [3, 17, 9, 11] RMSE: 2571.40589197
+[Test_Imputation]DAY: 14 positions: [7, 23, 8, 6] RMSE: 6219.21526455
+[Test_Imputation]DAY: 15 positions: [1, 4, 22, 5] RMSE: 1281.89905337
+[Test_Imputation]DAY: 16 positions: [13, 3] RMSE: 934.1662953
+[Test_Imputation]DAY: 17 positions: [21, 17, 13, 0, 23, 11] RMSE: 14480.4675349
+[Test_Imputation]DAY: 18 positions: [4, 5, 22, 11, 7, 8, 3] RMSE: 4020.59092388
+[Test_Imputation]DAY: 19 positions: [17, 19, 9, 5, 15, 22, 16, 0, 13, 18, 3] RMSE: 7729.60272207
+[Test_Imputation]DAY: 20 positions: [6, 23, 8, 12] RMSE: 9463.94423297
+[Test_Imputation]DAY: 21 positions: [9, 15, 23, 22, 4, 10, 16, 5, 19] RMSE: 1485.23484554
+[Test_Imputation]DAY: 22 positions: [19, 22, 13, 16, 4] RMSE: 735.794406694
+[Test_Imputation]DAY: 23 positions: [16, 10] RMSE: 1573.5119486
+[Test_Imputation]DAY: 24 positions: [0, 6, 4, 8] RMSE: 3885.34696943
+[Test_Imputation]DAY: 25 positions: [1, 5, 17, 14, 11, 20] RMSE: 1714.56279983
+[Test_Imputation]DAY: 26 positions: [5, 16, 10, 19, 4, 17, 1, 9] RMSE: 2154.49270988
+[Test_Imputation]DAY: 27 positions: [14, 7, 16, 15, 8, 17, 10, 9, 3] RMSE: 4688.24511868
+[Test_Imputation]DAY: 28 positions: [12, 8] RMSE: 4500.83353279
+[Test_Imputation]DAY: 30 positions: [0] RMSE: 10052.5849328
+[Test_Imputation]DAY: 31 positions: [11] RMSE: 3004.8415961
+[Test_Imputation]DAY: 32 positions: [18, 3] RMSE: 2126.37661932
+[Test_Imputation]DAY: 33 positions: [7, 19, 3, 12, 2, 11] RMSE: 2095.60602294
+[Test_Imputation]DAY: 34 positions: [3, 15, 7, 22] RMSE: 3201.57799351
+[Test_Imputation]DAY: 35 positions: [1, 8, 9, 16, 7, 19] RMSE: 5963.86300102
+[Test_Imputation]DAY: 36 positions: [0, 6, 14] RMSE: 1650.59804724
+[Test_Imputation]DAY: 37 positions: [18, 5, 0, 3, 9] RMSE: 1811.83192861
+[Test_Imputation]DAY: 38 positions: [22, 9, 14, 12, 20] RMSE: 971.27391542
+[Test_Imputation]DAY: 39 positions: [18, 16, 3, 22] RMSE: 1507.66296135
+[Test_Imputation]DAY: 40 positions: [14, 19, 23, 8, 6, 17, 7, 16, 9] RMSE: 6242.92777102
+[Test_Imputation]DAY: 41 positions: [0, 1] RMSE: 7419.98891688
+[Test_Imputation]DAY: 43 positions: [19, 0, 6, 17, 14, 5, 10, 3, 13, 4] RMSE: 4111.17716425
+[Test_Imputation]DAY: 44 positions: [18, 10, 21, 11] RMSE: 438.273795892
+[Test_Imputation]DAY: 45 positions: [5, 12, 2, 6, 14, 4, 3, 0, 20] RMSE: 199243.073022
+[Test_Imputation]DAY: 46 positions: [13] RMSE: 695.075367367
+[Test_Imputation]DAY: 47 positions: [3, 20] RMSE: 2520.23602109
+[Test_Imputation]DAY: 49 positions: [5, 18, 10, 16, 14, 21, 17, 2] RMSE: 1219.69659868
+[Test_Imputation]DAY: 52 positions: [19, 8, 15, 4, 2, 13] RMSE: 3360.52310266
+[Test_Imputation]DAY: 53 positions: [13, 5, 8, 21, 14, 3, 22, 12, 19, 18, 11] RMSE: 2970.99331888
+[Test_Imputation]DAY: 54 positions: [11, 2, 20, 16, 12, 23, 10, 21, 5, 8, 3] RMSE: 5101.13447085
+[Test_Imputation]DAY: 55 positions: [13, 11, 3, 9, 19] RMSE: 3214.68926438
+[Test_Imputation]DAY: 57 positions: [0, 11, 12, 14, 17, 7, 4, 5, 18, 8] RMSE: 1917.90133036
+[Test_Imputation]DAY: 58 positions: [14, 17] RMSE: 191.486216196
+[Test_Imputation]DAY: 63 positions: [6, 13] RMSE: 4305.25971668
+[Test_Imputation]DAY: 64 positions: [9] RMSE: 1524.41517277
+[Test_Imputation]DAY: 65 positions: [6] RMSE: 163.57421033
+[Test_Imputation]DAY: 66 positions: [3, 17, 1, 19, 14] RMSE: 2332.28829372
+[Test_Imputation]DAY: 67 positions: [17, 19, 8, 16, 2, 4, 13] RMSE: 2543.16329177
+[Test_Imputation]DAY: 68 positions: [2, 20, 13, 1, 12, 6, 10, 22] RMSE: 4396.2145414
+[Test_Imputation]DAY: 69 positions: [0, 21, 19] RMSE: 3352.85525808
+[Test_Imputation]DAY: 70 positions: [9, 14, 2, 1, 6, 8] RMSE: 2827.32655503
+[Test_Imputation]DAY: 71 positions: [9, 15, 8, 17, 21, 16, 23] RMSE: 1759.43455956
+[Test_Imputation]DAY: 72 positions: [16, 3, 18] RMSE: 458.984248752
+[Test_Imputation]DAY: 73 positions: [2, 12, 10, 9, 16, 11, 23, 0, 1, 6] RMSE: 6295.24126416
+[Test_Imputation]DAY: 74 positions: [6, 5, 15, 11, 20, 14, 9, 16, 7, 22] RMSE: 3322.81044136
+[Test_Imputation]DAY: 75 positions: [9, 10, 23, 14, 16, 19, 4] RMSE: 4018.32834824
+[Test_Imputation]DAY: 76 positions: [19, 9, 12, 20, 8, 18, 22, 15] RMSE: 3917.64847942
+[Test_Imputation]DAY: 78 positions: [5] RMSE: 156.949995148
+[Test_Imputation]DAY: 79 positions: [20, 13, 14, 4, 12, 6, 15, 10, 3, 19, 17] RMSE: 665.940730926
+[Test_Imputation]DAY: 80 positions: [18, 9, 16, 4, 17, 21, 8] RMSE: 2473.2231691
+[Test_Imputation]DAY: 81 positions: [11, 3, 16] RMSE: 1367.65779855
+[Test_Imputation]DAY: 83 positions: [17, 21, 6, 14, 3, 15, 0, 1, 7] RMSE: 2710.17407492
+[Test_Imputation]DAY: 84 positions: [22, 20, 17, 19, 10, 6, 7, 13] RMSE: 1371.5794888
+[Test_Imputation]DAY: 85 positions: [13] RMSE: 405.204722433
+[Test_Imputation]DAY: 88 positions: [8, 17, 3, 16] RMSE: 2623.69947533
+[Test_Imputation]DAY: 89 positions: [2] RMSE: 796.077754058
+[Test_Imputation]DAY: 90 positions: [21] RMSE: 1095.70487384
+[Test_Imputation]DAY: 91 positions: [0, 4, 9, 8, 7, 20, 16, 13, 12] RMSE: 4086.41772925
+[Test_Imputation]DAY: 92 positions: [1, 11, 2, 9, 10] RMSE: 1323.24925788
+[Test_Imputation]DAY: 93 positions: [15, 4, 6, 5, 11] RMSE: 903.470710402
+[Test_Imputation]DAY: 94 positions: [22] RMSE: 3932.68034783
+[Test_Imputation]DAY: 95 positions: [4, 21, 13, 11, 6, 10, 16, 8] RMSE: 2731.39419384
+[Test_Imputation]DAY: 96 positions: [23, 16, 15, 8, 0, 13, 12, 2, 18] RMSE: 16091.9825516
+[Test_Imputation]DAY: 97 positions: [21, 2, 6, 9, 1, 17, 5, 23] RMSE: 14276.2587076
+[Test_Imputation]DAY: 98 positions: [8, 21, 0, 22] RMSE: 15216.673237
+[Test_Imputation]DAY: 99 positions: [13, 10, 8, 16] RMSE: 569.636087063
+[Test_Imputation]DAY: 100 positions: [19, 13] RMSE: 472.086610181
+[Test_Imputation]DAY: 101 positions: [21, 22] RMSE: 8425.62331318
+[Test_Imputation]DAY: 102 positions: [2, 4, 10, 12, 6, 20, 18, 14] RMSE: 3517.98772656
+[Test_Imputation]DAY: 103 positions: [18, 1, 11, 4, 2, 8, 23] RMSE: 6918.30041178
+[Test_Imputation]DAY: 104 positions: [8, 16, 3, 18, 17, 11, 20] RMSE: 3488.63802367
+[Test_Imputation]DAY: 106 positions: [18, 14, 1] RMSE: 707.653163038
+[Test_Imputation]DAY: 107 positions: [10, 21, 8, 12, 6, 16, 4] RMSE: 934.164217896
+[Test_Imputation]DAY: 108 positions: [20, 16, 6, 19, 18, 15, 10] RMSE: 3311.21411717
+[Test_Imputation]DAY: 109 positions: [9, 0, 20, 22, 11] RMSE: 7610.18060817
+[Test_Imputation]DAY: 111 positions: [7, 5, 8, 23, 0, 21, 13, 16, 11] RMSE: 5626.21391504
+[Test_Imputation]DAY: 113 positions: [4, 21, 19, 2, 1, 22, 5, 3, 17, 20, 8] RMSE: 104889.054696
+[Test_Imputation]DAY: 115 positions: [19, 21, 22, 18, 4, 13, 0, 11] RMSE: 2226.96438525
+[Test_Imputation]DAY: 116 positions: [4, 11, 10, 13, 5, 22, 18, 9, 21, 1] RMSE: 4032.94957026
+[Test_Imputation]DAY: 117 positions: [17, 19, 6, 15, 11, 21, 3, 5, 8, 1, 10] RMSE: 2266.45868099
+[Test_Imputation]DAY: 118 positions: [23, 15, 13, 14, 22, 18, 0, 6, 21, 20] RMSE: 175087.988135
+[Test_Imputation]DAY: 119 positions: [13, 16, 10, 4, 0, 6, 9, 2] RMSE: 8424.58627582
+[Test_Imputation]DAY: 120 positions: [6] RMSE: 1610.78082572
+[Test_Imputation]DAY: 121 positions: [8, 2, 19, 20] RMSE: 622.071206819
+[Test_Imputation]DAY: 122 positions: [15, 21, 23, 5, 22, 20, 9, 7, 1, 16] RMSE: 237235.683146
+[Test_Imputation]DAY: 124 positions: [9, 10, 17, 8, 19, 16, 2, 21, 3, 23] RMSE: 7508.03561881
+[Test_Imputation]DAY: 126 positions: [11, 21] RMSE: 2458.98138213
+[Test_Imputation]DAY: 127 positions: [11, 3, 0, 5, 10, 6, 22] RMSE: 1000.72482984
+[Test_Imputation]DAY: 128 positions: [0, 23, 6, 15] RMSE: 7872.03138606
+[Test_Imputation]DAY: 129 positions: [16, 14, 11, 13] RMSE: 3398.01056346
+[Test_Imputation]DAY: 130 positions: [13, 18, 0, 9, 23, 16, 15, 1, 7] RMSE: 22557.6335234
+[Test_Imputation]DAY: 131 positions: [19, 23, 21, 22] RMSE: 6583.1522859
+[Test_Imputation]DAY: 132 positions: [19, 13, 22, 21, 4, 8, 20, 15, 7] RMSE: 8384.44906606
+[Test_Imputation]DAY: 134 positions: [13, 12, 1, 5, 9, 11] RMSE: 963.91712569
+[Test_Imputation]DAY: 135 positions: [16, 2, 18, 7, 1, 17, 14, 9] RMSE: 996.984922681
+[Test_Imputation]DAY: 136 positions: [19, 15, 2, 22, 23, 6] RMSE: 39824.5315439
+[Test_Imputation]DAY: 137 positions: [6, 10, 16, 14, 3, 2, 17, 11, 1, 5] RMSE: 21759.0772973
+[Test_Imputation]DAY: 138 positions: [16, 19, 3, 14] RMSE: 2313.5662193
+[Test_Imputation]DAY: 139 positions: [8, 13, 11, 4, 17, 23, 15, 3, 7] RMSE: 4023.63370056
+[Test_Imputation]DAY: 141 positions: [12, 1, 20, 22, 13, 17, 0, 10, 23, 5, 7] RMSE: 24585.7766776
+[Test_Imputation]DAY: 142 positions: [17, 1, 19, 15, 12, 9, 3, 11, 10, 21, 13] RMSE: 1326.40871715
+[Test_Imputation]DAY: 145 positions: [22, 15, 16, 4, 2, 6, 12] RMSE: 2771.63842515
+[Test_Imputation]DAY: 146 positions: [18, 15, 16, 4, 8] RMSE: 816.497205205
+[Test_Imputation]DAY: 147 positions: [23, 12, 6, 22, 13, 10, 11] RMSE: 2960.2638968
+[Test_Imputation]DAY: 148 positions: [7, 11, 13, 22, 12, 23] RMSE: 6412.90640269
+[Test_Imputation]DAY: 149 positions: [14, 13, 23, 8, 15, 7, 16, 21, 4, 9, 0] RMSE: 2376.96033693
+[Test_Imputation]DAY: 150 positions: [6] RMSE: 6064.11912555
+[Test_Imputation]DAY: 151 positions: [2] RMSE: 426.243451606
+[Test_Imputation]DAY: 152 positions: [8, 17, 3, 0, 2, 23, 11, 5, 22, 16, 19] RMSE: 43621.1514458
+[Test_Imputation]DAY: 153 positions: [12, 4, 3, 9, 22, 18, 8] RMSE: 2275.99854205
+[Test_Imputation]DAY: 154 positions: [21, 14] RMSE: 2343.03648731
+[Test_Imputation]DAY: 155 positions: [4, 9, 10, 16, 12, 21, 11] RMSE: 1118.64138313
+[Test_Imputation]DAY: 156 positions: [0, 17, 21, 8, 13, 12, 2, 14, 9, 7] RMSE: 847.031120389
+[Test_Imputation]DAY: 158 positions: [10] RMSE: 2109.75729814
+[Test_Imputation]DAY: 159 positions: [17, 18, 3, 11, 5, 20, 8, 6, 16, 14] RMSE: 2597.3891648
+[Test_Imputation]DAY: 160 positions: [15, 22, 10, 18, 11, 9, 4, 17] RMSE: 3339.21596807
+[Test_Imputation]DAY: 161 positions: [14] RMSE: 249.422136722
+[Test_Imputation]DAY: 162 positions: [18, 14, 12, 10, 7, 5, 9, 19, 11, 20, 4] RMSE: 1239.30554698
+[Test_Imputation]DAY: 167 positions: [14, 9, 22, 0, 13, 10, 5, 23, 20, 18] RMSE: 25122.9797593
+[Test_Imputation]DAY: 168 positions: [4, 3, 16, 20] RMSE: 1714.83308036
+[Test_Imputation]DAY: 169 positions: [3, 20] RMSE: 174.056680539
+[Test_Imputation]DAY: 170 positions: [19, 17, 8, 13, 0] RMSE: 248.711345922
+[Test_Imputation]DAY: 171 positions: [6, 18, 3] RMSE: 71.8535315877
+[Test_Imputation]DAY: 172 positions: [3, 17, 18] RMSE: 63.2687131927
+[Test_Imputation]DAY: 175 positions: [19, 1, 17, 22] RMSE: 7.17449458268
+[Test_Imputation]DAY: 176 positions: [20, 12, 17, 1, 19, 13, 8] RMSE: 21.3075396439
+[Test_Imputation]DAY: 177 positions: [19, 11] RMSE: 45.4021598117
+[Test_Imputation]DAY: 178 positions: [11, 22, 7, 19, 18, 9, 1, 14] RMSE: 63.0910491449
+[Test_Imputation]DAY: 179 positions: [23, 15, 18, 1, 17, 14, 11, 10] RMSE: 98.5365511121
+[Test_Imputation]DAY: 180 positions: [8, 23, 4, 17, 14] RMSE: 17.943405993
+[Test_Imputation]DAY: 181 positions: [18, 2, 13, 4, 10, 16] RMSE: 16.2676732983
+[Test_Imputation]DAY: 182 positions: [18, 7, 19] RMSE: 20.4680685716
+[Test_Imputation]DAY: 183 positions: [16] RMSE: 15.3356093552
+[Test_Imputation]DAY: 184 positions: [10, 11, 17, 23, 22, 21, 2] RMSE: 948.031458934
+[Test_Imputation]DAY: 185 positions: [20, 22, 2, 7, 11, 3, 15] RMSE: 16.1502040824
+[Test_Imputation]DAY: 186 positions: [4, 19, 6, 7, 18, 22, 8, 21, 1, 16] RMSE: 26.4967990506
+[Test_Imputation]DAY: 187 positions: [3, 1, 5, 23, 22, 13, 14, 18, 20, 10, 6] RMSE: 151.755190275
+[Test_Imputation]DAY: 190 positions: [16, 22, 23, 9, 2, 5] RMSE: 9230.48220329
+[Test_Imputation]DAY: 191 positions: [6] RMSE: 1277.96790038
+[Test_Imputation]DAY: 192 positions: [23, 16, 5, 12, 10, 11, 22] RMSE: 2178.87807036
+[Test_Imputation]DAY: 193 positions: [14, 2, 3, 21, 7, 10, 8, 19, 20] RMSE: 2744.98858938
+[Test_Imputation]DAY: 194 positions: [10, 5] RMSE: 1789.81640154
+[Test_Imputation]DAY: 197 positions: [17, 6, 22, 1] RMSE: 2107.59029972
+[Test_Imputation]DAY: 198 positions: [1, 6, 21, 11, 14, 9, 2, 3, 12, 13, 15] RMSE: 3577.54572663
+[Test_Imputation]DAY: 201 positions: [22, 18, 7, 15, 6, 23, 4, 5, 19, 1] RMSE: 34232.2784101
+[Test_Imputation]DAY: 202 positions: [11, 4, 20, 15, 21] RMSE: 1994.64324374
+[Test_Imputation]DAY: 204 positions: [8, 5, 11, 6, 23, 9, 13, 19, 15, 1, 17] RMSE: 1940.79436145
+[Test_Imputation]DAY: 205 positions: [14, 4, 17, 3, 1, 15, 8, 20] RMSE: 1209.50508478
+[Test_Imputation]DAY: 206 positions: [5] RMSE: 804.61315705
+[Test_Imputation]DAY: 207 positions: [20, 21, 19, 7, 4, 3, 22, 12, 6] RMSE: 10828.3719327
+[Test_Imputation]DAY: 208 positions: [8, 16] RMSE: 2917.91665649
+[Test_Imputation]DAY: 210 positions: [15, 14, 22] RMSE: 2143.86237286
+[Test_Imputation]DAY: 211 positions: [10, 0, 7, 23, 6] RMSE: 2746.0919519
+[Test_Imputation]DAY: 212 positions: [19, 12, 18, 8, 21, 1, 4, 6, 16] RMSE: 1091.43754774
+[Test_Imputation]DAY: 213 positions: [17, 16, 10, 3, 20, 14] RMSE: 783.711101177
+[Test_Imputation]DAY: 217 positions: [18, 21, 8, 11, 15, 10] RMSE: 1074.56940272
+[Test_Imputation]DAY: 218 positions: [21] RMSE: 783.631280792
+[Test_Imputation]DAY: 220 positions: [21, 4, 20] RMSE: 1946.02597267
+[Test_Imputation]DAY: 221 positions: [20, 4, 11, 12] RMSE: 1874.69248646
+[Test_Imputation]DAY: 222 positions: [5, 3, 9, 0] RMSE: 2264.10652041
+[Test_Imputation]DAY: 223 positions: [13, 2, 11, 5, 1, 3, 17, 6, 21, 4, 15] RMSE: 50720.7163536
+[Test_Imputation]DAY: 224 positions: [10] RMSE: 72.8142122592
+[Test_Imputation]DAY: 225 positions: [1, 8, 10] RMSE: 927.75323424
+[Test_Imputation]DAY: 226 positions: [15] RMSE: 477.776362169
+[Test_Imputation]DAY: 228 positions: [9, 12, 23, 3, 15, 11, 5, 4, 6, 7] RMSE: 4060.59867101
+[Test_Imputation]DAY: 230 positions: [16, 20] RMSE: 1580.77578329
+[Test_Imputation]DAY: 231 positions: [10, 19, 18, 17, 16, 2] RMSE: 1800.43259585
+[Test_Imputation]DAY: 232 positions: [17, 15] RMSE: 879.608394682
+[Test_Imputation]DAY: 235 positions: [18, 4, 16, 8, 20] RMSE: 1251.46958703
+[Test_Imputation]DAY: 236 positions: [0, 2, 5] RMSE: 12598.8890509
+[Test_Imputation]DAY: 238 positions: [14, 17, 18] RMSE: 1239.42143094
+[Test_Imputation]DAY: 239 positions: [12] RMSE: 560.72254859
+[Test_Imputation]DAY: 240 positions: [19, 17] RMSE: 617.500885001
+[Test_Imputation]DAY: 241 positions: [0, 23, 18, 2, 12, 1, 21, 22, 5, 16] RMSE: 152137.253018
+[Test_Imputation]DAY: 243 positions: [3, 11, 14, 2, 19] RMSE: 1168.69848103
+[Test_Imputation]DAY: 245 positions: [9, 10, 1] RMSE: 1186.65107534
+[Test_Imputation]DAY: 247 positions: [8, 10, 6, 11, 0, 14, 16, 7, 12, 9, 23] RMSE: 4183.75306142
+[Test_Imputation]DAY: 248 positions: [13, 12, 8, 21, 4, 9, 1, 2, 19, 10] RMSE: 2424.47053312
+[Test_Imputation]DAY: 249 positions: [0, 14] RMSE: 5578.35554137
+[Test_Imputation]DAY: 251 positions: [19] RMSE: 634.524778075
+[Test_Imputation]DAY: 255 positions: [19, 16, 12, 13, 3, 2] RMSE: 1108.59353121
+[Test_Imputation]DAY: 256 positions: [16, 5, 11, 13, 10, 1] RMSE: 2471.6575777
+[Test_Imputation]DAY: 260 positions: [3] RMSE: 518.976787809
+[Test_Imputation]DAY: 265 positions: [23, 9, 2, 7, 10, 19] RMSE: 3984.30990247
+[Test_Imputation]DAY: 266 positions: [0, 15, 20, 6, 12] RMSE: 5569.96203568
+[Test_Imputation]DAY: 267 positions: [9, 2] RMSE: 1876.1440802
+[Test_Imputation]DAY: 273 positions: [13, 1, 7, 23, 17, 3] RMSE: 4694.18399482
+[Test_Imputation]DAY: 275 positions: [4, 9, 19, 3, 18] RMSE: 779.271388682
+[Test_Imputation]DAY: 276 positions: [20, 23, 13, 1, 5, 19, 12] RMSE: 7285.10852414
+[Test_Imputation]DAY: 281 positions: [1, 0, 7, 22, 21, 9, 15, 13] RMSE: 8576.02742815
+[Test_Imputation]DAY: 282 positions: [15, 3, 8, 1, 10, 9, 23, 7, 14, 19] RMSE: 2029.32881061
+[Test_Imputation]DAY: 286 positions: [11, 13, 9, 20, 10, 14, 8, 22, 3, 2] RMSE: 3151.07048365
+[Test_Imputation]DAY: 289 positions: [5, 16, 15, 12, 13, 6] RMSE: 663.771190834
+[Test_Imputation]DAY: 291 positions: [3, 22, 6, 13, 16, 4, 11, 15, 8, 23] RMSE: 11874.1059585
+[Test_Imputation]DAY: 292 positions: [23, 0, 7, 10, 11, 1, 3] RMSE: 27289.792898
+[Test_Imputation]DAY: 294 positions: [15, 7, 9, 11, 18, 1, 20] RMSE: 2322.53023914
+[Test_Imputation]DAY: 295 positions: [4, 20, 11, 9, 22, 1, 23, 17, 12, 2] RMSE: 2945.04455251
+[Test_Imputation]DAY: 296 positions: [10, 8, 16, 20, 9, 23, 6, 19, 14, 3] RMSE: 2044.79142686
+[Test_Imputation]DAY: 297 positions: [1, 15, 10, 20, 23] RMSE: 8743.12198973
+[Test_Imputation]DAY: 299 positions: [13, 2, 9, 16, 5, 20, 12, 22, 10] RMSE: 2098.77382373
+[Test_Imputation]DAY: 301 positions: [5, 12, 16] RMSE: 1845.11719539
+[Test_Imputation]DAY: 302 positions: [4, 20, 15, 3] RMSE: 1094.55307642
+[Test_Imputation]DAY: 303 positions: [18, 21] RMSE: 337.829671955
+[Test_Imputation]DAY: 304 positions: [21, 17, 20, 5, 4, 16, 6] RMSE: 5228.10308002
+[Test_Imputation]DAY: 305 positions: [7, 15, 0, 5, 21, 4, 17, 13, 19, 1, 14] RMSE: 13913.2474612
+[Test_Imputation]DAY: 306 positions: [19, 8, 11, 2, 21, 9, 15, 23, 6, 13] RMSE: 8411.37811866
+[Test_Imputation]DAY: 307 positions: [9, 11, 4, 7] RMSE: 3498.55814967
+[Test_Imputation]DAY: 308 positions: [18, 11, 6, 14, 0, 19] RMSE: 3575.16633748
+[Test_Imputation]DAY: 309 positions: [1, 21, 23, 7, 8] RMSE: 2220.28590093
+[Test_Imputation]DAY: 311 positions: [18, 16, 6, 3, 2, 4, 15, 8, 0] RMSE: 66832.0487798
+[Test_Imputation]DAY: 312 positions: [2, 8, 7, 22, 5] RMSE: 5789.02037761
+[Test_Imputation]DAY: 315 positions: [8, 3, 5, 23, 16, 17, 10, 13] RMSE: 2203.31228051
+[Test_Imputation]DAY: 316 positions: [12, 13, 21, 7, 8, 0] RMSE: 1227.08318222
+[Test_Imputation]DAY: 318 positions: [15, 10] RMSE: 2040.24474987
+[Test_Imputation]DAY: 321 positions: [22, 0, 23, 7, 5, 6, 8] RMSE: 23402.5198162
+[Test_Imputation]DAY: 323 positions: [21, 18] RMSE: 402.975993931
+[Test_Imputation]DAY: 324 positions: [19, 0, 5, 1, 3, 18, 11, 8] RMSE: 4835.33074334
+[Test_Imputation]DAY: 325 positions: [10, 22, 12] RMSE: 2589.3327302
+[Test_Imputation]DAY: 328 positions: [5, 9, 16, 13, 0, 19, 22, 7, 15, 23, 6] RMSE: 24789.1550518
+[Test_Imputation]DAY: 329 positions: [13, 18, 2, 8, 11, 0, 6] RMSE: 2495.57141801
+[Test_Imputation]DAY: 330 positions: [11, 8, 20, 21, 5, 14, 17, 23, 22, 18, 1] RMSE: 677707.183505
+[Test_Imputation]DAY: 331 positions: [8, 6, 5, 0, 22, 23, 4, 19, 2, 10, 15] RMSE: 3735.01829019
+[Test_Imputation]DAY: 333 positions: [10, 15, 8, 11, 7, 9, 21, 4, 12] RMSE: 4449.91585129
+[Test_Imputation]DAY: 335 positions: [17, 14, 20, 22] RMSE: 668.195753405
+[Test_Imputation]DAY: 336 positions: [1, 6, 23, 5, 7, 9, 12] RMSE: 5270.36793198
+[Test_Imputation]DAY: 337 positions: [9] RMSE: 1868.0287745
+[Test_Imputation]DAY: 338 positions: [1, 4, 0, 8, 19, 18, 7] RMSE: 1765.13023552
+[Test_Imputation]DAY: 339 positions: [6, 12] RMSE: 3300.9060875
+[Test_Imputation]DAY: 340 positions: [15, 12, 9, 18, 19] RMSE: 921.972918177
+[Test_Imputation]DAY: 341 positions: [11, 13, 18] RMSE: 1645.0086501
+[Test_Imputation]DAY: 343 positions: [8, 14, 19, 7, 0, 4, 2, 21, 11, 5] RMSE: 4952.36578372
+[Test_Imputation]DAY: 344 positions: [7, 9, 2, 10, 13, 18, 0, 17] RMSE: 4117.78956386
+[Test_Imputation]DAY: 345 positions: [5, 0, 8, 18, 7, 21, 22] RMSE: 2371.36098118
+[Test_Imputation]DAY: 346 positions: [1, 6, 23, 16, 22] RMSE: 40630.0971557
+[Test_Imputation]DAY: 347 positions: [8, 17, 15, 10, 13, 14, 3, 12, 9] RMSE: 3995.3806315
+[Test_Imputation]DAY: 349 positions: [1, 18, 2, 3, 8, 6] RMSE: 6981.10366272
+[Test_Imputation]DAY: 350 positions: [15, 4, 23, 10, 7] RMSE: 4831.84834094
+[Test_Imputation]DAY: 352 positions: [8, 10, 14, 0, 23] RMSE: 2370.0064536
+[Test_Imputation]DAY: 353 positions: [8, 12, 3, 15, 7, 4, 13, 21, 10, 9] RMSE: 4394.86752895
+[Test_Imputation]DAY: 354 positions: [19, 2, 4, 0, 15, 16, 3, 11, 22, 7, 12] RMSE: 3975.13916267
+[Test_Imputation]DAY: 355 positions: [13, 3, 2, 0, 19, 4, 8, 1] RMSE: 554480.732764
+[Test_Imputation]DAY: 359 positions: [11, 22, 15, 8] RMSE: 2064.72624704
+[Test_Imputation]DAY: 361 positions: [0, 17, 11, 10, 3, 5] RMSE: 2071.80702375
+[Test_Imputation]DAY: 362 positions: [18, 17, 5] RMSE: 904.616891455
+[Test_Imputation]DAY: 363 positions: [23, 4, 19, 11, 20, 21, 6, 16, 5] RMSE: 3650.72962208
+[Test_Imputation]DAY: 364 positions: [7] RMSE: 563.925728556
