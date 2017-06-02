@@ -112,9 +112,9 @@ def clustering_run(readings, data_transform, pca, means, stds, scaler):
     #
     # We then move on to performing the same task on the transformed data (reduced dimensionality)
 
-    # clustering.hierarchical.hierarchical_clustering(readings)
-    # clustering.hierarchical.hierarchical_clustering(data_transform, False)
-    # plt.show()
+    clustering.hierarchical.hierarchical_clustering(readings)
+    clustering.hierarchical.hierarchical_clustering(data_transform, False)
+    plt.show()
 
     # We will start the analysis of the results with the Hierarchical Clustering on the transformed data.
     # In this task time series data was transformed with PCA in order to reduce its dimensionality. A transformation
@@ -149,28 +149,28 @@ def clustering_run(readings, data_transform, pca, means, stds, scaler):
     # 0.26-0.50  -> The structure is weak and could be artificial. Try additional methods of data analysis.
     # < 0.25     -> No substantial structure has been found
 
-    # k_values = [2, 3, 4, 5, 6, 7, 8]
-    # number_runs = 10
+    k_values = [2, 3, 4, 5, 6, 7, 8]
+    number_runs = 10
 
     # **************************** DTW + Average ****************************
     # The main problem of this approach: DTW + Average prototype is that it has been claimed to be a bad combination;
     # average prototype is typically applied to non-elastic distance measures such as the Euclidean. When using DTW
     # local search prototype is common, as well as medoid centroid...
-    # centroid_type = clustering.k_means.CentroidType.AVERAGE
-    # best_results_dtw = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    best_results_dtw = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # **************************** DTW + DBA ****************************
-    # centroid_type = clustering.k_means.CentroidType.DBA
-    # best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.DBA
+    best_results_dba = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # **************************** DTW + Medoid ****************************
     # According to "Time Series Clustering: A decade overview" is very common in time series clustering
-    # centroid_type = clustering.k_means.CentroidType.MEDOID
-    # best_results_medoid = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.MEDOID
+    best_results_medoid = clustering.k_means.tune_kmeans(readings, k_values, number_runs, True, centroid_type)
 
     # **************************** PCA, Euclidean + AVERAGE ****************************
-    # centroid_type = clustering.k_means.CentroidType.AVERAGE
-    # best_results_euclid = clustering.k_means.tune_kmeans(data_transform, k_values, number_runs, False, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    best_results_euclid = clustering.k_means.tune_kmeans(data_transform, k_values, number_runs, False, centroid_type)
 
     # I've read some papers ("Time Series Clustering: A decade overview") that claim the application of partitioning
     # methods to time series clustering is a challenging and non-trivial issue. Hierarchical clustering appears as a
@@ -230,20 +230,20 @@ def clustering_run(readings, data_transform, pca, means, stds, scaler):
     #
 
     # DTW + Average
-    # centroid_type = clustering.k_means.CentroidType.AVERAGE
-    # evaluate_clusters(readings, True, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    evaluate_clusters(readings, True, centroid_type)
 
     # DTW + DBA
-    # centroid_type = clustering.k_means.CentroidType.DBA
-    # evaluate_clusters(readings, True, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.DBA
+    evaluate_clusters(readings, True, centroid_type)
 
     # DTW + Medoid
-    # centroid_type = clustering.k_means.CentroidType.MEDOID
-    # evaluate_clusters(readings, True, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.MEDOID
+    evaluate_clusters(readings, True, centroid_type)
 
     # PCA + Euclidean + Average
-    # centroid_type = clustering.k_means.CentroidType.AVERAGE
-    # evaluate_clusters(data_transform, False, centroid_type)
+    centroid_type = clustering.k_means.CentroidType.AVERAGE
+    evaluate_clusters(data_transform, False, centroid_type)
 
     # Starting with the use of DTW for the distance metric and the average method for the centroid computation, the
     # obtained results are not very optimistic: As expected, a large Silhouette Coefficient value is obtained when only
@@ -332,11 +332,9 @@ def clustering_run(readings, data_transform, pca, means, stds, scaler):
     centroid_type = clustering.k_means.CentroidType.AVERAGE
     clustering.evaluation.further_cluster_evaluation(readings, True, centroid_type, [4, 5], pca, means, stds, scaler)
 
-    print('=========================')
-
     # DTW + DBA
-    # centroid_type = clustering.k_means.CentroidType.DBA
-    # clustering.evaluation.further_cluster_evaluation(readings, True, centroid_type, [3, 4], pca, means, stds, scaler)
+    centroid_type = clustering.k_means.CentroidType.DBA
+    clustering.evaluation.further_cluster_evaluation(readings, True, centroid_type, [3, 4], pca, means, stds, scaler)
 
     # Euclidean + Average
     centroid_type = clustering.k_means.CentroidType.AVERAGE
