@@ -35,7 +35,13 @@
 
 \IEEEtitleabstractindextext{
 \begin{abstract}
-	\textbf{TODO} Lol, here goes the abstract
+	The identification and prediction of water consumption patterns plays an essential role in the management of water supply infrastructures, namely in urban environments. Without any accurate prediction or characterisation of the consumptions, water utilities are forced to continuously overestimate water volumes drained to storage tanks, oncreasing their operation costs and water waste.
+	
+	The main objective of this work is to identify and locate in time recurrent water consumption patters, featuring a comparative study of popular clustering techniques. Domestic water consumptions for a given region of a median size city, collected during the entire 2016 year, were used in this work.
+	
+	In the conducted analysis the number of clusters that best fits the data appears to be $4$, covering about three distinct periods of time during the year: The early Summer (June and July), the main Summer months and beginning of Autmn (July, August and September), and the remaining of the year (also with a brief incidence during the mentioned months).
+	
+	Following the adopted and discussed methodology an automatic categorisation of water consumptions is possible without resorting to any source other than the consumptions dataset. As such, this approach can certainly improve the management of existing water infrstructures, as well as reduce excess water stored in supply storage tanks.	
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -501,7 +507,7 @@ Figure \ref{centroids_4clusters} presents the centroids for the $4$ clusters com
 	\label{centroids_4clusters}
 \end{figure*}
 
-\subsubsection{Residual Consumptions - Summer}
+\subsubsection{Residual Consumptions - Early Summer}
 \label{residual_consumptions}
 
 Immediately in both approaches there is one cluster that distinguishes itself from its siblings: in both cases it is \emph{Cluster 0}. Days whose consumptions belong in these clusters are characterised by residual water consumptions, which typically occur when buildings are unoccupied - during the holiday period or during weekends, if an industrial region is being studied (for example).
@@ -524,13 +530,13 @@ Figures \ref{distribution_euclidean_average_4clusters} and \ref{distribution_raw
 	\label{distribution_raw_average_4clusters}
 \end{figure*}
 
-\subsubsection{End of Summer}
+\subsubsection{Summer and Beginning of Autumn}
 
 Observing Figure \ref{centroids_4clusters}, another similarity between clusters of both approaches can be identified, although it is not as clear as the previous one: cluster $3$ from Figure \ref{centroids_4clusters}a) - represented in red - and cluster $2$ from Figure \ref{centroids_4clusters}b) - represented in green - present consumption profiles with the same variations in the same moments of the day, and with roughly the same total water consumptions.
 
 Analysing their distribution of days over the year and percentages of weekdays and weekends, again similar distributions can be identified; although they are not equal as in the previous case:
 
-As seen in Figures \ref{cluster3_euclidean}b) and \ref{cluster2_raw}b), water consumptions that fall in the profiles represented by these clusters' centroids belong to the terminal part of the summer - July, August and part of September - and beginning of Autumn - end of September. A smaller percentage of days belonging to other seasons (namely the winter, in November) can also be identified in one of the approaches (Figure \ref{cluster2_raw}b), but have a very low incidence.
+As seen in Figures \ref{cluster3_euclidean}b) and \ref{cluster2_raw}b), water consumptions that fall in the profiles represented by these clusters' centroids belong t part of the summer - July, August and part of September - and beginning of Autumn - end of September. A smaller percentage of days belonging to other seasons (namely the winter, in November) can also be identified in one of the approaches (Figure \ref{cluster2_raw}b), but have a very low incidence.
 
 Water consumptions belonging to these periods are characterised by high demands during typical business hours: from about $7-8am$ to about $8pm$. It it also worth pointing out a slight decrease around $3pm$.
 
