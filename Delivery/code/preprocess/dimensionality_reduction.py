@@ -256,7 +256,6 @@ def _pca_dimen_reduce(data, percentage_variance=0.8):
 
     print('[PCA]Average RMSE on all data = ' + str(av_rmse) + ' with ' + str(len(components)) + ' components')
 
-    """
     for i in range(len(data_reconstructed)):
         fig = plt.figure()
         plt.plot(data_reconstructed[i], 'g', label='Reconstructed Data')
@@ -265,7 +264,6 @@ def _pca_dimen_reduce(data, percentage_variance=0.8):
         plt.legend()
         fig.savefig('data/images/dimensionality_reduction/pca/day_' + str(i))
         plt.close(fig)
-    """
 
     return data_transform, components, pca
 
@@ -277,9 +275,6 @@ def reduce_dimensionality(readings):
     # reduction with a SAE - also plot results there and maybe compare the two with the RMSE on the reconstruction
     num_components = len(eigenvectors)
 
-    print('Reduced to ' + str(num_components))
-
-    """
     dims = [23, 15, 5, num_components]
     activations = ['sigmoid', 'sigmoid', 'sigmoid', 'sigmoid']
     epochs = [2000 for _ in range(len(dims))]
@@ -288,6 +283,5 @@ def reduce_dimensionality(readings):
     reconstructed = stacked_autoencoder.decode(transformed)
 
     stacked_autoencoder.assess_reconstruction_performance(readings, reconstructed)
-    """
 
     return data_transform, pca
