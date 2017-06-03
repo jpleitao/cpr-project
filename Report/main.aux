@@ -8,16 +8,17 @@
 \newlabel{sec:introduction}{{1}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Objectives}{1}}
 \newlabel{objectives}{{2}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Dataset Description}{1}}
+\newlabel{dataset_description}{{3}{1}}
 \citation{aghabozorgi2015time}
 \citation{abreu2012using}
 \citation{calabrese2010eigenplaces}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Dataset Description}{2}}
-\newlabel{dataset_description}{{3}{2}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Methodology}{2}}
 \newlabel{methodology}{{4}{2}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Time Series Pre-Processing}{2}}
 \newlabel{pre_processing}{{5}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Unit of Analysis}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Missing Data Imputation}{2}}
 \citation{moritz2015comparison}
 \citation{troyanskaya2001missing,yu2014short}
 \citation{abreu2012using}
@@ -28,22 +29,21 @@
 \citation{wang2013experimental}
 \citation{abreu2012using}
 \citation{mueen2016extracting}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Missing Data Imputation}{3}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Time Series Representation}{3}}
 \newlabel{time_series_representation}{{6}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Raw Time Series Representation}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Dimensionality Reduction for Time Series}{3}}
 \citation{aghabozorgi2015time}
 \citation{begum2015accelerating}
 \citation{jain2010data}
 \citation{aghabozorgi2015time}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Dimensionality Reduction for Time Series}{4}}
+\citation{liao2006adaptive,izakian2015fuzzy}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Reconstruction of water consumptions for one day using a PCA decomposition and a Stacked Autoencoder.\relax }}{4}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{day3_reconstruction}{{1}{4}}
 \@writefile{toc}{\contentsline {section}{\numberline {7}Clustering}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Combining Hierarchical and K-Means Clustering}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Centroid Computation in K-Means}{4}}
-\citation{liao2006adaptive,izakian2015fuzzy}
 \citation{petitjean2011global}
 \citation{keogh2006ucr}
 \citation{petitjean2014dynamic}
@@ -59,9 +59,9 @@
 \newlabel{hierarchical_clustering_euclidean}{{3}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Summary of the Experiments}{6}}
 \newlabel{experiments_summary}{{8.2}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Initial Results Analysis}{6}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Summary of the experiments performed.\relax }}{6}}
 \newlabel{experiments_summary_table}{{1}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Initial Results Analysis}{6}}
 \citation{abreu2012using}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.1}Analysis}{7}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Elbow method plot for the combination DTW + Average Centroid.\relax }}{7}}
@@ -72,9 +72,9 @@
 \newlabel{initial_results_table}{{2}{8}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Elbow method plot for the combination Euclidean Distance + Average Centroid.\relax }}{8}}
 \newlabel{elbow_method_euclidean_reduced}{{6}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.2}Remarks}{8}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Elbow method plot for the combination DTW + TADPole Clustering method.\relax }}{8}}
 \newlabel{elbow_method_tad}{{7}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.2}Remarks}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.4}Further Results Analysis}{9}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.5}4 Clusters}{9}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {8.5.1}Residual Consumptions - Early Summer}{9}}
@@ -93,23 +93,24 @@
 \newlabel{cluster2_raw}{{12}{11}}
 \@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Distribution of days over the year for Clusters $1$ (a) and $2$ (b) for the \emph  {Euclidean Distance + Average Centroid} scenario.\relax }}{11}}
 \newlabel{year_dist_k12_euc_average4}{{13}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Distribution of days over the week for Clusters $1$ (a) and $2$ (b) for the \emph  {Euclidean Distance + Average Centroid} scenario: Percentage of weekdays and weekends.\relax }}{11}}
+\newlabel{week_dist_k12_eu_average4}{{14}{11}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {8.5.4}Isolated Clusters}{11}}
 \newlabel{isolated_clusters}{{8.5.4}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.6}5 Clusters}{11}}
-\newlabel{5_clusters}{{8.6}{11}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.6.1}Euclidean Distance and Average Centroid}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Distribution of days over the week for Clusters $1$ (a) and $2$ (b) for the \emph  {Euclidean Distance + Average Centroid} scenario: Percentage of weekdays and weekends.\relax }}{12}}
-\newlabel{week_dist_k12_eu_average4}{{14}{12}}
 \@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Distribution of days over Clusters $1$ for the \emph  {DTW + Average Centroid} scenario: Percentage of weekdays and weekends (a) and distribution over the months of the year (b).\relax }}{12}}
 \newlabel{week_month_dist_k1_dtw_average4}{{15}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Cluster centroids computed with the K-Means algorithm along with the \emph  {Euclidean} distance metric and average centroid computation method for a target number of clusters of $4$ (a) and $5$ (b).\relax }}{12}}
-\newlabel{comparison_clusters_45_average}{{16}{12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.6}5 Clusters}{12}}
+\newlabel{5_clusters}{{8.6}{12}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.6.1}Euclidean Distance and Average Centroid}{12}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {8.6.2}DTW Distance and Average Centroid}{12}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{12}}
+\newlabel{conclusions}{{9}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Cluster centroids computed with the K-Means algorithm along with the \emph  {Euclidean} distance metric and average centroid computation method for a target number of clusters of $4$ (a) and $5$ (b).\relax }}{13}}
+\newlabel{comparison_clusters_45_average}{{16}{13}}
 \@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Cluster centroids computed with the K-Means algorithm along with the \emph  {DTW} distance metric and average centroid computation method for a target number of clusters of $4$ (a) and $5$ (b).\relax }}{13}}
 \newlabel{comparison_clusters_45_dtw}{{17}{13}}
-\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{13}}
-\newlabel{conclusions}{{9}{13}}
 \@writefile{toc}{\contentsline {section}{\numberline {10}Future Work}{13}}
+\newlabel{future_work}{{10}{13}}
 \bibstyle{ieeetr}
 \bibdata{bibliography.bib}
 \bibcite{aghabozorgi2015time}{1}

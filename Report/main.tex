@@ -35,13 +35,13 @@
 
 \IEEEtitleabstractindextext{
 \begin{abstract}
-	The identification and prediction of water consumption patterns plays an essential role in the management of water supply infrastructures, namely in urban environments. Without any accurate prediction or characterisation of the consumptions, water utilities are forced to continuously overestimate water volumes drained to storage tanks, oncreasing their operation costs and water waste.
+	The identification and prediction of water consumption patterns plays an essential role in the management of water supply infrastructures, namely in urban environments. Without any accurate prediction or characterisation of the consumptions, water utilities are forced to continuously overestimate water volumes drained to storage tanks, increasing their operation costs and water waste.
 	
 	The main objective of this work is to identify and locate in time recurrent water consumption patters, featuring a comparative study of popular clustering techniques. Domestic water consumptions for a given region of a median size city, collected during the entire 2016 year, were used in this work.
 	
-	In the conducted analysis the number of clusters that best fits the data appears to be $4$, covering about three distinct periods of time during the year: The early Summer (June and July), the main Summer months and beginning of Autmn (July, August and September), and the remaining of the year (also with a brief incidence during the mentioned months).
+	In the conducted analysis the number of clusters that best fits the data appears to be $4$, covering about three distinct periods of time during the year: The early Summer (June and July), the main Summer months and beginning of Autmn (July, August and September), and the remaining of the year (also with a brief incidence during the previously mentioned months).
 	
-	Following the adopted and discussed methodology an automatic categorisation of water consumptions is possible without resorting to any source other than the consumptions dataset. As such, this approach can certainly improve the management of existing water infrstructures, as well as reduce excess water stored in supply storage tanks.	
+	Following the adopted and discussed methodology an automatic categorisation of water consumptions is possible without resorting to any sources other than the consumptions dataset. As such, this approach can certainly improve the management of existing water infrstructures, as well as reduce excess water stored in supply storage tanks.	
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -74,23 +74,23 @@ In the field of pattern recognition, tasks of this nature are referred to as \em
 	"Given a dataset of n time series data $D = \{F_{1}, \cdots , F_{n}\}$, time series clustering can be defined as the process of unsupervised partitioning of $D$ into $C = {C_{1}, \cdots , C_{k}}$ in such a way that homogeneous time series are grouped together based on a certain similarity measure."
 \end{mydef}
 
-The remainder of this document is organised as follows: Section \ref{objectives} presents the main objectives of this work. In section \ref{dataset_description} water consumption data used in this work is briefly presented. The methodology adopted throughout this work is discussed in section \ref{methodology}. Sections \ref{pre_processing} to \ref{results_assessment} cover the main steps of the work, presented in the methodology section. Finally, section \ref{conclusions} concludes this document.
+The remainder of this document is organised as follows: Section \ref{objectives} presents the main objectives of this work. In section \ref{dataset_description} water consumption data used in this work is briefly presented. The methodology adopted throughout this work is discussed in section \ref{methodology}. Sections \ref{pre_processing} to \ref{results_assessment} cover the main steps of the work, presented in the methodology section. Finally Section \ref{conclusions} presents a reflection on the work and discussed results, while Section \ref{future_work} covers future research directions.
 
 \section{Objectives}
 \label{objectives}
 
 The main objective of the proposed work is related with the categorisation of urban domestic water consumptions in a given region of a median size city.
 
-That is, taking into account information about an entire civil year (from January 1st to December 31st) the system must be capable of identifying recurrent consumption patterns and determine the moments in time when such patterns were repeated: an intuitive (and somewhat expected) result is that water consumptions during summer months will have a similar shape, which substantially differs from those recorded during winter months. This could be justified by the fact that many people in that region usually spend summer months away, on vacation.
+That is, taking into account information about an entire civil year (from January 1st to December 31st) recurrent consumption patterns must be identified and located in time: an intuitive (and somewhat expected) result is that water consumptions during summer months will have a similar shape, which substantially differs from those recorded during winter months. This could be justified by the fact that many people in that region usually spend summer months away, on vacation.
 
 In this sense, the appropriate steps of a pattern recognition system will be considered, namely: (i) data pre-processing; (ii) pattern recognition techniques - in this case clustering techniques; (iii) analysis of the experimental results.
 
 \section{Dataset Description}
 \label{dataset_description}
 
-The dataset to be used in the proposed project contains domestic water consumptions in different regions of a median size city. The available data corresponds to the entire 2016 year and was obtained as a result of a collaboration with \emph{Águas de Coimbra}\footnote{\url{http://www.aguasdecoimbra.pt/}}, the public water company in the city of Coimbra, Portgual.
+The dataset to be used in the proposed project contains domestic water consumptions in different regions of a median size city. The available data corresponds to the entire 2016 year and was generated as a result of a collaboration with \emph{Águas de Coimbra}\footnote{\url{http://www.aguasdecoimbra.pt/}}, the public water company in the city of Coimbra, Portgual.
 
-Water consumption's measurement is carried out in strategic locations of the city, through measurement and control zones - \emph{ZMC}\footnote{Or in portuguese, \emph{Zonas de Medição e Controlo}.}. These infrastructures provide a more efficient management of the water distribution systems, enabling the network's management in logical zones of analysis and allowing the adoption of measures to control water losses.
+In a real scenario water consumption's measurement is carried out in strategic locations of the city, through measurement and control zones - \emph{ZMC}\footnote{Or in portuguese, \emph{Zonas de Medição e Controlo}.}. These infrastructures provide a more efficient management of the water distribution systems, enabling the network's management in logical zones of analysis and allowing the adoption of measures to control water losses.
 
 Collected data corresponds to a time series of total water volume distributed to the region in question - recorded as a floating point number whose units are $m^{3}/h$. Therefore, pairs of values $(time, volume)$ are provided. The collection time is provided in the format \emph{dd/mm/yyyy HH:MM:SS}.
 
@@ -148,7 +148,7 @@ Alternative methods can also be considered. Usually more active in time series p
 
 Inspired by the results reported on the literature, and after an initial study of the different methods, a choice was made to select the following three missing data imputation methods for further analysis: (i) linear interpolation; (ii) ARIMA; (iii) Kalman Filter.
 
-At this point, the goal of this analysis was to studying the performance of these methods when applied to the collected data. This study was conducted as follows: Initially individual samples were divided into samples that contained missing values and samples without missing value\footnote{The reader must keep in mind that individual samples consist in a list with water consumptions for a given day, featuring hourly values.}. For each complete sample missing values were artificially introduced. Each method was then applied to the individual samples and the correctness of their imputations was assessed using the \emph{root mean squared error} (rmse) metric.
+At this point, the goal of this analysis was to study the performance of these methods when applied to the collected data. This study was conducted as follows: Initially individual samples were divided into samples that contained missing values and samples without missing value\footnote{The reader must keep in mind that individual samples consist in a list with water consumptions for a given day, featuring hourly values.}. For each complete sample missing values were artificially introduced. Each method was then applied to the individual samples and the correctness of their imputations was assessed using the \emph{root mean squared error} (rmse) metric.
 
 Overall the Kalman Filter produced better estimates than the competing alternatives: An average rmse of about $263.83$ was registered (against a rmse of about $571.37$ for the ARIMA model and $12403.17$ for the linear interpolation), and the Kalman filter produced better daily estimates (smaller rmse on individual samples) in 189 days (against 72 for the ARIMA model and only 4 for the linear interpolation).
 
@@ -157,13 +157,13 @@ Based on such results the Kalman Filter was chosen as the imputation approach fo
 \section{Time Series Representation}
 \label{time_series_representation}
 
-When working with high dimensional data, computational requirements grow both in terms of memory and execution time: if each time series contains more values then it will require more space in memory and, therefore, if a larger number of time series is intended to be clustered or processed in some way substantially more memory may be required to load all the time series data. In addition, specially in the case of clustering, distance computation between data samples is often performed; if a larger number of samples is considered, each comprising several dimensions, distance computation between pairs of samples will take longer to compute, as will the overall process.
+When working with high dimensional data, computational requirements grow both in terms of memory and execution time: if each time series contains more values then it will require more space in memory and, therefore, if a larger number of time series is intended to be clustered or processed in some way, substantially more memory may be required to load all the time series data. In addition, specially in the case of clustering, distance computation between data samples is often performed; if a larger number of samples is considered, each comprising several dimensions, distance computation between pairs of samples will take longer to compute, as will the overall process.
 
-Another motivation for seeking alternative time series representations, as pointed out by Aghabozorgi \emph{et al.}\cite{aghabozorgi2015time}, has to do with the fact that when measuring the distance between raw time series samples highly unintuitive results may be gathered resulting in the clustering of series similar in noise, instead of shape. It must be noticed that the adopted distance metric highly influences the clustering results.
+Another motivation for seeking alternative time series representations, as pointed out by Aghabozorgi \emph{et al.}\cite{aghabozorgi2015time}, has to do with the fact that when measuring the distance between raw time series samples highly unintuitive results may be gathered resulting in the clustering of series similar in noise, instead of shape. It must be noticed that the adopted distance metric tends to highly influence the clustering results.
 
 In this sense, several time series representation methods have been proposed in the literature. Aghabozorgi \emph{et al.} presents a taxonomy comprising four main categories: i) Data adaptive; (ii) Non-data adaptive; (iii) Model-based; and (iv) Data dictated. The choice of time series representation has a big impact in the outcome of the clustering exercise, in both quality and execution time. Furthermore, time series representation also affects the choice of distance metric (also called dissimilarity function).
 
-In the specific clustering problem being tackled in this work, where time series containing similar behaviours are intended to be grouped together, one of the major challenges to be face has to due with the dissimilarity function (that is, how to determine that two time series are close together). Even though it is computationally expensive, the \emph{Dynamic Time Warping} (DTW)\cite{chu2002iterative} distance metric is quite popular, having been extensively adopted when dealing with raw time series data\cite{liao2005clustering, petitjean2014dynamic, izakian2015fuzzy, aghabozorgi2015time} and being considered a more robust distance metric for time series\cite{wang2013experimental}. 
+In the specific clustering problem being tackled in this work, where time series containing similar behaviours are intended to be grouped together, one of the major challenges to be faced has to do with the dissimilarity function (that is, how to determine that two time series are close together). Even though it is computationally expensive, the \emph{Dynamic Time Warping} (DTW)\cite{chu2002iterative} distance metric is quite popular, having been extensively adopted when dealing with raw time series data\cite{liao2005clustering, petitjean2014dynamic, izakian2015fuzzy, aghabozorgi2015time} and being considered a more robust distance metric for time series\cite{wang2013experimental}. 
 
 As the DTW targets time sequences, it can be concluded that a substantial number of approaches adopt a raw time series representation. Dimensionality Reduction (DR) techniques such as \emph{Principal Components Analysis} (PCA) have also been explored \cite{abreu2012using} in an attempt to represent time series samples in fewer dimensions, thus reducing the computational burden of distance computation. As the application of DR techniques loses the temporal sequence of the data, alternative distance metrics need to be considered.
 
@@ -232,9 +232,9 @@ Besides specifying the number of clusters, K-Means also allows for different met
 
 As mentioned by Aghabozorgi \emph{et al.}\cite{aghabozorgi2015time}, when working with time series data the average centroid computation method tends to only be applied when time series have equal length and a none-elastic distance metric (such as the Euclidean distance) is employed.
 
-When time series are allowed to have different lengths, or when distance metrics of other natures are employed (namely the DTW) simply performing the mean of the time series at each point fails to capture the average shape of all the time series in the given cluster. As a result, alternative centroid computation methods more adequate to these distance metrics have been studied.
+When time series are allowed to have different lengths, or when distance metrics of other natures are employed (namely the DTW) simply performing the mean of the time series at each point can fail to capture the average shape of all the time series in the given cluster. As a result, alternative centroid computation methods more adequate to these distance metrics have been studied.
 
-Probably the most common centroid computation method used with raw time series data is the \emph{medoid} method. According to this method, the centroid is the sample that minimizes the sum of squared distance to all the other samples within the cluster. Examples of the application of this method can be found in \cite{liao2006adaptive, izakian2015fuzzy}.
+Probably the most common centroid computation method used with raw time series data is the \emph{medoid} method. According to this method, the centroid is the sample that minimizes the sum of squared distances to all the other samples within the cluster. Examples of the application of this method can be found in \cite{liao2006adaptive, izakian2015fuzzy}.
 
 A more recent centroid computation method is the \emph{DTW Barycenter Averaging} (DBA)\cite{petitjean2011global}, proposed in 2011 by Petitjean \emph{et al.}. This method was specified for the DTW distance metric and, according to the authors of the cited work, is claimed to outperform all existing averaging techniques when applied to datasets of the UCR Archive\cite{keogh2006ucr}.
 
@@ -250,9 +250,9 @@ In short, taking into account that two distinct time series representation techn
 
 \subsection{TADPole}
 
-In the beginning of the current section a brief introduction to the TADPole clustering algorithm was performed, highlighting its main characteristics and motivations leading to its development. Regarding implementation details of this algorithm, two parameters must be defined prior to its applications: the \emph{window size} used in the DTW computations and a cutoff distance.
+In the beginning of the current section a brief introduction to the TADPole clustering algorithm was performed, highlighting its main characteristics and motivations leading to its development. Regarding implementation details of this algorithm, two parameters must be defined prior to its applications: the \emph{window size} used in the DTW computations and a \emph{cutoff distance}.
 
-The TADPole algorithm makes use of a centred window when computing distances (using the DTW metric). For any observation $x_{i}$ the algorithm considers the points in the range $x_{i-w}$ and $x_{i+w}$ in the DTW computation. As such taking into account that the DTW is only applied for raw time series representation, and that such time series have a dimensionality of $24$, a window size of $23$ was defined.
+The TADPole algorithm makes use of a centred window (of size $w$) when computing distances (using the DTW metric). For any observation $x_{i}$ the algorithm considers the points in the range $x_{i-w}$ and $x_{i+w}$ in the DTW computation. As such taking into account that the DTW is only applied for raw time series representation, and that such time series have a dimensionality of $24$, a window size of $23$ was defined.
 
 The second parameter that needs to be defined is the cutoff distance, often represented as $d_{c}$. In an initial step of the algorithm, upper and lower bound on the DTW are used to find time series with many close neighbours. The mentioned cutoff distance is used as a threshold when determining a time series' neighbours: Any other time series whose distance is below $d_{c}$ is considered a neighbour. In the current work initial experiments were performed with different values for the $d_{c}$ threshold, obtaining a value of $1.5$ as the outcome. Nevertheless, further research on the most appropriate and adequate value for this parameter can still be performed.
 
@@ -306,7 +306,7 @@ Moving on to time series data represented using dimensionality reduction techniq
 
 By using a reasoning similar to the previous analysis, for distances lower than 50 the number of clusters begins to increase rapidly, suggesting that distance to be defined as the limit for the number of clusters which, is this case, is 8. Similarly to the previous analysis, this value is presented in Table \ref{experiments_summary_table}.
 
-Being in a completely unsupervised scenario alternative ranges for the number of clusters could be considered. Furthermore, a cyclic process could even be considered in which the dendrogram would be initially analysed to extract estimates for  the number of clusters, which would be computed using the K-Means algorithm. Upon further analysis of the results obtained with the K-Means the dendrogram could be analysed again, and new estimates for the value of $k$ could be computed, repeating this process. Nevertheless, and because of time restrictions, this process was only performed once.
+Being in a completely unsupervised scenario alternative ranges for the number of clusters could be considered. Furthermore, a cyclic process could even be considered in which the dendrogram would be initially analysed to extract estimates for the clusters, which would be computed using the K-Means algorithm. Upon further analysis of the results obtained with the K-Means the dendrogram could be analysed again, and new estimates could be computed, repeating this process. Nevertheless, and because of time restrictions, this process was only performed once.
 
 \subsection{Summary of the Experiments}
 \label{experiments_summary}
@@ -329,16 +329,16 @@ Following the discussion started in the previous sections, Table \ref{experiment
 
 \subsection{Initial Results Analysis}
 
-After obtaining the initial estimations for the number of clusters the segmentation of the water consumptions must be performed. As discussed throughout the document, approaches of different natures are intended to be compared, raising the need to define metrics that assess the quality of the computed clusters, thus allowing the comparison of the different approaches.
+After obtaining the initial estimations for the clusters the segmentation of the water consumptions must be performed. As discussed throughout the document, approaches of different natures are intended to be compared, raising the need to define metrics that assess the quality of the computed clusters, thus allowing the comparison of the different approaches.
 
-Evaluating algorithms' performance in unsupervised problems such as clustering (without knowing the optimal number of clusters and assignments of each sample) is a challenging task and still considered an open research problem\cite{aghabozorgi2015time},mostly due to the ambiguity and subjectiveness underlining the definition of a cluster.
+Evaluating algorithms' performance in unsupervised problems such as clustering (without knowing the optimal number of clusters and assignments of each sample) is a challenging task and still considered an open research problem\cite{aghabozorgi2015time}, mostly because of the ambiguity and subjectiveness underlining the definition of a cluster.
 
 Popular evaluation metrics involve \emph{internal} indexes, where cluster quality is summarised to a single score without resorting to any externally supplied labels or ground truth. Whenever such information is available \emph{external} indexes may be applied. In the current work, a completely unsupervised scenario is faced, calling for the application of \emph{internal} indexes.
 
 Several internal indexes have been proposed in the literature to assess cluster quality. In the current work the following were considered:
 
 \begin{itemize}
-	\item \emph{Silhouette Coefficient} (SC), also referred to as silhouette index, score or value. SC measures how similar a sample is to other in its own cluster in comparison to other clusters. It is defined as the average of individual samples' silhouette values, $s(i)$, computed as:
+	\item \emph{Silhouette Coefficient} (SC), also referred to as silhouette index, score or value. SC measures how similar a sample is to others in its own cluster in comparison to other clusters. It is defined as the average of individual samples' silhouette values, $s(i)$, computed as:
 	
 	$$s(i) = \frac{b(i) - a(i)}{max\{b(i); a(i)\}} $$
 	
@@ -352,7 +352,7 @@ Several internal indexes have been proposed in the literature to assess cluster 
 	
 	where $SS_{B}$ is the overall between-cluster variance, $SS_{W}$ is the overall within-cluster variance, $k$ is the number of clusters and $N$ is the number of samples/observations.
 	
-	The SC metric is best suited for euclidean distances and, unlike the silhouette coefficient, it is not bounded: higher values of CH signal more dense and well-separated clusters.
+	The CH metric is best suited for euclidean distances and, unlike the silhouette coefficient, it is not bounded: higher values of CH signal more dense and well-separated clusters.
 	
 	\vspace{0.3cm}
 	
@@ -364,7 +364,7 @@ Several internal indexes have been proposed in the literature to assess cluster 
 	
 \end{itemize}
 
-Table \ref{initial_results_table} presents the values of the mentioned metrics for the clusters computed according to the summary presented in Table \ref{experiments_summary_table}:
+Table \ref{initial_results_table} presents the values of the mentioned metrics for the clusters computed according to the summary presented in Table \ref{experiments_summary_table}.
 
 
 \begin{table*}[t]
@@ -418,7 +418,7 @@ Analysing the results obtained using the DTW for the distance metric and the ave
 
 As expected, a large SC value is obtained when only two clusters are being considered; however, the value of this metric drops seriously as further clusters are considered: SC values under 0.5 are obtained, suggesting a weak structure of the data clusters.
 
-Indeed, as already discussed in this document, the average method is not the most suitable centroid computation solution when working with raw time series data (and with the DTW distance metric). Analysing the elbow method's plot\footnote{that is, the variation of the average within-cluster sum of squares for different numbers of clusters} - presented in Figure \ref{elbow_method_euclidean} - it seems to decrease more slowly for $k > 5$. Even though low Silhouette Coefficient values were recorded for such number of clusters, a deeper analysis of the cluster structure for this number of clusters could be pertinent to perform.
+Indeed, as already discussed in this document, the average method might not the most suitable centroid computation solution when working with raw time series data (and with the DTW distance metric). Analysing the elbow method's plot\footnote{That is, the variation of the average within-cluster sum of squares for different numbers of clusters.} - presented in Figure \ref{elbow_method_euclidean} - it seems to decrease more slowly for $k > 5$. Even though low Silhouette Coefficient values were recorded for such number of clusters, a deeper analysis of the cluster structure for this number of clusters could be pertinent to perform.
 
 \begin{figure}[ht]
 	\centering
@@ -440,7 +440,7 @@ Based on the observations presented so far, a more careful analysis of the clust
 	\label{elbow_method_dba}
 \end{figure}
 
-When the medoid method was instead used to compute the centroids (keeping DTW as the distance metric) the obtained results suggest a weak cluster structure in the data. In other words, the computed clusters do not appear to have adequate cluster properties: Dense and well-separated. Besides scoring low silhouette coefficient scores - even for a small number of clusters such as 2 - the average within-cluster sum of squares remains constant, which is not a good indicator.
+When the medoid method was instead used to compute the centroids (keeping DTW as the distance metric) the obtained results suggest a weak cluster structure in the data. In other words, the computed clusters do not appear to have adequate cluster properties: dense and well-separated. Besides scoring low silhouette coefficient scores - even for a small number of clusters such as 2 - the average within-cluster sum of squares remains constant, which is not a good indicator.
 
 When dimensionality reduction techniques are applied - as in the case of \cite{abreu2012using} - obtained values for the silhouette coefficient appear to remain quite constant as the number of clusters is increased (ranging between about 0.52 and 0.60), which is a behaviour slightly different from the remainder situations.
 
@@ -478,7 +478,7 @@ With respect to the Calinski-Herabaz coefficient, even though higher values sugg
 
 Based on these results, k=2 could be seen as good number of clusters in the sense that it produces well-separated and dense clusters (according to the SC metric). Nonetheless, two important aspects must be taken into account at this point:
 
-First of all, as expected, when only two clusters are considered the errors (distance of each sample to its cluster centroid) are higher. Secondly, in the context of the problem being tackled, empiric knowledge suggests that more than 2 groups of similar consumption profiles can exist. Even though this is an intuition and not an established ground truth, the possibility of inspecting more than two clusters was chosen at this point. Future iterations of the current work can explore this alternative direction.
+First of all, as expected, when only two clusters are considered the errors (distance of each sample to its cluster centroid) are higher. Secondly, in the context of the problem being tackled, empiric knowledge suggests that more than 2 groups of similar consumption profiles can exist. Even though this is an intuition and not an established ground truth, the possibility of inspecting more than two clusters was chosen at this point. Future iterations of the current work could explore this alternative direction ($k = 2$).
 
 In this sense a further results analysis will be performed on the following cases:
 
@@ -490,11 +490,11 @@ In this sense a further results analysis will be performed on the following case
 
 \subsection{Further Results Analysis}
 
-The goal of the analysis conducted in the current section is to study in more detail water consumption patterns identified in the exercise detailed in previous sections. Such a task assumes an important role in unsupervised classification problems such as this one, mostly due to the inability to verify if a given approach and/or solution is adequate and produces correct results for the problem being solved.
+The goal of the analysis conducted in the current section is to study in more detail water consumption patterns identified in the exercise detailed in previous sections. Such a task assumes an important role in unsupervised classification problems such as this one, mostly due to the difficulty in verifying if a given approach and/or solution is adequate and produces correct results for the problem being solved.
 
-As such, the analysis performed at this point will focus on characterising the clusters identified in the scenarios presented at the end of the previous section.
+As such, the analysis performed at this point will focus on characterising the clusters identified in the scenarios presented at the end of the previous subsection.
 
-Considering that the same ranges for the number of clusters were defined different subsections will compose the remainder of the current section, each covering groupings with the same values of $k$\footnote{That is, with the same number of clusters.}.
+Considering that the same ranges for the number of clusters were defined, different subsections will compose the remainder of the current section, each covering groupings with the same values of $k$\footnote{That is, with the same number of clusters.}.
 
 \subsection{4 Clusters}
 
@@ -512,7 +512,7 @@ Figure \ref{centroids_4clusters} presents the centroids for the $4$ clusters com
 
 Immediately in both approaches there is one cluster that distinguishes itself from its siblings: in both cases it is \emph{Cluster 0}. Days whose consumptions belong in these clusters are characterised by residual water consumptions, which typically occur when buildings are unoccupied - during the holiday period or during weekends, if an industrial region is being studied (for example).
 
-Further inspecting the composition of these clusters, it can be seen that not only the exact same number of days of the year are being assigned to them, but also the same percentage of weekdays and weekend-days and distribution over the months. Regarding this last point it can be seen that this low consumption profiles occur only during summer months (namely June and July).
+Further inspecting the composition of these clusters, it can be seen that not only the exact same number of days of the year are being assigned to them, but also the same percentage of weekdays and weekend-days and distribution over the months. Regarding this last point it can be seen that these low consumption profiles occur only during summer months (namely June and July).
 
 Figures \ref{distribution_euclidean_average_4clusters} and \ref{distribution_raw_average_4clusters} support these statements.
 
@@ -532,11 +532,11 @@ Figures \ref{distribution_euclidean_average_4clusters} and \ref{distribution_raw
 
 \subsubsection{Summer and Beginning of Autumn}
 
-Observing Figure \ref{centroids_4clusters}, another similarity between clusters of both approaches can be identified, although it is not as clear as the previous one: cluster $3$ from Figure \ref{centroids_4clusters}a) - represented in red - and cluster $2$ from Figure \ref{centroids_4clusters}b) - represented in green - present consumption profiles with the same variations in the same moments of the day, and with roughly the same total water consumptions.
+Observing Figure \ref{centroids_4clusters}, another similarity between clusters of both approaches can be identified, although it is not as clear as the previous one: cluster $3$ from Figure \ref{centroids_4clusters}a) - represented in red - and cluster $2$ from Figure \ref{centroids_4clusters}b) - represented in green - present consumption profiles with the same variations in the same moments of the day, and with roughly the same water consumptions.
 
-Analysing their distribution of days over the year and percentages of weekdays and weekends, again similar distributions can be identified; although they are not equal as in the previous case:
+Analysing their distribution of days over the year and percentages of weekdays and weekends, again similar distributions can be identified although they are not equal as in the previous case:
 
-As seen in Figures \ref{cluster3_euclidean}b) and \ref{cluster2_raw}b), water consumptions that fall in the profiles represented by these clusters' centroids belong t part of the summer - July, August and part of September - and beginning of Autumn - end of September. A smaller percentage of days belonging to other seasons (namely the winter, in November) can also be identified in one of the approaches (Figure \ref{cluster2_raw}b), but have a very low incidence.
+As seen in Figures \ref{cluster3_euclidean}b) and \ref{cluster2_raw}b), water consumptions that fall in the profiles represented by these clusters' centroids belong to part of the summer (July, August and part of September) and beginning of Autumn (end of September). A smaller percentage of days belonging to other seasons (namely the winter, in November) can also be identified in one of the approaches (Figure \ref{cluster2_raw}b), but has a very low incidence.
 
 Water consumptions belonging to these periods are characterised by high demands during typical business hours: from about $7-8am$ to about $8pm$. It it also worth pointing out a slight decrease around $3pm$.
 
@@ -571,7 +571,7 @@ Starting with the approach of Figure \ref{centroids_4clusters}a) - \emph{Euclide
 	\label{year_dist_k12_euc_average4}
 \end{figure*}
 
-In terms of the water consumption profiles, the main difference between these two clusters is the overall higher consumptions of cluster $1$, specially during the middle of the morning (between $8am$ and about $10am$) and the beginning of the night (around $8pm$).
+In terms of the water consumption profiles, the main difference between these two clusters is the overall higher consumptions of cluster $1$, specially during the early morning (between $8am$ and about $10am$) and the beginning of the night (around $8pm$).
 
 Regarding distribution of days, as already mentioned both clusters have similar distribution over the year, containing identical percentages of days of each month of the year. Where these two clusters distinguish themselves from one another is in the distribution over the week: while cluster $1$ only contains weekdays, cluster $2$ is mainly composed of weekend days. Such statements are supported by the contents of Figure \ref{week_dist_k12_eu_average4}.
 
@@ -606,7 +606,7 @@ Finally, when performing K-Means Clustering with the DTW distance metric an isol
 
 The fact that a unitary cluster has been identified does not, necessarily, signal any problem with the computed clusters: indeed, the Hierarchical Clustering initially performed and illustrated in Figure \ref{hierarchical_clustering_dtw} contains such clusters even for high cutoff distance values.
 
-One possible reason that could lead to such a $single-day$ cluster has to do with the water consumption profile for this day: as presented in Figure \ref{centroids_4clusters}b), a sharp decrease in water consumptions during the afternoon and night can be observed, reaching consumptions even lower than the residual ones assigned to cluster $0$.
+One possible reason that could lead to such a \emph{single-day} cluster has to do with the water consumption profile for this day: as presented in Figure \ref{centroids_4clusters}b), a sharp decrease in water consumptions during the afternoon and night can be observed, reaching consumptions even lower than the residual ones assigned to cluster $0$.
 
 Nevertheless, it must be pointed out that this cluster has low representativeness, since it only contains one day with a clearly atypical consumption profile. 
 
@@ -630,7 +630,7 @@ Overall, when dimensionality reduction techniques were applied no major differen
 
 Analysing and comparing the distribution of days of the dataset throughout the clusters, equivalent compositions were found.
 
-As already mentioned, one cluster representing residual consumptions during summer months can be found in both cases (Cluster $2$ for $k=5$). One grouping representative of the terminal part of the summer (Cluster $0$ for $k=5$).
+As already mentioned, one cluster representing residual consumptions during summer months can be found in both cases (Cluster $2$ for $k=5$), as well as one grouping representative of the terminal part of the summer (Cluster $0$ for $k=5$).
 
 With respect to the typical consumption profiles that occur throughout the entire year (clusters $1$ and $2$ for $k=4$), almost the same consumption profiles and distribution of days were obtained with the new target number of clusters (clusters $1$ and $3$, respectively, for $k=5$).
 
@@ -653,7 +653,7 @@ Analysing the plots in Figure \ref{comparison_clusters_45_dtw}, when increasing 
 
 On the one hand, some cluster groupings remained almost the same, representing the same consumption profile over the day and containing the same distribution of days over the week and year. This is the case of the residual water consumptions: For $k=4$ cluster $0$ was representative of such behaviours and, for $k=5$, this is the job of cluster $4$. The only difference that must be referenced between the profiles represented by these two clusters is the fact that for $k=5$ water consumptions appear to increase earlier in the day (around $9am$) when in comparison with the cluster for $k=4$ (where water consumptions only increase around $2pm$).
 
-On the other hand, some existing cluster groupings appear to have been split in two new clusters representing similar but slightly different consumption profiles. This is the case of cluster $1$ - which was split into clusters $0$ and $3$ - and cluster $2$ - split into clusters $0$ and $3$. These new clusters maintain a similar distribution in terms of weekdays and days over the year.
+On the other hand, some existing cluster groupings appear to have been split in two new clusters representing similar but slightly different consumption profiles. This is the case of cluster $1$ (which was split into clusters $0$ and $3$) and cluster $2$ (split into clusters $0$ and $3$). These new clusters maintain a similar distribution in terms of weekdays and days over the year.
 
 With the mentioned cluster divisions resulting from the inclusion of an additional cluster, the number of elements assign to each cluster also suffers slight variations. For example, even though cluster $2$ was split into clusters $0$ and $3$, the total number of days in these two clusters is slightly inferior to the total number of days in the \emph{"original"} cluster $2$ (about $20.55\%$ of the dataset against approximately $21.64\%$).
 
@@ -676,11 +676,12 @@ Another important decision that needed to be made was related with the evaluatio
 
 The main reason for such a decision has to due with the fact that this is a metric for dense and well-separated clusters - characteristics that are always sought in this type of problem. Furthermore, this is the only limited metric; for all the others, values in different ranges may be obtained for distinct clustering algorithms, distance metrics, etc, strongly conditioning any attempt to compare cluster adequacy. Nevertheless, it should be pointed out that expert knowledge of the problem and data being processed is extremely important when analysing and evaluating clustering results.
 
-Based on the results presented and the discussion conducted throughout the different sections that make up the document, the number of clusters (or number of recurrent water consumption profiles) that best fits the studied dataset is $4$.
+Based on the results presented and the discussion conducted throughout the different sections that make up the document, the number of clusters (or number of recurrent water consumption profiles) that best fits the studied dataset appears to be $4$.
 
 Certainly, as noted by the results presented in Section \ref{5_clusters}, increasing the number of clusters from $4$ to $5$ only lead to a separation of existing groupings, without leading to significative changes in the recurrent consumption profiles already identified. In addition, working with low dimensional time series data lead to similar groupings and similar consumption profiles\footnote{When in comparison with consumption profiles obtained with explicit time series data.}, at a considerably lower computational cost.
 
 \section{Future Work}
+\label{future_work}
 
 Future iterations of the current work could and should study alternative paths to the one presented and followed.
 
